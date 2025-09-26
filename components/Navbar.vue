@@ -3,7 +3,7 @@
     <div class="mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between h-16">
         <div class="flex items-center">
-          <h1 class="text-xl font-bold text-white">Pace</h1>
+          <img src="/logo.png" alt="Pace" class="h-full w-auto" />
         </div>
 
         <div class="flex items-center space-x-4">
