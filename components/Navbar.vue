@@ -116,11 +116,35 @@
 <script setup>
 const sideMenuOpen = ref(false);
 
-// Get user data from cookie or localStorage
-const user = ref({
-  firstName: "John",
-  lastName: "Doe",
-  email: "john.doe@example.com",
+// Get user data from API
+const user = ref(null);
+
+// Fetch user profile
+const fetchUserProfile = async () => {
+  try {
+    const token = useCookie("auth-token");
+    if (token.value) {
+      const profile = await $fetch("http://localhost:3000/auth/profile", {
+        headers: {
+          Authorization: `Bearer ${token.value}`,
+        },
+      });
+      user.value = profile;
+    }
+  } catch (error) {
+    console.error("Failed to fetch user profile:", error);
+    // If profile fetch fails (token expired/invalid), redirect to login
+    if (error.status === 401 || error.status === 403) {
+      const token = useCookie("auth-token");
+      token.value = null;
+      await navigateTo("/auth/login");
+    }
+  }
+};
+
+// Fetch profile on component mount
+onMounted(() => {
+  fetchUserProfile();
 });
 
 const toggleSideMenu = () => {
@@ -133,11 +157,11 @@ const closeSideMenu = () => {
 
 const handleLogout = async () => {
   // Remove the auth token
-  const token = useCookie('auth-token')
-  token.value = null
-  
+  const token = useCookie("auth-token");
+  token.value = null;
+
   // Redirect to login page
-  await navigateTo('/auth/login')
+  await navigateTo("/auth/login");
 };
 
 // Close menu on escape key
