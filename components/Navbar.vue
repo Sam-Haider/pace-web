@@ -10,7 +10,7 @@
           <div class="relative">
             <button
               @click="toggleSideMenu"
-              class="flex items-center space-x-2 text-slate-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors"
+              class="flex items-center space-x-2 text-slate-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors hover:cursor-pointer"
             >
               <span>{{ user?.firstName }} {{ user?.lastName }}</span>
               <svg
@@ -52,7 +52,7 @@
         <h2 class="text-lg font-semibold text-white">Account</h2>
         <button
           @click="closeSideMenu"
-          class="text-slate-400 hover:text-white transition-colors"
+          class="text-slate-400 hover:text-white transition-colors hover:cursor-pointer"
         >
           <svg
             class="w-6 h-6"
@@ -91,7 +91,7 @@
       <div class="space-y-2">
         <button
           @click="openChangePasswordModal"
-          class="w-full flex items-center space-x-3 px-4 py-3 text-left text-slate-300 hover:text-white hover:bg-slate-700 rounded-md transition-colors"
+          class="w-full flex items-center space-x-3 px-4 py-3 text-left text-slate-300 hover:text-white hover:bg-slate-700 rounded-md transition-colors hover:cursor-pointer"
         >
           <svg
             class="w-5 h-5"
@@ -108,10 +108,10 @@
           </svg>
           <span>Change Password</span>
         </button>
-        
+
         <button
           @click="handleLogout"
-          class="w-full flex items-center space-x-3 px-4 py-3 text-left text-slate-300 hover:text-white hover:bg-slate-700 rounded-md transition-colors"
+          class="w-full flex items-center space-x-3 px-4 py-3 text-left text-slate-300 hover:text-white hover:bg-slate-700 rounded-md transition-colors hover:cursor-pointer"
         >
           <svg
             class="w-5 h-5"
@@ -131,7 +131,7 @@
       </div>
     </div>
   </div>
-  
+
   <!-- Change Password Modal -->
   <div
     v-if="changePasswordModalOpen"
@@ -148,15 +148,28 @@
           @click="closeChangePasswordModal"
           class="text-slate-400 hover:text-white transition-colors"
         >
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          <svg
+            class="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
           </svg>
         </button>
       </div>
-      
+
       <form @submit.prevent="handleChangePassword" class="space-y-4">
         <div>
-          <label for="currentPassword" class="block text-sm font-medium text-slate-300 mb-2">
+          <label
+            for="currentPassword"
+            class="block text-sm font-medium text-slate-300 mb-2"
+          >
             Current Password
           </label>
           <input
@@ -168,9 +181,12 @@
             placeholder="Enter current password"
           />
         </div>
-        
+
         <div>
-          <label for="newPassword" class="block text-sm font-medium text-slate-300 mb-2">
+          <label
+            for="newPassword"
+            class="block text-sm font-medium text-slate-300 mb-2"
+          >
             New Password
           </label>
           <input
@@ -183,9 +199,12 @@
             placeholder="Enter new password (min 6 characters)"
           />
         </div>
-        
+
         <div>
-          <label for="confirmNewPassword" class="block text-sm font-medium text-slate-300 mb-2">
+          <label
+            for="confirmNewPassword"
+            class="block text-sm font-medium text-slate-300 mb-2"
+          >
             Confirm New Password
           </label>
           <input
@@ -197,23 +216,49 @@
             placeholder="Confirm new password"
           />
         </div>
-        
+
         <!-- Error Message -->
-        <div v-if="passwordError" class="flex items-center space-x-2 p-3 bg-red-500/20 border border-red-500/30 rounded-lg">
-          <svg class="w-5 h-5 text-red-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        <div
+          v-if="passwordError"
+          class="flex items-center space-x-2 p-3 bg-red-500/20 border border-red-500/30 rounded-lg"
+        >
+          <svg
+            class="w-5 h-5 text-red-400 flex-shrink-0"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
           </svg>
           <p class="text-red-300 text-sm">{{ passwordError }}</p>
         </div>
-        
+
         <!-- Success Message -->
-        <div v-if="passwordSuccess" class="flex items-center space-x-2 p-3 bg-green-500/20 border border-green-500/30 rounded-lg">
-          <svg class="w-5 h-5 text-green-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+        <div
+          v-if="passwordSuccess"
+          class="flex items-center space-x-2 p-3 bg-green-500/20 border border-green-500/30 rounded-lg"
+        >
+          <svg
+            class="w-5 h-5 text-green-400 flex-shrink-0"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M5 13l4 4L19 7"
+            />
           </svg>
           <p class="text-green-300 text-sm">{{ passwordSuccess }}</p>
         </div>
-        
+
         <div class="flex space-x-3">
           <button
             type="button"
@@ -242,14 +287,14 @@ const changePasswordModalOpen = ref(false);
 
 // Change password form
 const passwordForm = ref({
-  currentPassword: '',
-  newPassword: '',
-  confirmNewPassword: ''
+  currentPassword: "",
+  newPassword: "",
+  confirmNewPassword: "",
 });
 
 const passwordLoading = ref(false);
-const passwordError = ref('');
-const passwordSuccess = ref('');
+const passwordError = ref("");
+const passwordSuccess = ref("");
 
 // Get user data from API
 const user = ref(null);
@@ -305,12 +350,12 @@ const openChangePasswordModal = () => {
   closeSideMenu();
   // Reset form
   passwordForm.value = {
-    currentPassword: '',
-    newPassword: '',
-    confirmNewPassword: ''
+    currentPassword: "",
+    newPassword: "",
+    confirmNewPassword: "",
   };
-  passwordError.value = '';
-  passwordSuccess.value = '';
+  passwordError.value = "";
+  passwordSuccess.value = "";
 };
 
 const closeChangePasswordModal = () => {
@@ -319,51 +364,52 @@ const closeChangePasswordModal = () => {
 
 const handleChangePassword = async () => {
   passwordLoading.value = true;
-  passwordError.value = '';
-  passwordSuccess.value = '';
-  
+  passwordError.value = "";
+  passwordSuccess.value = "";
+
   // Validate passwords match
-  if (passwordForm.value.newPassword !== passwordForm.value.confirmNewPassword) {
-    passwordError.value = 'New passwords do not match';
+  if (
+    passwordForm.value.newPassword !== passwordForm.value.confirmNewPassword
+  ) {
+    passwordError.value = "New passwords do not match";
     passwordLoading.value = false;
     return;
   }
-  
+
   // Validate new password length
   if (passwordForm.value.newPassword.length < 6) {
-    passwordError.value = 'New password must be at least 6 characters long';
+    passwordError.value = "New password must be at least 6 characters long";
     passwordLoading.value = false;
     return;
   }
-  
+
   try {
-    const token = useCookie('auth-token');
-    
-    await $fetch('http://localhost:3000/auth/change-password', {
-      method: 'POST',
+    const token = useCookie("auth-token");
+
+    await $fetch("http://localhost:3000/auth/change-password", {
+      method: "POST",
       headers: {
-        'Authorization': `Bearer ${token.value}`
+        Authorization: `Bearer ${token.value}`,
       },
       body: {
         currentPassword: passwordForm.value.currentPassword,
-        newPassword: passwordForm.value.newPassword
-      }
+        newPassword: passwordForm.value.newPassword,
+      },
     });
-    
-    passwordSuccess.value = 'Password changed successfully!';
-    
+
+    passwordSuccess.value = "Password changed successfully!";
+
     // Close modal after 2 seconds
     setTimeout(() => {
       closeChangePasswordModal();
     }, 2000);
-    
   } catch (err) {
     if (err.status === 401) {
-      passwordError.value = 'Current password is incorrect';
+      passwordError.value = "Current password is incorrect";
     } else if (err.status === 400) {
-      passwordError.value = 'Please fill in all required fields';
+      passwordError.value = "Please fill in all required fields";
     } else {
-      passwordError.value = 'An error occurred. Please try again.';
+      passwordError.value = "An error occurred. Please try again.";
     }
   } finally {
     passwordLoading.value = false;

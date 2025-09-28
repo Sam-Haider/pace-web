@@ -49,7 +49,7 @@
                   Welcome to Pace!
                 </h1>
                 <p class="text-xl text-slate-300 animate-fade-in-delayed">
-                  Let's set up your profile to personalize your fitness journey
+                  Let's set up your profile to personalize your experience
                 </p>
                 <p class="text-slate-400 animate-fade-in-delayed-2">
                   This will only take a minute ⚡
@@ -145,7 +145,7 @@
                 Choose Your Identity
               </h2>
               <p class="text-slate-300">
-                How do you see yourself in your fitness journey?
+                Which identities resonate most with you?
               </p>
             </div>
 
@@ -265,7 +265,7 @@
               <button
                 @click="completeOnboarding"
                 :disabled="!onboardingData.identityId || loading"
-                class="flex-1 bg-slate-600 hover:bg-slate-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none hover:cursor-pointer"
+                class="flex-1 bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-700 hover:to-blue-900 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none hover:cursor-pointer"
               >
                 <span v-if="loading">Finishing up...</span>
                 <span v-else>Complete Setup</span>
@@ -318,8 +318,11 @@
           <!-- Research Sources -->
           <div class="grid gap-6 md:grid-cols-2">
             <!-- Source 1: James Clear -->
-            <div
-              class="bg-slate-700/50 border border-slate-600 rounded-xl p-6 space-y-4 hover:bg-slate-700 transition-all duration-200"
+            <a
+              href="https://jamesclear.com/identity-based-habits"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="block bg-slate-700/50 border border-slate-600 rounded-xl p-6 space-y-4 hover:bg-slate-700 transition-all duration-200 cursor-pointer"
             >
               <div class="flex items-start space-x-4">
                 <div
@@ -354,10 +357,7 @@
                   reflection of your current identity."
                 </p>
 
-                <a
-                  href="https://jamesclear.com/identity-based-habits"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <div
                   class="inline-flex items-center space-x-2 text-slate-400 hover:text-slate-300 text-sm transition-colors"
                 >
                   <span>Read more</span>
@@ -374,13 +374,16 @@
                       d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
                     />
                   </svg>
-                </a>
+                </div>
               </div>
-            </div>
+            </a>
 
             <!-- Source 2: Carol Dweck -->
-            <div
-              class="bg-slate-700/50 border border-slate-600 rounded-xl p-6 space-y-4 hover:bg-slate-700 transition-all duration-200"
+            <a
+              href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6594552/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="block bg-slate-700/50 border border-slate-600 rounded-xl p-6 space-y-4 hover:bg-slate-700 transition-all duration-200 cursor-pointer"
             >
               <div class="flex items-start space-x-4">
                 <div
@@ -415,10 +418,7 @@
                   to adapt, change, and grow."
                 </p>
 
-                <a
-                  href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6594552/"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <div
                   class="inline-flex items-center space-x-2 text-slate-400 hover:text-slate-300 text-sm transition-colors"
                 >
                   <span>Read more</span>
@@ -435,16 +435,16 @@
                       d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
                     />
                   </svg>
-                </a>
+                </div>
               </div>
-            </div>
+            </a>
           </div>
 
           <!-- Back Button -->
           <div class="flex justify-center pt-4">
             <button
               @click="showResearch = false"
-              class="px-6 py-3 bg-slate-600 hover:bg-slate-700 text-white font-semibold rounded-xl transition-all duration-200 transform hover:scale-[1.02]"
+              class="px-6 py-3 bg-slate-600 hover:bg-slate-700 text-white font-semibold rounded-xl transition-all duration-200 transform hover:scale-[1.02] hover:cursor-pointer"
             >
               Back to Identity Selection
             </button>
