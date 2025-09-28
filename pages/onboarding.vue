@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="min-h-screen bg-slate-900 flex items-center justify-center p-4"
-  >
+  <div class="min-h-screen bg-slate-900 flex items-center justify-center p-4">
     <div class="w-full max-w-lg">
       <!-- Progress Bar -->
       <div class="mb-8">
@@ -11,7 +9,7 @@
         </div>
         <div class="w-full bg-slate-700 rounded-full h-2">
           <div
-            class="bg-slate-600 h-2 rounded-full transition-all duration-500 ease-out"
+            class="bg-slate-400 h-2 rounded-full transition-all duration-500 ease-out"
             :style="{ width: `${(currentStep / 3) * 100}%` }"
           ></div>
         </div>
@@ -61,7 +59,7 @@
 
             <button
               @click="nextStep"
-              class="w-full bg-slate-600 hover:bg-slate-700 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-200 transform hover:scale-[1.02] shadow-lg animate-fade-in-delayed-3"
+              class="w-full bg-slate-600 hover:cursor-pointer hover:bg-slate-700 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-200 transform hover:scale-[1.02] shadow-lg animate-fade-in-delayed-3"
             >
               Let's Get Started
             </button>
@@ -119,7 +117,7 @@
                 <button
                   type="button"
                   @click="previousStep"
-                  class="flex-1 px-4 py-3 border border-slate-600 rounded-xl text-slate-300 hover:text-white hover:bg-slate-700 transition-all duration-200"
+                  class="flex-1 px-4 py-3 border border-slate-600 rounded-xl text-slate-300 hover:text-white hover:bg-slate-700 transition-all duration-200 hover:cursor-pointer"
                 >
                   Back
                 </button>
@@ -128,7 +126,7 @@
                   :disabled="
                     !onboardingData.firstName || !onboardingData.lastName
                   "
-                  class="flex-1 bg-slate-600 hover:bg-slate-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                  class="flex-1 bg-slate-600 hover:bg-slate-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none hover:cursor-pointer"
                 >
                   Continue
                 </button>
@@ -163,14 +161,26 @@
               >
                 <div class="flex items-center space-x-4">
                   <!-- Selected Indicator - Always present to prevent layout shift -->
-                  <div class="w-6 h-6 flex items-center justify-center flex-shrink-0">
+                  <div
+                    class="w-6 h-6 flex items-center justify-center flex-shrink-0"
+                  >
                     <div
                       v-if="onboardingData.identityId === 1"
                       class="w-6 h-6 rounded-full flex items-center justify-center shadow-lg border-2 border-green-400"
-                      style="background-color: #10b981;"
+                      style="background-color: #10b981"
                     >
-                      <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                      <svg
+                        class="w-4 h-4 text-white"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M5 13l4 4L19 7"
+                        />
                       </svg>
                     </div>
                   </div>
@@ -179,7 +189,7 @@
                       'w-12 h-12 rounded-full flex items-center justify-center transition-all duration-200',
                       onboardingData.identityId === 1
                         ? 'bg-slate-600'
-                        : 'bg-slate-500 group-hover:bg-slate-400'
+                        : 'bg-slate-500 group-hover:bg-slate-400',
                     ]"
                   >
                     <svg
@@ -197,10 +207,14 @@
                     </svg>
                   </div>
                   <div class="flex-1">
-                    <h3 class="text-lg font-semibold text-white group-hover:text-slate-100 transition-colors">
+                    <h3
+                      class="text-lg font-semibold text-white group-hover:text-slate-100 transition-colors"
+                    >
                       Consistent Mover
                     </h3>
-                    <p class="text-slate-400 text-sm group-hover:text-slate-300 transition-colors">
+                    <p
+                      class="text-slate-400 text-sm group-hover:text-slate-300 transition-colors"
+                    >
                       I prioritize regular movement and building sustainable
                       habits
                     </p>
@@ -234,10 +248,9 @@
             <div class="text-center">
               <button
                 @click="showResearch = true"
-                class="text-slate-400 hover:text-slate-300 text-sm underline transition-colors"
+                class="text-slate-400 hover:text-slate-300 text-sm underline transition-colors hover:cursor-pointer"
               >
-                Why does identity matter? See the research that inspired the app
-                →
+                View some of the research that inspired the app →
               </button>
             </div>
 
@@ -245,14 +258,14 @@
               <button
                 type="button"
                 @click="previousStep"
-                class="flex-1 px-4 py-3 border border-slate-600 rounded-xl text-slate-300 hover:text-white hover:bg-slate-700 transition-all duration-200"
+                class="flex-1 px-4 py-3 border border-slate-600 rounded-xl text-slate-300 hover:text-white hover:bg-slate-700 transition-all duration-200 hover:cursor-pointer"
               >
                 Back
               </button>
               <button
                 @click="completeOnboarding"
                 :disabled="!onboardingData.identityId || loading"
-                class="flex-1 bg-slate-600 hover:bg-slate-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                class="flex-1 bg-slate-600 hover:bg-slate-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none hover:cursor-pointer"
               >
                 <span v-if="loading">Finishing up...</span>
                 <span v-else>Complete Setup</span>
