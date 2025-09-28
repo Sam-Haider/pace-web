@@ -213,6 +213,16 @@
               <p class="text-red-300 text-sm">{{ error }}</p>
             </div>
 
+            <!-- Learn More About Research -->
+            <div class="text-center">
+              <button
+                @click="showResearch = true"
+                class="text-slate-400 hover:text-slate-300 text-sm underline transition-colors"
+              >
+                Why does identity matter? See the research →
+              </button>
+            </div>
+            
             <div class="flex space-x-3">
               <button
                 type="button"
@@ -234,6 +244,115 @@
         </Transition>
       </div>
     </div>
+    
+    <!-- Research Citations Overlay -->
+    <div
+      v-if="showResearch"
+      @click="showResearch = false"
+      class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"
+    >
+      <div
+        @click.stop
+        class="bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto border border-white/20"
+      >
+        <div class="p-8 space-y-8">
+          <!-- Header -->
+          <div class="flex justify-between items-start">
+            <div class="space-y-2">
+              <h2 class="text-3xl font-bold text-white">Research Behind the App</h2>
+              <p class="text-slate-300">Read some of the research that inspired this app</p>
+            </div>
+            <button
+              @click="showResearch = false"
+              class="text-slate-400 hover:text-white transition-colors p-2"
+            >
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+          
+          <!-- Research Sources -->
+          <div class="grid gap-6 md:grid-cols-2">
+            <!-- Source 1: James Clear -->
+            <div class="backdrop-blur-xl bg-white/5 border border-white/10 rounded-xl p-6 space-y-4 hover:bg-white/10 transition-all duration-200">
+              <div class="flex items-start space-x-4">
+                <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full flex items-center justify-center flex-shrink-0">
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                  </svg>
+                </div>
+                <div class="flex-1">
+                  <h3 class="text-lg font-semibold text-white">James Clear</h3>
+                  <p class="text-sm text-blue-300">New York Times bestselling author of Atomic Habits</p>
+                </div>
+              </div>
+              
+              <div class="space-y-3">
+                <p class="text-slate-300 text-sm leading-relaxed">
+                  "The key to building lasting habits is focusing on creating a new identity first. Your current behaviors are simply a reflection of your current identity."
+                </p>
+                
+                <a
+                  href="https://jamesclear.com/identity-based-habits"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center space-x-2 text-blue-400 hover:text-blue-300 text-sm transition-colors"
+                >
+                  <span>Read more</span>
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+            
+            <!-- Source 2: Carol Dweck -->
+            <div class="backdrop-blur-xl bg-white/5 border border-white/10 rounded-xl p-6 space-y-4 hover:bg-white/10 transition-all duration-200">
+              <div class="flex items-start space-x-4">
+                <div class="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-600 rounded-full flex items-center justify-center flex-shrink-0">
+                  <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                  </svg>
+                </div>
+                <div class="flex-1">
+                  <h3 class="text-lg font-semibold text-white">Carol Dweck</h3>
+                  <p class="text-sm text-purple-300">Stanford Professor & National Academy of Sciences member</p>
+                </div>
+              </div>
+              
+              <div class="space-y-3">
+                <p class="text-slate-300 text-sm leading-relaxed">
+                  "The hallmark of human nature is how much of a person's identity is not built in; rather, it is humans' great capacity to adapt, change, and grow."
+                </p>
+                
+                <a
+                  href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6594552/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="inline-flex items-center space-x-2 text-purple-400 hover:text-purple-300 text-sm transition-colors"
+                >
+                  <span>Read more</span>
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Back Button -->
+          <div class="flex justify-center pt-4">
+            <button
+              @click="showResearch = false"
+              class="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-xl transition-all duration-200 transform hover:scale-[1.02]"
+            >
+              Back to Identity Selection
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -247,6 +366,7 @@ const currentStep = ref(1);
 const loading = ref(false);
 const error = ref("");
 const transitionName = ref("slide-right");
+const showResearch = ref(false);
 
 // Onboarding form data
 const onboardingData = ref({
