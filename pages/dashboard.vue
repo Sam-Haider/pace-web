@@ -11,6 +11,6 @@
 
 <script setup>
 definePageMeta({
-  middleware: "auth",
+  middleware: ["auth", "onboarding"],
 });
 </script>
