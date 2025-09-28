@@ -1,5 +1,5 @@
 <template>
-  <nav class="bg-gray-800 border-b border-gray-700">
+  <nav class="bg-slate-800 border-b border-slate-700">
     <div class="mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between h-16">
         <div class="flex items-center">
@@ -10,7 +10,7 @@
           <div class="relative">
             <button
               @click="toggleSideMenu"
-              class="flex items-center space-x-2 text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors"
+              class="flex items-center space-x-2 text-slate-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors"
             >
               <span>{{ user?.firstName }} {{ user?.lastName }}</span>
               <svg
@@ -43,7 +43,7 @@
   <!-- Side Menu -->
   <div
     :class="[
-      'fixed top-0 right-0 h-full w-80 bg-gray-800 shadow-xl transform transition-transform duration-300 ease-in-out z-50',
+      'fixed top-0 right-0 h-full w-80 bg-slate-800 shadow-xl transform transition-transform duration-300 ease-in-out z-50',
       sideMenuOpen ? 'translate-x-0' : 'translate-x-full',
     ]"
   >
@@ -52,7 +52,7 @@
         <h2 class="text-lg font-semibold text-white">Account</h2>
         <button
           @click="closeSideMenu"
-          class="text-gray-400 hover:text-white transition-colors"
+          class="text-slate-400 hover:text-white transition-colors"
         >
           <svg
             class="w-6 h-6"
@@ -73,7 +73,7 @@
       <div class="mb-6">
         <div class="flex items-center space-x-3 mb-4">
           <div
-            class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center"
+            class="w-12 h-12 bg-slate-600 rounded-full flex items-center justify-center"
           >
             <span class="text-white font-semibold">
               {{ user?.firstName?.[0] }}{{ user?.lastName?.[0] }}
@@ -83,7 +83,7 @@
             <p class="text-white font-medium">
               {{ user?.firstName }} {{ user?.lastName }}
             </p>
-            <p class="text-gray-400 text-sm">{{ user?.email }}</p>
+            <p class="text-slate-400 text-sm">{{ user?.email }}</p>
           </div>
         </div>
       </div>
@@ -91,7 +91,7 @@
       <div class="space-y-2">
         <button
           @click="openChangePasswordModal"
-          class="w-full flex items-center space-x-3 px-4 py-3 text-left text-gray-300 hover:text-white hover:bg-gray-700 rounded-md transition-colors"
+          class="w-full flex items-center space-x-3 px-4 py-3 text-left text-slate-300 hover:text-white hover:bg-slate-700 rounded-md transition-colors"
         >
           <svg
             class="w-5 h-5"
@@ -111,7 +111,7 @@
         
         <button
           @click="handleLogout"
-          class="w-full flex items-center space-x-3 px-4 py-3 text-left text-gray-300 hover:text-white hover:bg-gray-700 rounded-md transition-colors"
+          class="w-full flex items-center space-x-3 px-4 py-3 text-left text-slate-300 hover:text-white hover:bg-slate-700 rounded-md transition-colors"
         >
           <svg
             class="w-5 h-5"
@@ -140,13 +140,13 @@
   >
     <div
       @click.stop
-      class="bg-gray-800 rounded-xl shadow-2xl w-full max-w-md p-6 space-y-6"
+      class="bg-slate-800 rounded-xl shadow-2xl w-full max-w-md p-6 space-y-6"
     >
       <div class="flex justify-between items-center">
         <h3 class="text-lg font-semibold text-white">Change Password</h3>
         <button
           @click="closeChangePasswordModal"
-          class="text-gray-400 hover:text-white transition-colors"
+          class="text-slate-400 hover:text-white transition-colors"
         >
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -156,7 +156,7 @@
       
       <form @submit.prevent="handleChangePassword" class="space-y-4">
         <div>
-          <label for="currentPassword" class="block text-sm font-medium text-gray-300 mb-2">
+          <label for="currentPassword" class="block text-sm font-medium text-slate-300 mb-2">
             Current Password
           </label>
           <input
@@ -164,13 +164,13 @@
             v-model="passwordForm.currentPassword"
             type="password"
             required
-            class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            class="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-md text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-slate-500"
             placeholder="Enter current password"
           />
         </div>
         
         <div>
-          <label for="newPassword" class="block text-sm font-medium text-gray-300 mb-2">
+          <label for="newPassword" class="block text-sm font-medium text-slate-300 mb-2">
             New Password
           </label>
           <input
@@ -179,13 +179,13 @@
             type="password"
             required
             minlength="6"
-            class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            class="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-md text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-slate-500"
             placeholder="Enter new password (min 6 characters)"
           />
         </div>
         
         <div>
-          <label for="confirmNewPassword" class="block text-sm font-medium text-gray-300 mb-2">
+          <label for="confirmNewPassword" class="block text-sm font-medium text-slate-300 mb-2">
             Confirm New Password
           </label>
           <input
@@ -193,7 +193,7 @@
             v-model="passwordForm.confirmNewPassword"
             type="password"
             required
-            class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            class="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-md text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-slate-500"
             placeholder="Confirm new password"
           />
         </div>
@@ -218,14 +218,14 @@
           <button
             type="button"
             @click="closeChangePasswordModal"
-            class="flex-1 px-4 py-2 border border-gray-600 rounded-md text-gray-300 hover:text-white hover:bg-gray-700 transition-colors"
+            class="flex-1 px-4 py-2 border border-slate-600 rounded-md text-slate-300 hover:text-white hover:bg-slate-700 transition-colors"
           >
             Cancel
           </button>
           <button
             type="submit"
             :disabled="passwordLoading"
-            class="flex-1 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            class="flex-1 px-4 py-2 bg-slate-600 hover:bg-slate-700 text-white rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <span v-if="passwordLoading">Changing...</span>
             <span v-else>Change Password</span>

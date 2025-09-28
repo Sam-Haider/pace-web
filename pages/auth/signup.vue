@@ -1,16 +1,16 @@
 <template>
   <div
-    class="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center p-4"
+    class="min-h-screen bg-slate-900 flex items-center justify-center p-4"
   >
     <div class="relative w-full max-w-md">
       <!-- Glass morphism card -->
       <div
-        class="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl shadow-2xl p-8 space-y-8"
+        class="bg-slate-800 border border-slate-700 rounded-2xl shadow-2xl p-8 space-y-8"
       >
         <!-- Header with logo -->
         <div class="text-center space-y-2">
           <div
-            class="mx-auto w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mb-4 shadow-lg"
+            class="mx-auto w-16 h-16 bg-slate-600 rounded-2xl flex items-center justify-center mb-4 shadow-lg"
           >
             <svg
               class="w-8 h-8 text-white"
@@ -27,7 +27,7 @@
             </svg>
           </div>
           <h1 class="text-3xl font-bold text-white">Create Account</h1>
-          <p class="text-slate-300">Start tracking your pace</p>
+          <p class="text-slate-400">Start tracking your pace</p>
         </div>
 
         <!-- Signup Form -->
@@ -46,7 +46,7 @@
                   v-model="form.email"
                   type="email"
                   required
-                  class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all duration-200 group-hover:bg-white/10"
+                  class="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-slate-500 transition-all duration-200"
                   placeholder="Enter your email"
                 />
                 <div class="absolute inset-y-0 right-0 flex items-center pr-3">
@@ -80,7 +80,7 @@
                   v-model="form.password"
                   type="password"
                   required
-                  class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all duration-200 group-hover:bg-white/10"
+                  class="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-slate-500 transition-all duration-200"
                   placeholder="Create a password"
                 />
                 <div class="absolute inset-y-0 right-0 flex items-center pr-3">
@@ -114,7 +114,7 @@
                   v-model="form.confirmPassword"
                   type="password"
                   required
-                  class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all duration-200 group-hover:bg-white/10"
+                  class="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-slate-500 transition-all duration-200"
                   placeholder="Confirm your password"
                 />
                 <div class="absolute inset-y-0 right-0 flex items-center pr-3">
@@ -161,7 +161,7 @@
           <button
             type="submit"
             :disabled="loading"
-            class="w-full relative overflow-hidden bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-blue-500/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-lg"
+            class="w-full relative overflow-hidden bg-slate-600 hover:bg-slate-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-slate-500 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-lg"
           >
             <span v-if="loading" class="flex items-center justify-center">
               <svg
@@ -192,7 +192,7 @@
         <!-- Divider -->
         <div class="relative">
           <div class="absolute inset-0 flex items-center">
-            <div class="w-full border-t border-white/10"></div>
+            <div class="w-full border-t border-slate-600"></div>
           </div>
           <div class="relative flex justify-center text-sm">
             <span class="px-4 bg-transparent text-slate-400"
@@ -204,7 +204,7 @@
         <!-- Google Sign Up -->
         <a
           href="http://localhost:3000/auth/google"
-          class="w-full flex items-center justify-center px-4 py-3 border border-white/20 rounded-xl bg-white/5 hover:bg-white/10 text-white font-medium transition-all duration-200 transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-white/20"
+          class="w-full flex items-center justify-center px-4 py-3 border border-slate-600 rounded-xl bg-slate-700 hover:bg-slate-600 text-white font-medium transition-all duration-200 transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-slate-500"
         >
           <svg class="w-5 h-5 mr-3" viewBox="0 0 24 24">
             <path
@@ -233,7 +233,7 @@
             Already have an account?
             <NuxtLink
               to="/auth/login"
-              class="text-blue-400 hover:text-blue-300 font-medium transition-colors"
+              class="text-slate-300 hover:text-white font-medium transition-colors"
             >
               Sign in
             </NuxtLink>

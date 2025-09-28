@@ -1,6 +1,6 @@
 <template>
   <div
-    class="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center p-4"
+    class="min-h-screen bg-slate-900 flex items-center justify-center p-4"
   >
     <div class="w-full max-w-lg">
       <!-- Progress Bar -->
@@ -11,7 +11,7 @@
         </div>
         <div class="w-full bg-slate-700 rounded-full h-2">
           <div
-            class="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full transition-all duration-500 ease-out"
+            class="bg-slate-600 h-2 rounded-full transition-all duration-500 ease-out"
             :style="{ width: `${(currentStep / 3) * 100}%` }"
           ></div>
         </div>
@@ -24,12 +24,12 @@
           <div
             v-if="currentStep === 1"
             key="step1"
-            class="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl shadow-2xl p-8 text-center space-y-8"
+            class="bg-slate-800 border border-slate-700 rounded-2xl shadow-2xl p-8 text-center space-y-8"
           >
             <div class="space-y-6">
               <!-- Animated Logo/Icon -->
               <div
-                class="mx-auto w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg animate-pulse"
+                class="mx-auto w-16 h-16 bg-slate-600 rounded-2xl flex items-center justify-center shadow-lg animate-pulse"
               >
                 <svg
                   class="w-8 h-8 text-white"
@@ -61,7 +61,7 @@
 
             <button
               @click="nextStep"
-              class="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-200 transform hover:scale-[1.02] shadow-lg animate-fade-in-delayed-3"
+              class="w-full bg-slate-600 hover:bg-slate-700 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-200 transform hover:scale-[1.02] shadow-lg animate-fade-in-delayed-3"
             >
               Let's Get Started
             </button>
@@ -71,7 +71,7 @@
           <div
             v-else-if="currentStep === 2"
             key="step2"
-            class="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl shadow-2xl p-8 space-y-8"
+            class="bg-slate-800 border border-slate-700 rounded-2xl shadow-2xl p-8 space-y-8"
           >
             <div class="text-center space-y-4">
               <h2 class="text-3xl font-bold text-white">What's your name?</h2>
@@ -92,7 +92,7 @@
                     v-model="onboardingData.firstName"
                     type="text"
                     required
-                    class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all duration-200"
+                    class="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-slate-500 transition-all duration-200"
                     placeholder="Enter your first name"
                   />
                 </div>
@@ -109,7 +109,7 @@
                     v-model="onboardingData.lastName"
                     type="text"
                     required
-                    class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all duration-200"
+                    class="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-slate-500 transition-all duration-200"
                     placeholder="Enter your last name"
                   />
                 </div>
@@ -119,7 +119,7 @@
                 <button
                   type="button"
                   @click="previousStep"
-                  class="flex-1 px-4 py-3 border border-white/20 rounded-xl text-slate-300 hover:text-white hover:bg-white/10 transition-all duration-200"
+                  class="flex-1 px-4 py-3 border border-slate-600 rounded-xl text-slate-300 hover:text-white hover:bg-slate-700 transition-all duration-200"
                 >
                   Back
                 </button>
@@ -128,7 +128,7 @@
                   :disabled="
                     !onboardingData.firstName || !onboardingData.lastName
                   "
-                  class="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                  class="flex-1 bg-slate-600 hover:bg-slate-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                 >
                   Continue
                 </button>
@@ -140,7 +140,7 @@
           <div
             v-else-if="currentStep === 3"
             key="step3"
-            class="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl shadow-2xl p-8 space-y-8"
+            class="bg-slate-800 border border-slate-700 rounded-2xl shadow-2xl p-8 space-y-8"
           >
             <div class="text-center space-y-4">
               <h2 class="text-3xl font-bold text-white">
@@ -157,8 +157,8 @@
                 class="identity-button w-full p-6 rounded-xl border-2 transition-all duration-200 text-left group relative"
                 :class="[
                   onboardingData.identityId === 1
-                    ? 'border-blue-500 bg-blue-500/20 ring-2 ring-blue-500/30'
-                    : 'border-white/20 bg-white/5 hover:bg-white/10 hover:border-blue-300/40',
+                    ? 'border-slate-500 bg-slate-700 ring-2 ring-slate-500/30'
+                    : 'border-slate-600 bg-slate-700/50 hover:bg-slate-700 hover:border-slate-500',
                 ]"
               >
                 <div class="flex items-center space-x-4">
@@ -178,8 +178,8 @@
                     :class="[
                       'w-12 h-12 rounded-full flex items-center justify-center transition-all duration-200',
                       onboardingData.identityId === 1
-                        ? 'bg-gradient-to-r from-blue-500 to-blue-600'
-                        : 'bg-gradient-to-r from-green-500 to-blue-500 group-hover:from-green-400 group-hover:to-blue-400'
+                        ? 'bg-slate-600'
+                        : 'bg-slate-500 group-hover:bg-slate-400'
                     ]"
                   >
                     <svg
@@ -197,10 +197,10 @@
                     </svg>
                   </div>
                   <div class="flex-1">
-                    <h3 class="text-lg font-semibold text-white group-hover:text-blue-100 transition-colors">
+                    <h3 class="text-lg font-semibold text-white group-hover:text-slate-100 transition-colors">
                       Consistent Mover
                     </h3>
-                    <p class="text-slate-300 text-sm group-hover:text-slate-200 transition-colors">
+                    <p class="text-slate-400 text-sm group-hover:text-slate-300 transition-colors">
                       I prioritize regular movement and building sustainable
                       habits
                     </p>
@@ -245,14 +245,14 @@
               <button
                 type="button"
                 @click="previousStep"
-                class="flex-1 px-4 py-3 border border-white/20 rounded-xl text-slate-300 hover:text-white hover:bg-white/10 transition-all duration-200"
+                class="flex-1 px-4 py-3 border border-slate-600 rounded-xl text-slate-300 hover:text-white hover:bg-slate-700 transition-all duration-200"
               >
                 Back
               </button>
               <button
                 @click="completeOnboarding"
                 :disabled="!onboardingData.identityId || loading"
-                class="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                class="flex-1 bg-slate-600 hover:bg-slate-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
               >
                 <span v-if="loading">Finishing up...</span>
                 <span v-else>Complete Setup</span>
@@ -271,7 +271,7 @@
     >
       <div
         @click.stop
-        class="bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto border border-white/20"
+        class="bg-slate-800 rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto border border-slate-700"
       >
         <div class="p-8 space-y-8">
           <!-- Header -->
@@ -306,11 +306,11 @@
           <div class="grid gap-6 md:grid-cols-2">
             <!-- Source 1: James Clear -->
             <div
-              class="backdrop-blur-xl bg-white/5 border border-white/10 rounded-xl p-6 space-y-4 hover:bg-white/10 transition-all duration-200"
+              class="bg-slate-700/50 border border-slate-600 rounded-xl p-6 space-y-4 hover:bg-slate-700 transition-all duration-200"
             >
               <div class="flex items-start space-x-4">
                 <div
-                  class="w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full flex items-center justify-center flex-shrink-0"
+                  class="w-12 h-12 bg-slate-600 rounded-full flex items-center justify-center flex-shrink-0"
                 >
                   <svg
                     class="w-6 h-6 text-white"
@@ -328,7 +328,7 @@
                 </div>
                 <div class="flex-1">
                   <h3 class="text-lg font-semibold text-white">James Clear</h3>
-                  <p class="text-sm text-blue-300">
+                  <p class="text-sm text-slate-400">
                     New York Times bestselling author of Atomic Habits
                   </p>
                 </div>
@@ -345,7 +345,7 @@
                   href="https://jamesclear.com/identity-based-habits"
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="inline-flex items-center space-x-2 text-blue-400 hover:text-blue-300 text-sm transition-colors"
+                  class="inline-flex items-center space-x-2 text-slate-400 hover:text-slate-300 text-sm transition-colors"
                 >
                   <span>Read more</span>
                   <svg
@@ -367,11 +367,11 @@
 
             <!-- Source 2: Carol Dweck -->
             <div
-              class="backdrop-blur-xl bg-white/5 border border-white/10 rounded-xl p-6 space-y-4 hover:bg-white/10 transition-all duration-200"
+              class="bg-slate-700/50 border border-slate-600 rounded-xl p-6 space-y-4 hover:bg-slate-700 transition-all duration-200"
             >
               <div class="flex items-start space-x-4">
                 <div
-                  class="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-600 rounded-full flex items-center justify-center flex-shrink-0"
+                  class="w-12 h-12 bg-slate-600 rounded-full flex items-center justify-center flex-shrink-0"
                 >
                   <svg
                     class="w-6 h-6 text-white"
@@ -389,7 +389,7 @@
                 </div>
                 <div class="flex-1">
                   <h3 class="text-lg font-semibold text-white">Carol Dweck</h3>
-                  <p class="text-sm text-purple-300">
+                  <p class="text-sm text-slate-400">
                     Stanford Professor & National Academy of Sciences member
                   </p>
                 </div>
@@ -406,7 +406,7 @@
                   href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6594552/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="inline-flex items-center space-x-2 text-purple-400 hover:text-purple-300 text-sm transition-colors"
+                  class="inline-flex items-center space-x-2 text-slate-400 hover:text-slate-300 text-sm transition-colors"
                 >
                   <span>Read more</span>
                   <svg
@@ -431,7 +431,7 @@
           <div class="flex justify-center pt-4">
             <button
               @click="showResearch = false"
-              class="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-xl transition-all duration-200 transform hover:scale-[1.02]"
+              class="px-6 py-3 bg-slate-600 hover:bg-slate-700 text-white font-semibold rounded-xl transition-all duration-200 transform hover:scale-[1.02]"
             >
               Back to Identity Selection
             </button>

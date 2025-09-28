@@ -1,14 +1,14 @@
 <template>
-  <div class="min-h-screen bg-gray-900 flex items-center justify-center">
-    <div class="max-w-md w-full bg-gray-800 rounded-lg shadow-xl p-8">
+  <div class="min-h-screen bg-slate-900 flex items-center justify-center">
+    <div class="max-w-md w-full bg-slate-800 rounded-lg shadow-xl p-8 border border-slate-700">
       <div class="text-center mb-8">
         <h2 class="text-3xl font-bold text-white">Welcome to Pace</h2>
-        <p class="text-gray-400 mt-2">Sign in to your account</p>
+        <p class="text-slate-400 mt-2">Sign in to your account</p>
       </div>
 
       <form @submit.prevent="handleLogin" class="space-y-6">
         <div>
-          <label for="email" class="block text-sm font-medium text-gray-300"
+          <label for="email" class="block text-sm font-medium text-slate-300"
             >Email</label
           >
           <input
@@ -16,13 +16,13 @@
             v-model="form.email"
             type="email"
             required
-            class="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            class="mt-1 block w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-md text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-slate-500"
             placeholder="user@example.com"
           />
         </div>
 
         <div>
-          <label for="password" class="block text-sm font-medium text-gray-300"
+          <label for="password" class="block text-sm font-medium text-slate-300"
             >Password</label
           >
           <input
@@ -30,7 +30,7 @@
             v-model="form.password"
             type="password"
             required
-            class="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            class="mt-1 block w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-md text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-slate-500"
             placeholder="Enter your password"
           />
         </div>
@@ -42,7 +42,7 @@
         <button
           type="submit"
           :disabled="loading"
-          class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+          class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-slate-600 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <span v-if="loading">Signing in...</span>
           <span v-else>Sign in</span>
@@ -52,17 +52,17 @@
       <div class="mt-6">
         <div class="relative">
           <div class="absolute inset-0 flex items-center">
-            <div class="w-full border-t border-gray-600" />
+            <div class="w-full border-t border-slate-600" />
           </div>
           <div class="relative flex justify-center text-sm">
-            <span class="px-2 bg-gray-800 text-gray-400">Or continue with</span>
+            <span class="px-2 bg-slate-800 text-slate-400">Or continue with</span>
           </div>
         </div>
 
         <div class="mt-6">
           <a
             href="http://localhost:3000/auth/google"
-            class="w-full inline-flex justify-center py-2 px-4 border border-gray-600 rounded-md shadow-sm bg-gray-700 text-sm font-medium text-white hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+            class="w-full inline-flex justify-center py-2 px-4 border border-slate-600 rounded-md shadow-sm bg-slate-700 text-sm font-medium text-white hover:bg-slate-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500"
           >
             <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24">
               <path
@@ -89,9 +89,9 @@
       
       <!-- Footer Links -->
       <div class="text-center mt-6">
-        <p class="text-gray-400 text-sm">
+        <p class="text-slate-400 text-sm">
           Don't have an account? 
-          <NuxtLink to="/auth/signup" class="text-blue-400 hover:text-blue-300 font-medium transition-colors">
+          <NuxtLink to="/auth/signup" class="text-slate-300 hover:text-white font-medium transition-colors">
             Sign up
           </NuxtLink>
         </p>
