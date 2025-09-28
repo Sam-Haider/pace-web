@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="min-h-screen bg-slate-900 flex items-center justify-center p-4"
-  >
+  <div class="min-h-screen bg-slate-900 flex items-center justify-center p-4">
     <div class="relative w-full max-w-md">
       <!-- Glass morphism card -->
       <div
@@ -161,7 +159,7 @@
           <button
             type="submit"
             :disabled="loading"
-            class="w-full relative overflow-hidden bg-slate-600 hover:bg-slate-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-slate-500 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-lg"
+            class="w-full relative overflow-hidden bg-gradient-to-r from-blue-500 to-blue-700 hover:cursor-pointer hover:from-blue-700 hover:to-blue-900 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-slate-500 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-lg"
           >
             <span v-if="loading" class="flex items-center justify-center">
               <svg
