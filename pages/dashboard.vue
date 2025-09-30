@@ -35,7 +35,8 @@
             <div 
               v-for="vote in recentVotes" 
               :key="vote.id"
-              class="flex justify-between items-start p-3 bg-slate-700 rounded-lg"
+              @click="openEditVoteModal(vote)"
+              class="flex justify-between items-start p-3 bg-slate-700 rounded-lg hover:bg-slate-600 transition-colors cursor-pointer group"
             >
               <div class="flex-1">
                 <p class="text-white font-medium">
@@ -44,10 +45,18 @@
                 <p v-if="vote.notes" class="text-slate-300 text-sm mt-1">
                   {{ vote.notes }}
                 </p>
+                <p v-else class="text-slate-500 text-sm mt-1 italic">
+                  No notes
+                </p>
               </div>
-              <span class="text-slate-400 text-sm">
-                {{ formatRelativeTime(vote.createdAt) }}
-              </span>
+              <div class="flex items-center space-x-2">
+                <span class="text-slate-400 text-sm">
+                  {{ formatRelativeTime(vote.createdAt) }}
+                </span>
+                <svg class="w-4 h-4 text-slate-500 group-hover:text-slate-300 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
+              </div>
             </div>
           </div>
         </div>
@@ -74,6 +83,146 @@
         </div>
       </div>
     </div>
+
+    <!-- Edit Vote Modal -->
+    <div
+      v-if="editVoteModalOpen"
+      @click="closeEditVoteModal"
+      class="fixed inset-0 bg-black bg-opacity-50 z-60 flex items-center justify-center p-4"
+    >
+      <div
+        @click.stop
+        class="bg-slate-800 rounded-xl shadow-2xl w-full max-w-md p-6 space-y-6"
+      >
+        <div class="flex justify-between items-center">
+          <h3 class="text-lg font-semibold text-white">Edit Vote</h3>
+          <button
+            @click="closeEditVoteModal"
+            class="text-slate-400 hover:text-white transition-colors"
+          >
+            <svg
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
+
+        <form @submit.prevent="handleUpdateVote" class="space-y-4">
+          <div>
+            <label
+              for="editVoteDate"
+              class="block text-sm font-medium text-slate-300 mb-2"
+            >
+              Date
+            </label>
+            <input
+              id="editVoteDate"
+              v-model="editVoteForm.date"
+              type="date"
+              required
+              class="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-md text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-slate-500"
+            />
+          </div>
+
+          <div>
+            <label
+              for="editVoteNotes"
+              class="block text-sm font-medium text-slate-300 mb-2"
+            >
+              Notes (optional)
+            </label>
+            <textarea
+              id="editVoteNotes"
+              v-model="editVoteForm.notes"
+              rows="3"
+              class="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-md text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-slate-500"
+              placeholder="Add any notes about your vote..."
+            />
+          </div>
+
+          <!-- Error Message -->
+          <div
+            v-if="editVoteError"
+            class="flex items-center space-x-2 p-3 bg-red-500/20 border border-red-500/30 rounded-lg"
+          >
+            <svg
+              class="w-5 h-5 text-red-400 flex-shrink-0"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+            <p class="text-red-300 text-sm">{{ editVoteError }}</p>
+          </div>
+
+          <!-- Success Message -->
+          <div
+            v-if="editVoteSuccess"
+            class="flex items-center space-x-2 p-3 bg-green-500/20 border border-green-500/30 rounded-lg"
+          >
+            <svg
+              class="w-5 h-5 text-green-400 flex-shrink-0"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"
+              />
+            </svg>
+            <p class="text-green-300 text-sm">{{ editVoteSuccess }}</p>
+          </div>
+
+          <div class="flex space-x-3">
+            <BaseButton
+              type="button"
+              @click="handleDeleteVote"
+              variant="outline"
+              class="flex-1 text-red-400 border-red-600 hover:bg-red-600 hover:text-white"
+              :disabled="editVoteLoading"
+            >
+              <span v-if="editVoteLoading && deleteMode">Deleting...</span>
+              <span v-else>Delete</span>
+            </BaseButton>
+            <BaseButton
+              type="button"
+              @click="closeEditVoteModal"
+              variant="outline"
+              class="flex-1"
+            >
+              Cancel
+            </BaseButton>
+            <BaseButton
+              type="submit"
+              :disabled="editVoteLoading"
+              variant="primary"
+              class="flex-1"
+            >
+              <span v-if="editVoteLoading && !deleteMode">Updating...</span>
+              <span v-else>Update</span>
+            </BaseButton>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -86,6 +235,18 @@ definePageMeta({
 const recentVotes = ref([]);
 const voteStats = ref(null);
 const votesLoading = ref(true);
+
+// Edit vote modal data
+const editVoteModalOpen = ref(false);
+const editVoteForm = ref({
+  date: "",
+  notes: "",
+});
+const currentEditingVote = ref(null);
+const editVoteLoading = ref(false);
+const editVoteError = ref("");
+const editVoteSuccess = ref("");
+const deleteMode = ref(false);
 
 // Calculate stats from votes data
 const calculateStats = (votes) => {
@@ -211,6 +372,126 @@ const formatRelativeTime = (dateString) => {
   } else {
     const days = Math.floor(diffInSeconds / 86400);
     return `${days} day${days > 1 ? 's' : ''} ago`;
+  }
+};
+
+// Edit vote modal functions
+const openEditVoteModal = (vote) => {
+  currentEditingVote.value = vote;
+  editVoteForm.value = {
+    date: vote.date.split('T')[0], // Convert to YYYY-MM-DD format
+    notes: vote.notes || "",
+  };
+  editVoteModalOpen.value = true;
+  editVoteError.value = "";
+  editVoteSuccess.value = "";
+  deleteMode.value = false;
+};
+
+const closeEditVoteModal = () => {
+  editVoteModalOpen.value = false;
+  currentEditingVote.value = null;
+  deleteMode.value = false;
+};
+
+const handleUpdateVote = async () => {
+  if (!currentEditingVote.value) return;
+  
+  editVoteLoading.value = true;
+  deleteMode.value = false;
+  editVoteError.value = "";
+  editVoteSuccess.value = "";
+
+  try {
+    const token = useCookie("auth-token");
+
+    const requestBody = {
+      date: editVoteForm.value.date,
+      notes: editVoteForm.value.notes.trim() || null,
+    };
+
+    const response = await $fetch(`http://localhost:3000/api/votes/${currentEditingVote.value.id}`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token.value}`,
+      },
+      body: requestBody,
+    });
+
+    editVoteSuccess.value = "Vote updated successfully!";
+    
+    // Update the vote in the recent votes list
+    const voteIndex = recentVotes.value.findIndex(v => v.id === currentEditingVote.value.id);
+    if (voteIndex !== -1) {
+      recentVotes.value[voteIndex] = response.vote;
+    }
+    
+    // Update stats
+    if (response.stats) {
+      voteStats.value = response.stats;
+    }
+
+    // Close modal after 1.5 seconds
+    setTimeout(() => {
+      closeEditVoteModal();
+    }, 1500);
+  } catch (err) {
+    if (err.status === 401) {
+      editVoteError.value = "You must be logged in to edit votes";
+    } else if (err.status === 404) {
+      editVoteError.value = "Vote not found or you don't have permission to edit it";
+    } else if (err.status === 400) {
+      editVoteError.value = err.data?.message || "Invalid input. Please check your data.";
+    } else {
+      editVoteError.value = "An error occurred. Please try again.";
+    }
+  } finally {
+    editVoteLoading.value = false;
+  }
+};
+
+const handleDeleteVote = async () => {
+  if (!currentEditingVote.value) return;
+  
+  editVoteLoading.value = true;
+  deleteMode.value = true;
+  editVoteError.value = "";
+  editVoteSuccess.value = "";
+
+  try {
+    const token = useCookie("auth-token");
+
+    const response = await $fetch(`http://localhost:3000/api/votes/${currentEditingVote.value.id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token.value}`,
+      },
+    });
+
+    editVoteSuccess.value = "Vote deleted successfully!";
+    
+    // Remove the vote from the recent votes list
+    recentVotes.value = recentVotes.value.filter(v => v.id !== currentEditingVote.value.id);
+    
+    // Update stats
+    if (response.stats) {
+      voteStats.value = response.stats;
+    }
+
+    // Close modal after 1.5 seconds
+    setTimeout(() => {
+      closeEditVoteModal();
+    }, 1500);
+  } catch (err) {
+    if (err.status === 401) {
+      editVoteError.value = "You must be logged in to delete votes";
+    } else if (err.status === 404) {
+      editVoteError.value = "Vote not found or you don't have permission to delete it";
+    } else {
+      editVoteError.value = "An error occurred. Please try again.";
+    }
+  } finally {
+    editVoteLoading.value = false;
   }
 };
 
