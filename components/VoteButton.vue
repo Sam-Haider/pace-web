@@ -2,7 +2,7 @@
   <div>
     <!-- Vote Button -->
     <BaseButton @click="openVoteModal" variant="primary">
-      Cast Vote
+      Cast a Vote
     </BaseButton>
 
     <!-- Vote Modal -->
@@ -90,7 +90,6 @@
             <p class="text-red-300 text-sm">{{ voteError }}</p>
           </div>
 
-
           <div class="flex space-x-3">
             <BaseButton
               type="button"
@@ -133,12 +132,12 @@ const voteSuccess = ref("");
 const props = defineProps({
   userIdentityId: {
     type: Number,
-    required: false
-  }
+    required: false,
+  },
 });
 
 // Emits for when vote is successfully cast
-const emit = defineEmits(['vote-cast']);
+const emit = defineEmits(["vote-cast"]);
 
 const openVoteModal = () => {
   voteModalOpen.value = true;
@@ -164,17 +163,17 @@ const handleSubmitVote = async () => {
     const token = useCookie("auth-token");
 
     const requestBody = {};
-    
+
     // Add userIdentityId if provided
     if (props.userIdentityId) {
       requestBody.userIdentityId = props.userIdentityId;
     }
-    
+
     // Add date if provided
     if (voteForm.value.date) {
       requestBody.date = voteForm.value.date;
     }
-    
+
     // Add notes if provided
     if (voteForm.value.notes.trim()) {
       requestBody.notes = voteForm.value.notes.trim();
@@ -189,17 +188,18 @@ const handleSubmitVote = async () => {
     });
 
     voteSuccess.value = "Vote cast successfully!";
-    
+
     // Close modal immediately
     closeVoteModal();
-    
+
     // Emit event to parent component
-    emit('vote-cast', response);
+    emit("vote-cast", response);
   } catch (err) {
     if (err.status === 401) {
       voteError.value = "You must be logged in to vote";
     } else if (err.status === 400) {
-      voteError.value = err.data?.message || "Invalid request. Please check your input.";
+      voteError.value =
+        err.data?.message || "Invalid request. Please check your input.";
     } else if (err.status === 403) {
       voteError.value = "You don't have permission to vote with this identity";
     } else {
@@ -209,7 +209,6 @@ const handleSubmitVote = async () => {
     voteLoading.value = false;
   }
 };
-
 
 // Close modal on escape key
 onMounted(() => {

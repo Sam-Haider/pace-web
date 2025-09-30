@@ -2,7 +2,7 @@
   <span class="inline-block relative overflow-hidden">
     <span 
       :class="[
-        'block transition-transform duration-700 ease-out',
+        'block transition-transform duration-[1800ms] ease-out',
         isAnimating ? 'animate-roll-up' : ''
       ]"
       :style="{ transform: `translateY(${translateY}px)` }"
@@ -20,7 +20,7 @@ const props = defineProps({
   },
   duration: {
     type: Number,
-    default: 700
+    default: 1800
   }
 });
 
@@ -77,6 +77,6 @@ onMounted(() => {
 }
 
 .animate-roll-up {
-  animation: roll-up 0.7s ease-out;
+  animation: roll-up 1.8s ease-out;
 }
 </style>
