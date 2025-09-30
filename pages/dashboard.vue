@@ -12,22 +12,16 @@
               <!-- Identity Dropdown -->
               <div
                 v-if="userIdentities && userIdentities.length > 0"
-                class="min-w-0"
+                class="min-w-48 max-w-xs"
               >
-                <select
+                <BaseDropdown
                   v-model="selectedIdentityId"
+                  :options="dropdownOptions"
+                  value-key="value"
+                  display-key="label"
                   @change="handleIdentityChange"
-                  class="bg-slate-700 border border-slate-600 rounded-md text-white px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-slate-500 min-w-48 max-w-xs"
-                >
-                  <option
-                    v-for="userIdentity in userIdentities"
-                    :key="userIdentity.userIdentityId"
-                    :value="userIdentity.userIdentityId"
-                  >
-                    {{ userIdentity.identity.name }}
-                    {{ userIdentity.isPrimary ? " (Primary)" : "" }}
-                  </option>
-                </select>
+                  placeholder="Select an identity"
+                />
               </div>
               <div>
                 <VoteButton
@@ -39,30 +33,24 @@
           </div>
 
           <!-- Mobile Layout -->
-          <div class="md:hidden space-y-4">
+          <div class="md:hidden space-y-4 mb-7">
             <h1 class="text-2xl font-bold text-white">Dashboard</h1>
-            <div class="flex flex-col sm:flex-row gap-3">
+            <div class="flex flex-col gap-4">
               <!-- Identity Dropdown -->
               <div
                 v-if="userIdentities && userIdentities.length > 0"
-                class="flex-1"
+                class="w-full mb-4"
               >
-                <select
+                <BaseDropdown
                   v-model="selectedIdentityId"
+                  :options="dropdownOptions"
+                  value-key="value"
+                  display-key="label"
                   @change="handleIdentityChange"
-                  class="w-full bg-slate-700 border border-slate-600 rounded-md text-white px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-slate-500"
-                >
-                  <option
-                    v-for="userIdentity in userIdentities"
-                    :key="userIdentity.userIdentityId"
-                    :value="userIdentity.userIdentityId"
-                  >
-                    {{ userIdentity.identity.name }}
-                    {{ userIdentity.isPrimary ? " (Primary)" : "" }}
-                  </option>
-                </select>
+                  placeholder="Select an identity"
+                />
               </div>
-              <div class="flex-shrink-0">
+              <div class="w-full">
                 <VoteButton
                   :user-identity-id="selectedIdentityId"
                   @vote-cast="handleVoteCast"
@@ -406,6 +394,16 @@ const voteStats = ref(null);
 const votesLoading = ref(true);
 const userIdentities = ref([]);
 const selectedIdentityId = ref(null);
+
+// Computed property to format identities for dropdown
+const dropdownOptions = computed(() => {
+  return userIdentities.value.map((userIdentity) => ({
+    value: userIdentity.userIdentityId,
+    label: `${userIdentity.identity.name}${
+      userIdentity.isPrimary ? " (Primary)" : ""
+    }`,
+  }));
+});
 
 // Celebration states
 const showNewVoteText = ref(false);
