@@ -7,8 +7,8 @@
       class="
         relative overflow-hidden
         px-6 py-3 text-base font-bold
-        bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500
-        hover:from-emerald-400 hover:via-teal-400 hover:to-cyan-400
+        bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600
+        hover:from-emerald-500 hover:via-teal-500 hover:to-cyan-500
         text-white rounded-2xl
         transform transition-all duration-300 ease-out
         hover:scale-105 hover:shadow-2xl hover:shadow-emerald-500/30
@@ -20,7 +20,7 @@
       "
     >
       <!-- Constant shimmer effect -->
-      <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-shimmer"></div>
+      <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/15 to-transparent animate-shimmer"></div>
       
       <!-- Hover shimmer effect -->
       <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out"></div>
@@ -275,10 +275,10 @@ onMounted(() => {
 
 @keyframes shimmer {
   0% {
-    transform: translateX(-100%);
+    transform: translateX(-100%) skewX(-15deg);
   }
   100% {
-    transform: translateX(100%);
+    transform: translateX(100%) skewX(-15deg);
   }
 }
 
@@ -287,6 +287,6 @@ onMounted(() => {
 }
 
 .animate-shimmer {
-  animation: shimmer 3s ease-in-out infinite;
+  animation: shimmer 2.5s ease-in-out infinite;
 }
 </style>
