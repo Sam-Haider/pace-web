@@ -4,38 +4,38 @@
     <button
       @click="openVoteModal"
       :disabled="disabled"
-      class="
-        relative overflow-hidden
-        px-6 py-3 text-base font-bold
-        bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600
-        hover:from-emerald-500 hover:via-teal-500 hover:to-cyan-500
-        text-white rounded-2xl
-        transform transition-all duration-300 ease-out
-        hover:scale-105 hover:shadow-2xl hover:shadow-emerald-500/30
-        active:scale-95
-        focus:outline-none focus:ring-4 focus:ring-emerald-400/50
-        disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none
-        group
-        animate-pulse-slow
-      "
+      class="relative overflow-hidden px-6 py-3 text-base font-bold bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-700 hover:from-purple-700 hover:via-blue-700 hover:to-indigo-800 hover:cursor-pointer text-white rounded-2xl transform transition-all duration-300 ease-out hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/30 active:scale-95 focus:outline-none focus:ring-4 focus:ring-purple-400/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none group"
     >
-      <!-- Constant shimmer effect -->
-      <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/15 to-transparent animate-shimmer"></div>
-      
+      <!-- One-time shimmer effect -->
+      <div
+        class="absolute inset-0 bg-gradient-to-r from-transparent via-white/15 to-transparent animate-shimmer-once"
+      ></div>
+
       <!-- Hover shimmer effect -->
-      <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out"></div>
-      
+      <div
+        class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out"
+      ></div>
+
       <!-- Glow effect -->
-      <div class="absolute inset-0 rounded-2xl bg-gradient-to-r from-emerald-400 to-cyan-400 opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-300"></div>
-      
+      <div
+        class="absolute inset-0 rounded-2xl bg-gradient-to-r from-purple-400 to-blue-400 opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-300"
+      ></div>
+
       <!-- Button content -->
       <span class="relative z-10 flex items-center space-x-2">
-        <svg class="w-5 h-5 group-hover:rotate-12 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-        </svg>
-        <span>Cast Your Vote</span>
-        <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5-5 5M6 12h12"/>
+        <span>Cast a Vote</span>
+        <svg
+          class="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M13 7l5 5-5 5M6 12h12"
+          />
         </svg>
       </span>
     </button>
@@ -134,15 +134,32 @@
             >
               Cancel
             </BaseButton>
-            <BaseButton
+            <button
               type="submit"
               :disabled="voteLoading"
-              variant="primary"
-              class="flex-1"
+              class="relative overflow-hidden px-4 py-3 text-sm font-bold bg-gradient-to-r from-purple-700 via-blue-700 to-indigo-800 hover:from-purple-800 hover:via-blue-800 hover:to-indigo-900 hover:cursor-pointer text-white rounded-xl transform transition-all duration-300 ease-out hover:scale-105 hover:shadow-xl hover:shadow-purple-500/30 active:scale-95 focus:outline-none focus:ring-4 focus:ring-purple-400/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none group flex-1"
             >
-              <span v-if="voteLoading">Submitting...</span>
-              <span v-else>Submit Vote</span>
-            </BaseButton>
+              <!-- One-time shimmer effect -->
+              <div
+                class="absolute inset-0 bg-gradient-to-r from-transparent via-white/15 to-transparent animate-shimmer-once"
+              ></div>
+
+              <!-- Hover shimmer effect -->
+              <div
+                class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out"
+              ></div>
+
+              <!-- Glow effect -->
+              <div
+                class="absolute inset-0 rounded-xl bg-gradient-to-r from-purple-400 to-blue-400 opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-300"
+              ></div>
+
+              <!-- Button content -->
+              <span class="relative z-10">
+                <span v-if="voteLoading">Submitting...</span>
+                <span v-else>Submit Vote</span>
+              </span>
+            </button>
           </div>
         </form>
       </div>
@@ -265,11 +282,12 @@ onMounted(() => {
 
 <style scoped>
 @keyframes pulse-slow {
-  0%, 100% {
-    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(147, 51, 234, 0.4);
   }
   50% {
-    box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
+    box-shadow: 0 0 0 8px rgba(147, 51, 234, 0);
   }
 }
 
@@ -288,5 +306,9 @@ onMounted(() => {
 
 .animate-shimmer {
   animation: shimmer 2.5s ease-in-out infinite;
+}
+
+.animate-shimmer-once {
+  animation: shimmer 2.5s ease-in-out 1.5s 1;
 }
 </style>
