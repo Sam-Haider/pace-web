@@ -1,9 +1,41 @@
 <template>
   <div>
-    <!-- Vote Button -->
-    <BaseButton @click="openVoteModal" variant="primary">
-      Cast a Vote
-    </BaseButton>
+    <!-- Special Vote Button -->
+    <button
+      @click="openVoteModal"
+      :disabled="disabled"
+      class="
+        relative overflow-hidden
+        px-6 py-3 text-base font-bold
+        bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500
+        hover:from-emerald-400 hover:via-teal-400 hover:to-cyan-400
+        text-white rounded-2xl
+        transform transition-all duration-300 ease-out
+        hover:scale-105 hover:shadow-2xl hover:shadow-emerald-500/30
+        active:scale-95
+        focus:outline-none focus:ring-4 focus:ring-emerald-400/50
+        disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none
+        group
+        animate-pulse-slow
+      "
+    >
+      <!-- Shimmer effect -->
+      <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out"></div>
+      
+      <!-- Glow effect -->
+      <div class="absolute inset-0 rounded-2xl bg-gradient-to-r from-emerald-400 to-cyan-400 opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-300"></div>
+      
+      <!-- Button content -->
+      <span class="relative z-10 flex items-center space-x-2">
+        <svg class="w-5 h-5 group-hover:rotate-12 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+        </svg>
+        <span>Cast Your Vote</span>
+        <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5-5 5M6 12h12"/>
+        </svg>
+      </span>
+    </button>
 
     <!-- Vote Modal -->
     <div
@@ -134,6 +166,10 @@ const props = defineProps({
     type: Number,
     required: false,
   },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 // Emits for when vote is successfully cast
@@ -157,7 +193,6 @@ const closeVoteModal = () => {
 const handleSubmitVote = async () => {
   voteLoading.value = true;
   voteError.value = "";
-  voteSuccess.value = "";
 
   try {
     const token = useCookie("auth-token");
@@ -224,3 +259,18 @@ onMounted(() => {
   });
 });
 </script>
+
+<style scoped>
+@keyframes pulse-slow {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
+  }
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 3s ease-in-out infinite;
+}
+</style>
