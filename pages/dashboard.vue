@@ -166,7 +166,7 @@
               <div
                 class="text-white font-black text-xl md:text-2xl tracking-wide drop-shadow-lg"
               >
-                🎉 KEEP IT UP! 🎉
+                🎉 {{ currentMessage }} 🎉
               </div>
             </div>
           </div>
@@ -466,9 +466,7 @@ const selectedIdentityId = ref(null);
 const dropdownOptions = computed(() => {
   return userIdentities.value.map((userIdentity) => ({
     value: userIdentity.userIdentityId,
-    label: `${userIdentity.identity.name}${
-      userIdentity.isPrimary ? " (Primary)" : ""
-    }`,
+    label: `${userIdentity.identity.name}`,
   }));
 });
 
@@ -476,6 +474,24 @@ const dropdownOptions = computed(() => {
 const showStreakText = ref(false);
 const showSuccessMessage = ref(false);
 const showConfetti = ref(false);
+
+// Inspiring messages array
+const inspiringMessages = [
+  "GREAT JOB!",
+  "KEEP IT UP!",
+  "WAY TO GO!",
+  "YOU'RE ON A ROLL!",
+  "ANOTHER ONE!",
+  "ONE STEP AT A TIME!",
+  "EVERY VOTE COUNTS!",
+  "AWESOME WORK!",
+  "CRUSHING IT!",
+  "FANTASTIC!",
+  "UNSTOPPABLE!",
+  "MOMENTUM BUILDING!",
+];
+
+const currentMessage = ref("GREAT JOB!");
 
 // Edit vote modal data
 const editVoteModalOpen = ref(false);
@@ -627,6 +643,10 @@ const handleVoteCast = (response) => {
     // Keep only last 10 votes
     recentVotes.value = recentVotes.value.slice(0, 10);
   }
+
+  // Select a random inspiring message
+  const randomIndex = Math.floor(Math.random() * inspiringMessages.length);
+  currentMessage.value = inspiringMessages[randomIndex];
 
   // Trigger celebration effects
   triggerHapticFeedback();
