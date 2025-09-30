@@ -3,37 +3,115 @@
     <Navbar />
     <div class="py-4 px-6">
       <div class="mx-auto">
-        <div class="flex justify-between items-center mb-8">
-          <h1 class="text-3xl font-bold text-white">Dashboard</h1>
-          <VoteButton @vote-cast="handleVoteCast" />
+        <!-- Header Section -->
+        <div class="mb-8">
+          <!-- Desktop Layout -->
+          <div class="hidden md:flex justify-between items-end">
+            <h1 class="text-3xl font-bold text-white">Dashboard</h1>
+            <div class="flex items-center space-x-4">
+              <!-- Identity Dropdown -->
+              <div
+                v-if="userIdentities && userIdentities.length > 0"
+                class="min-w-0"
+              >
+                <select
+                  v-model="selectedIdentityId"
+                  @change="handleIdentityChange"
+                  class="bg-slate-700 border border-slate-600 rounded-md text-white px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-slate-500 min-w-48 max-w-xs"
+                >
+                  <option
+                    v-for="userIdentity in userIdentities"
+                    :key="userIdentity.userIdentityId"
+                    :value="userIdentity.userIdentityId"
+                  >
+                    {{ userIdentity.identity.name }}
+                    {{ userIdentity.isPrimary ? " (Primary)" : "" }}
+                  </option>
+                </select>
+              </div>
+              <div>
+                <VoteButton
+                  :user-identity-id="selectedIdentityId"
+                  @vote-cast="handleVoteCast"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Mobile Layout -->
+          <div class="md:hidden space-y-4">
+            <h1 class="text-2xl font-bold text-white">Dashboard</h1>
+            <div class="flex flex-col sm:flex-row gap-3">
+              <!-- Identity Dropdown -->
+              <div
+                v-if="userIdentities && userIdentities.length > 0"
+                class="flex-1"
+              >
+                <select
+                  v-model="selectedIdentityId"
+                  @change="handleIdentityChange"
+                  class="w-full bg-slate-700 border border-slate-600 rounded-md text-white px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-slate-500"
+                >
+                  <option
+                    v-for="userIdentity in userIdentities"
+                    :key="userIdentity.userIdentityId"
+                    :value="userIdentity.userIdentityId"
+                  >
+                    {{ userIdentity.identity.name }}
+                    {{ userIdentity.isPrimary ? " (Primary)" : "" }}
+                  </option>
+                </select>
+              </div>
+              <div class="flex-shrink-0">
+                <VoteButton
+                  :user-identity-id="selectedIdentityId"
+                  @vote-cast="handleVoteCast"
+                />
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- Vote Statistics -->
-        <div v-if="voteStats" class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div
+          v-if="voteStats"
+          class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"
+        >
           <div class="bg-slate-800 rounded-xl p-6">
             <h3 class="text-lg font-semibold text-white mb-2">Total Votes</h3>
-            <p class="text-3xl font-bold text-blue-400">{{ voteStats.totalVotes }}</p>
+            <p class="text-3xl font-bold text-blue-400">
+              {{ voteStats.totalVotes }}
+            </p>
           </div>
-          
+
           <div class="bg-slate-800 rounded-xl p-6">
-            <h3 class="text-lg font-semibold text-white mb-2">Current Streak</h3>
-            <p class="text-3xl font-bold text-green-400">{{ voteStats.currentStreak }}</p>
+            <h3 class="text-lg font-semibold text-white mb-2">
+              Current Streak
+            </h3>
+            <p class="text-3xl font-bold text-green-400">
+              {{ voteStats.currentStreak }}
+            </p>
             <p class="text-sm text-slate-400">days</p>
           </div>
-          
+
           <div class="bg-slate-800 rounded-xl p-6">
             <h3 class="text-lg font-semibold text-white mb-2">This Month</h3>
-            <p class="text-3xl font-bold text-purple-400">{{ voteStats.votesThisMonth }}</p>
+            <p class="text-3xl font-bold text-purple-400">
+              {{ voteStats.votesThisMonth }}
+            </p>
             <p class="text-sm text-slate-400">votes</p>
           </div>
         </div>
 
         <!-- Recent Votes -->
-        <div v-if="recentVotes && recentVotes.length > 0" class="bg-slate-800 rounded-xl p-6">
+        <div
+          v-if="recentVotes && recentVotes.length > 0"
+          class="bg-slate-800 rounded-xl p-6"
+        >
           <h3 class="text-lg font-semibold text-white mb-4">Recent Votes</h3>
           <div class="space-y-3">
-            <div 
-              v-for="vote in recentVotes" 
+            <div
+              v-for="vote in recentVotes"
               :key="vote.id"
               @click="openEditVoteModal(vote)"
               class="flex justify-between items-start p-3 bg-slate-700 rounded-lg hover:bg-slate-600 transition-colors cursor-pointer group"
@@ -53,8 +131,18 @@
                 <span class="text-slate-400 text-sm">
                   {{ formatRelativeTime(vote.createdAt) }}
                 </span>
-                <svg class="w-4 h-4 text-slate-500 group-hover:text-slate-300 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                <svg
+                  class="w-4 h-4 text-slate-500 group-hover:text-slate-300 transition-colors"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5l7 7-7 7"
+                  />
                 </svg>
               </div>
             </div>
@@ -62,21 +150,49 @@
         </div>
 
         <!-- Empty State -->
-        <div v-else-if="!votesLoading" class="bg-slate-800 rounded-xl p-8 text-center">
+        <div
+          v-else-if="!votesLoading"
+          class="bg-slate-800 rounded-xl p-8 text-center"
+        >
           <div class="text-slate-400 mb-4">
-            <svg class="w-16 h-16 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+            <svg
+              class="w-16 h-16 mx-auto mb-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="1"
+                d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"
+              />
             </svg>
           </div>
           <h3 class="text-lg font-semibold text-white mb-2">No votes yet</h3>
-          <p class="text-slate-400 mb-4">Cast your first vote to get started!</p>
+          <p class="text-slate-400 mb-4">
+            Cast your first vote to get started!
+          </p>
         </div>
 
         <!-- Loading State -->
-        <div v-if="votesLoading" class="bg-slate-800 rounded-xl p-8 text-center">
+        <div
+          v-if="votesLoading"
+          class="bg-slate-800 rounded-xl p-8 text-center"
+        >
           <div class="text-slate-400">
-            <svg class="w-8 h-8 mx-auto mb-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+            <svg
+              class="w-8 h-8 mx-auto mb-4 animate-spin"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+              />
             </svg>
           </div>
           <p class="text-slate-400">Loading votes...</p>
@@ -235,6 +351,8 @@ definePageMeta({
 const recentVotes = ref([]);
 const voteStats = ref(null);
 const votesLoading = ref(true);
+const userIdentities = ref([]);
+const selectedIdentityId = ref(null);
 
 // Edit vote modal data
 const editVoteModalOpen = ref(false);
@@ -251,29 +369,36 @@ const deleteMode = ref(false);
 // Calculate stats from votes data
 const calculateStats = (votes) => {
   const totalVotes = votes.length;
-  
+
   // Calculate current streak
   let currentStreak = 0;
   if (votes.length > 0) {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    
+
     // Get unique dates and sort by date desc
-    const uniqueDates = [...new Set(votes.map(vote => {
-      const date = new Date(vote.date);
-      date.setHours(0, 0, 0, 0);
-      return date.getTime();
-    }))].sort((a, b) => b - a);
-    
+    const uniqueDates = [
+      ...new Set(
+        votes.map((vote) => {
+          const date = new Date(vote.date);
+          date.setHours(0, 0, 0, 0);
+          return date.getTime();
+        })
+      ),
+    ].sort((a, b) => b - a);
+
     if (uniqueDates.length > 0) {
       const latestVoteDate = new Date(uniqueDates[0]);
       const yesterday = new Date(today);
       yesterday.setDate(yesterday.getDate() - 1);
-      
+
       // Check if latest vote is today or yesterday
-      if (latestVoteDate.getTime() === today.getTime() || latestVoteDate.getTime() === yesterday.getTime()) {
+      if (
+        latestVoteDate.getTime() === today.getTime() ||
+        latestVoteDate.getTime() === yesterday.getTime()
+      ) {
         let expectedDate = latestVoteDate.getTime();
-        
+
         for (const dateTime of uniqueDates) {
           if (dateTime === expectedDate) {
             currentStreak++;
@@ -285,36 +410,71 @@ const calculateStats = (votes) => {
       }
     }
   }
-  
+
   // Calculate votes this month
   const now = new Date();
   const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
   const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
-  
-  const votesThisMonth = votes.filter(vote => {
+
+  const votesThisMonth = votes.filter((vote) => {
     const voteDate = new Date(vote.date);
     return voteDate >= startOfMonth && voteDate <= endOfMonth;
   }).length;
-  
+
   return {
     totalVotes,
     currentStreak,
-    votesThisMonth
+    votesThisMonth,
   };
 };
 
-// Fetch votes and calculate stats
-const fetchVotes = async () => {
+// Fetch user identities
+const fetchUserIdentities = async () => {
   try {
-    votesLoading.value = true;
     const token = useCookie("auth-token");
-    
-    const votes = await $fetch("http://localhost:3000/api/votes", {
+
+    const identities = await $fetch("http://localhost:3000/auth/identities", {
       headers: {
         Authorization: `Bearer ${token.value}`,
       },
     });
-    
+
+    userIdentities.value = identities;
+
+    // Set primary identity as default
+    const primaryIdentity = identities.find((identity) => identity.isPrimary);
+    if (primaryIdentity) {
+      selectedIdentityId.value = primaryIdentity.userIdentityId;
+    } else if (identities.length > 0) {
+      selectedIdentityId.value = identities[0].userIdentityId;
+    }
+  } catch (error) {
+    console.error("Failed to fetch identities:", error);
+    if (error.status === 401 || error.status === 403) {
+      const token = useCookie("auth-token");
+      token.value = null;
+      await navigateTo("/auth/login");
+    }
+  }
+};
+
+// Fetch votes and calculate stats
+const fetchVotes = async () => {
+  if (!selectedIdentityId.value) return;
+
+  try {
+    votesLoading.value = true;
+    const token = useCookie("auth-token");
+
+    const votes = await $fetch(
+      `http://localhost:3000/api/votes?userIdentityId=${selectedIdentityId.value}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token.value}`,
+        },
+      }
+    );
+
     recentVotes.value = votes.slice(0, 10); // Show last 10 votes
     voteStats.value = calculateStats(votes); // Calculate and set stats
   } catch (error) {
@@ -331,14 +491,14 @@ const fetchVotes = async () => {
 
 // Handle vote cast - refresh data and update stats
 const handleVoteCast = (response) => {
-  console.log('Vote cast successfully:', response);
-  
+  console.log("Vote cast successfully:", response);
+
   // Add new vote to recent votes
   if (response.vote) {
     recentVotes.value.unshift(response.vote);
     // Keep only last 10 votes
     recentVotes.value = recentVotes.value.slice(0, 10);
-    
+
     // Recalculate stats with the updated votes array
     const allVotes = [response.vote, ...recentVotes.value.slice(1)];
     voteStats.value = calculateStats(allVotes);
@@ -348,11 +508,11 @@ const handleVoteCast = (response) => {
 // Date formatting functions
 const formatDate = (dateString) => {
   const date = new Date(dateString);
-  return date.toLocaleDateString('en-US', {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
+  return date.toLocaleDateString("en-US", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
   });
 };
 
@@ -360,18 +520,18 @@ const formatRelativeTime = (dateString) => {
   const date = new Date(dateString);
   const now = new Date();
   const diffInSeconds = Math.floor((now - date) / 1000);
-  
+
   if (diffInSeconds < 60) {
-    return 'Just now';
+    return "Just now";
   } else if (diffInSeconds < 3600) {
     const minutes = Math.floor(diffInSeconds / 60);
-    return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
+    return `${minutes} minute${minutes > 1 ? "s" : ""} ago`;
   } else if (diffInSeconds < 86400) {
     const hours = Math.floor(diffInSeconds / 3600);
-    return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+    return `${hours} hour${hours > 1 ? "s" : ""} ago`;
   } else {
     const days = Math.floor(diffInSeconds / 86400);
-    return `${days} day${days > 1 ? 's' : ''} ago`;
+    return `${days} day${days > 1 ? "s" : ""} ago`;
   }
 };
 
@@ -379,7 +539,7 @@ const formatRelativeTime = (dateString) => {
 const openEditVoteModal = (vote) => {
   currentEditingVote.value = vote;
   editVoteForm.value = {
-    date: vote.date.split('T')[0], // Convert to YYYY-MM-DD format
+    date: vote.date.split("T")[0], // Convert to YYYY-MM-DD format
     notes: vote.notes || "",
   };
   editVoteModalOpen.value = true;
@@ -396,7 +556,7 @@ const closeEditVoteModal = () => {
 
 const handleUpdateVote = async () => {
   if (!currentEditingVote.value) return;
-  
+
   editVoteLoading.value = true;
   deleteMode.value = false;
   editVoteError.value = "";
@@ -410,22 +570,27 @@ const handleUpdateVote = async () => {
       notes: editVoteForm.value.notes.trim() || null,
     };
 
-    const response = await $fetch(`http://localhost:3000/api/votes/${currentEditingVote.value.id}`, {
-      method: "PUT",
-      headers: {
-        Authorization: `Bearer ${token.value}`,
-      },
-      body: requestBody,
-    });
+    const response = await $fetch(
+      `http://localhost:3000/api/votes/${currentEditingVote.value.id}`,
+      {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token.value}`,
+        },
+        body: requestBody,
+      }
+    );
 
     editVoteSuccess.value = "Vote updated successfully!";
-    
+
     // Update the vote in the recent votes list
-    const voteIndex = recentVotes.value.findIndex(v => v.id === currentEditingVote.value.id);
+    const voteIndex = recentVotes.value.findIndex(
+      (v) => v.id === currentEditingVote.value.id
+    );
     if (voteIndex !== -1) {
       recentVotes.value[voteIndex] = response.vote;
     }
-    
+
     // Update stats
     if (response.stats) {
       voteStats.value = response.stats;
@@ -439,9 +604,11 @@ const handleUpdateVote = async () => {
     if (err.status === 401) {
       editVoteError.value = "You must be logged in to edit votes";
     } else if (err.status === 404) {
-      editVoteError.value = "Vote not found or you don't have permission to edit it";
+      editVoteError.value =
+        "Vote not found or you don't have permission to edit it";
     } else if (err.status === 400) {
-      editVoteError.value = err.data?.message || "Invalid input. Please check your data.";
+      editVoteError.value =
+        err.data?.message || "Invalid input. Please check your data.";
     } else {
       editVoteError.value = "An error occurred. Please try again.";
     }
@@ -452,7 +619,7 @@ const handleUpdateVote = async () => {
 
 const handleDeleteVote = async () => {
   if (!currentEditingVote.value) return;
-  
+
   editVoteLoading.value = true;
   deleteMode.value = true;
   editVoteError.value = "";
@@ -461,18 +628,23 @@ const handleDeleteVote = async () => {
   try {
     const token = useCookie("auth-token");
 
-    const response = await $fetch(`http://localhost:3000/api/votes/${currentEditingVote.value.id}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token.value}`,
-      },
-    });
+    const response = await $fetch(
+      `http://localhost:3000/api/votes/${currentEditingVote.value.id}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token.value}`,
+        },
+      }
+    );
 
     editVoteSuccess.value = "Vote deleted successfully!";
-    
+
     // Remove the vote from the recent votes list
-    recentVotes.value = recentVotes.value.filter(v => v.id !== currentEditingVote.value.id);
-    
+    recentVotes.value = recentVotes.value.filter(
+      (v) => v.id !== currentEditingVote.value.id
+    );
+
     // Update stats
     if (response.stats) {
       voteStats.value = response.stats;
@@ -486,7 +658,8 @@ const handleDeleteVote = async () => {
     if (err.status === 401) {
       editVoteError.value = "You must be logged in to delete votes";
     } else if (err.status === 404) {
-      editVoteError.value = "Vote not found or you don't have permission to delete it";
+      editVoteError.value =
+        "Vote not found or you don't have permission to delete it";
     } else {
       editVoteError.value = "An error occurred. Please try again.";
     }
@@ -495,8 +668,21 @@ const handleDeleteVote = async () => {
   }
 };
 
+// Handle identity change
+const handleIdentityChange = () => {
+  fetchVotes();
+};
+
+// Initialize data
+const initializeDashboard = async () => {
+  await fetchUserIdentities();
+  if (selectedIdentityId.value) {
+    await fetchVotes();
+  }
+};
+
 // Fetch data on component mount
 onMounted(() => {
-  fetchVotes();
+  initializeDashboard();
 });
 </script>
