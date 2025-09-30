@@ -63,7 +63,7 @@
         <!-- Floating Success Message with Confetti -->
         <div
           v-if="showSuccessMessage"
-          class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 pointer-events-none px-4"
+          class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 pointer-events-none px-4 w-4/5 md:w-auto"
         >
           <!-- Confetti Container -->
           <div
@@ -114,12 +114,60 @@
           </div>
 
           <!-- Success Message -->
-          <div class="flex items-center justify-center px-4 md:px-6 py-3 md:py-4 bg-emerald-600/80 backdrop-blur-sm border border-emerald-400/60 rounded-xl shadow-2xl animate-bounce max-w-xs md:max-w-none">
-            <div class="flex items-center space-x-2 md:space-x-3">
-              <svg class="w-5 h-5 md:w-6 md:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-              </svg>
-              <div class="text-white font-bold text-base md:text-lg">Great Job!</div>
+          <div
+            class="relative flex items-center justify-center px-6 md:px-8 py-4 md:py-6 bg-gradient-to-r from-emerald-700 via-green-700 to-teal-700 backdrop-blur-sm border-2 border-yellow-400/80 rounded-2xl shadow-2xl animate-pulse w-full overflow-hidden"
+          >
+            <!-- Animated background shimmer -->
+            <div
+              class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer-fast"
+            ></div>
+
+            <!-- Sparkle effects -->
+            <div
+              class="absolute top-1 left-2 w-2 h-2 bg-yellow-300 rounded-full animate-ping"
+            ></div>
+            <div
+              class="absolute top-2 right-3 w-1 h-1 bg-white rounded-full animate-ping animation-delay-300"
+            ></div>
+            <div
+              class="absolute bottom-2 left-4 w-1.5 h-1.5 bg-yellow-200 rounded-full animate-ping animation-delay-600"
+            ></div>
+            <div
+              class="absolute bottom-1 right-2 w-1 h-1 bg-emerald-200 rounded-full animate-ping animation-delay-900"
+            ></div>
+
+            <div class="relative z-10 flex items-center space-x-3 md:space-x-4">
+              <div class="relative">
+                <svg
+                  class="w-7 h-7 md:w-8 md:h-8 text-yellow-300 animate-spin-slow"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+                  />
+                </svg>
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <svg
+                    class="w-4 h-4 md:w-5 md:h-5 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="3"
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <div
+                class="text-white font-black text-xl md:text-2xl tracking-wide drop-shadow-lg"
+              >
+                🎉 KEEP IT UP! 🎉
+              </div>
             </div>
           </div>
         </div>
@@ -1230,5 +1278,35 @@ onMounted(() => {
 .confetti-36 {
   --end-x: 480px;
   --end-y: -520px;
+}
+
+/* Success Banner Animations */
+.animate-shimmer-fast {
+  animation: shimmer 1s ease-in-out infinite;
+}
+
+.animate-spin-slow {
+  animation: spin 3s linear infinite;
+}
+
+.animation-delay-300 {
+  animation-delay: 0.3s;
+}
+
+.animation-delay-600 {
+  animation-delay: 0.6s;
+}
+
+.animation-delay-900 {
+  animation-delay: 0.9s;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 </style>
