@@ -19,7 +19,10 @@
         animate-pulse-slow
       "
     >
-      <!-- Shimmer effect -->
+      <!-- Constant shimmer effect -->
+      <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-shimmer"></div>
+      
+      <!-- Hover shimmer effect -->
       <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out"></div>
       
       <!-- Glow effect -->
@@ -270,7 +273,20 @@ onMounted(() => {
   }
 }
 
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
 .animate-pulse-slow {
   animation: pulse-slow 3s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  animation: shimmer 3s ease-in-out infinite;
 }
 </style>
