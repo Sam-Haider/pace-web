@@ -60,12 +60,15 @@
           </div>
         </div>
 
-        <!-- Success Message with Confetti -->
-        <div v-if="showSuccessMessage" class="mb-6 relative">
+        <!-- Floating Success Message with Confetti -->
+        <div
+          v-if="showSuccessMessage"
+          class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 pointer-events-none px-4"
+        >
           <!-- Confetti Container -->
           <div
             v-if="showConfetti"
-            class="absolute inset-0 pointer-events-none z-10 overflow-hidden"
+            class="absolute -inset-48 pointer-events-none overflow-visible"
           >
             <div class="w-full h-full flex items-center justify-center">
               <!-- Confetti pieces -->
@@ -82,18 +85,41 @@
                 <div class="confetti-piece confetti-10"></div>
                 <div class="confetti-piece confetti-11"></div>
                 <div class="confetti-piece confetti-12"></div>
+                <div class="confetti-piece confetti-13"></div>
+                <div class="confetti-piece confetti-14"></div>
+                <div class="confetti-piece confetti-15"></div>
+                <div class="confetti-piece confetti-16"></div>
+                <div class="confetti-piece confetti-17"></div>
+                <div class="confetti-piece confetti-18"></div>
+                <div class="confetti-piece confetti-19"></div>
+                <div class="confetti-piece confetti-20"></div>
+                <div class="confetti-piece confetti-21"></div>
+                <div class="confetti-piece confetti-22"></div>
+                <div class="confetti-piece confetti-23"></div>
+                <div class="confetti-piece confetti-24"></div>
+                <div class="confetti-piece confetti-25"></div>
+                <div class="confetti-piece confetti-26"></div>
+                <div class="confetti-piece confetti-27"></div>
+                <div class="confetti-piece confetti-28"></div>
+                <div class="confetti-piece confetti-29"></div>
+                <div class="confetti-piece confetti-30"></div>
+                <div class="confetti-piece confetti-31"></div>
+                <div class="confetti-piece confetti-32"></div>
+                <div class="confetti-piece confetti-33"></div>
+                <div class="confetti-piece confetti-34"></div>
+                <div class="confetti-piece confetti-35"></div>
+                <div class="confetti-piece confetti-36"></div>
               </div>
             </div>
           </div>
 
           <!-- Success Message -->
-          <div
-            class="flex items-center justify-center p-6 bg-green-500/20 border border-green-500/30 rounded-xl relative"
-          >
-            <div class="flex items-center space-x-3">
-              <div class="text-center">
-                <div class="text-green-300 font-bold text-xl">Great Job!</div>
-              </div>
+          <div class="flex items-center justify-center px-4 md:px-6 py-3 md:py-4 bg-emerald-600/80 backdrop-blur-sm border border-emerald-400/60 rounded-xl shadow-2xl animate-bounce max-w-xs md:max-w-none">
+            <div class="flex items-center space-x-2 md:space-x-3">
+              <svg class="w-5 h-5 md:w-6 md:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+              <div class="text-white font-bold text-base md:text-lg">Great Job!</div>
             </div>
           </div>
         </div>
@@ -108,13 +134,6 @@
             <p class="text-3xl font-bold text-blue-400">
               <AnimatedNumber :value="voteStats.totalVotes" />
             </p>
-            <!-- Celebration text for new vote -->
-            <div
-              v-if="showNewVoteText"
-              class="absolute top-2 right-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full animate-bounce"
-            >
-              +1 vote!
-            </div>
           </div>
 
           <div class="bg-slate-800 rounded-xl p-6 relative overflow-hidden">
@@ -406,7 +425,6 @@ const dropdownOptions = computed(() => {
 });
 
 // Celebration states
-const showNewVoteText = ref(false);
 const showStreakText = ref(false);
 const showSuccessMessage = ref(false);
 const showConfetti = ref(false);
@@ -567,10 +585,10 @@ const handleVoteCast = (response) => {
   showSuccessMessage.value = true;
   showConfetti.value = true;
 
-  // Stop confetti after 1.5 seconds
+  // Stop confetti after 1.8 seconds (to match animation duration)
   setTimeout(() => {
     showConfetti.value = false;
-  }, 1500);
+  }, 1800);
 
   // Hide success message after 7 seconds
   setTimeout(() => {
@@ -591,12 +609,6 @@ const handleVoteCast = (response) => {
     }
 
     // Show celebration indicators
-    if (voteStats.value.totalVotes > oldStats.totalVotes) {
-      showNewVoteText.value = true;
-      setTimeout(() => {
-        showNewVoteText.value = false;
-      }, 3000);
-    }
 
     if (voteStats.value.currentStreak > oldStats.currentStreak) {
       showStreakText.value = true;
@@ -799,10 +811,10 @@ onMounted(() => {
 
 .confetti-piece {
   position: absolute;
-  width: 10px;
-  height: 10px;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
-  animation: confetti-fall 1.5s ease-out forwards;
+  animation: confetti-fall 1.8s ease-out forwards;
 }
 
 .confetti-1 {
@@ -889,6 +901,174 @@ onMounted(() => {
   animation-delay: 0.35s;
   transform: translate(-50%, -50%) scale(0);
 }
+.confetti-13 {
+  background: #ef4444;
+  top: 50%;
+  left: 50%;
+  animation-delay: 0.05s;
+  transform: translate(-50%, -50%) scale(0);
+}
+.confetti-14 {
+  background: #8b5cf6;
+  top: 50%;
+  left: 50%;
+  animation-delay: 0.4s;
+  transform: translate(-50%, -50%) scale(0);
+}
+.confetti-15 {
+  background: #10b981;
+  top: 50%;
+  left: 50%;
+  animation-delay: 0.08s;
+  transform: translate(-50%, -50%) scale(0);
+}
+.confetti-16 {
+  background: #3b82f6;
+  top: 50%;
+  left: 50%;
+  animation-delay: 0.45s;
+  transform: translate(-50%, -50%) scale(0);
+}
+.confetti-17 {
+  background: #f59e0b;
+  top: 50%;
+  left: 50%;
+  animation-delay: 0.12s;
+  transform: translate(-50%, -50%) scale(0);
+}
+.confetti-18 {
+  background: #ef4444;
+  top: 50%;
+  left: 50%;
+  animation-delay: 0.5s;
+  transform: translate(-50%, -50%) scale(0);
+}
+.confetti-19 {
+  background: #8b5cf6;
+  top: 50%;
+  left: 50%;
+  animation-delay: 0.18s;
+  transform: translate(-50%, -50%) scale(0);
+}
+.confetti-20 {
+  background: #10b981;
+  top: 50%;
+  left: 50%;
+  animation-delay: 0.55s;
+  transform: translate(-50%, -50%) scale(0);
+}
+.confetti-21 {
+  background: #3b82f6;
+  top: 50%;
+  left: 50%;
+  animation-delay: 0.22s;
+  transform: translate(-50%, -50%) scale(0);
+}
+.confetti-22 {
+  background: #f59e0b;
+  top: 50%;
+  left: 50%;
+  animation-delay: 0.6s;
+  transform: translate(-50%, -50%) scale(0);
+}
+.confetti-23 {
+  background: #ef4444;
+  top: 50%;
+  left: 50%;
+  animation-delay: 0.28s;
+  transform: translate(-50%, -50%) scale(0);
+}
+.confetti-24 {
+  background: #8b5cf6;
+  top: 50%;
+  left: 50%;
+  animation-delay: 0.65s;
+  transform: translate(-50%, -50%) scale(0);
+}
+.confetti-25 {
+  background: #10b981;
+  top: 50%;
+  left: 50%;
+  animation-delay: 0.02s;
+  transform: translate(-50%, -50%) scale(0);
+}
+.confetti-26 {
+  background: #3b82f6;
+  top: 50%;
+  left: 50%;
+  animation-delay: 0.7s;
+  transform: translate(-50%, -50%) scale(0);
+}
+.confetti-27 {
+  background: #f59e0b;
+  top: 50%;
+  left: 50%;
+  animation-delay: 0.32s;
+  transform: translate(-50%, -50%) scale(0);
+}
+.confetti-28 {
+  background: #ef4444;
+  top: 50%;
+  left: 50%;
+  animation-delay: 0.75s;
+  transform: translate(-50%, -50%) scale(0);
+}
+.confetti-29 {
+  background: #8b5cf6;
+  top: 50%;
+  left: 50%;
+  animation-delay: 0.38s;
+  transform: translate(-50%, -50%) scale(0);
+}
+.confetti-30 {
+  background: #10b981;
+  top: 50%;
+  left: 50%;
+  animation-delay: 0.8s;
+  transform: translate(-50%, -50%) scale(0);
+}
+.confetti-31 {
+  background: #3b82f6;
+  top: 50%;
+  left: 50%;
+  animation-delay: 0.42s;
+  transform: translate(-50%, -50%) scale(0);
+}
+.confetti-32 {
+  background: #f59e0b;
+  top: 50%;
+  left: 50%;
+  animation-delay: 0.85s;
+  transform: translate(-50%, -50%) scale(0);
+}
+.confetti-33 {
+  background: #ef4444;
+  top: 50%;
+  left: 50%;
+  animation-delay: 0.48s;
+  transform: translate(-50%, -50%) scale(0);
+}
+.confetti-34 {
+  background: #8b5cf6;
+  top: 50%;
+  left: 50%;
+  animation-delay: 0.9s;
+  transform: translate(-50%, -50%) scale(0);
+}
+.confetti-35 {
+  background: #10b981;
+  top: 50%;
+  left: 50%;
+  animation-delay: 0.52s;
+  transform: translate(-50%, -50%) scale(0);
+}
+.confetti-36 {
+  background: #3b82f6;
+  top: 50%;
+  left: 50%;
+  animation-delay: 0.95s;
+  transform: translate(-50%, -50%) scale(0);
+}
 
 @keyframes confetti-fall {
   0% {
@@ -954,5 +1134,101 @@ onMounted(() => {
 .confetti-12 {
   --end-x: 200px;
   --end-y: 80px;
+}
+.confetti-13 {
+  --end-x: -320px;
+  --end-y: -180px;
+}
+.confetti-14 {
+  --end-x: 380px;
+  --end-y: 280px;
+}
+.confetti-15 {
+  --end-x: -280px;
+  --end-y: 400px;
+}
+.confetti-16 {
+  --end-x: 420px;
+  --end-y: -240px;
+}
+.confetti-17 {
+  --end-x: -360px;
+  --end-y: 200px;
+}
+.confetti-18 {
+  --end-x: 340px;
+  --end-y: 440px;
+}
+.confetti-19 {
+  --end-x: -240px;
+  --end-y: -360px;
+}
+.confetti-20 {
+  --end-x: 460px;
+  --end-y: 120px;
+}
+.confetti-21 {
+  --end-x: -320px;
+  --end-y: -280px;
+}
+.confetti-22 {
+  --end-x: 280px;
+  --end-y: 480px;
+}
+.confetti-23 {
+  --end-x: -480px;
+  --end-y: -120px;
+}
+.confetti-24 {
+  --end-x: 500px;
+  --end-y: 360px;
+}
+.confetti-25 {
+  --end-x: -400px;
+  --end-y: -200px;
+}
+.confetti-26 {
+  --end-x: 440px;
+  --end-y: 520px;
+}
+.confetti-27 {
+  --end-x: -520px;
+  --end-y: 300px;
+}
+.confetti-28 {
+  --end-x: 380px;
+  --end-y: -360px;
+}
+.confetti-29 {
+  --end-x: -300px;
+  --end-y: 560px;
+}
+.confetti-30 {
+  --end-x: 600px;
+  --end-y: 200px;
+}
+.confetti-31 {
+  --end-x: -560px;
+  --end-y: -160px;
+}
+.confetti-32 {
+  --end-x: 320px;
+  --end-y: 600px;
+}
+.confetti-33 {
+  --end-x: -480px;
+  --end-y: -400px;
+}
+.confetti-34 {
+  --end-x: 540px;
+  --end-y: 460px;
+}
+.confetti-35 {
+  --end-x: -420px;
+  --end-y: 320px;
+}
+.confetti-36 {
+  --end-x: 480px;
+  --end-y: -520px;
 }
 </style>
