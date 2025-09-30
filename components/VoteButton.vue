@@ -90,26 +90,6 @@
             <p class="text-red-300 text-sm">{{ voteError }}</p>
           </div>
 
-          <!-- Success Message -->
-          <div
-            v-if="voteSuccess"
-            class="flex items-center space-x-2 p-3 bg-green-500/20 border border-green-500/30 rounded-lg"
-          >
-            <svg
-              class="w-5 h-5 text-green-400 flex-shrink-0"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M5 13l4 4L19 7"
-              />
-            </svg>
-            <p class="text-green-300 text-sm">{{ voteSuccess }}</p>
-          </div>
 
           <div class="flex space-x-3">
             <BaseButton
@@ -210,13 +190,11 @@ const handleSubmitVote = async () => {
 
     voteSuccess.value = "Vote cast successfully!";
     
+    // Close modal immediately
+    closeVoteModal();
+    
     // Emit event to parent component
     emit('vote-cast', response);
-
-    // Close modal after 1.5 seconds
-    setTimeout(() => {
-      closeVoteModal();
-    }, 1500);
   } catch (err) {
     if (err.status === 401) {
       voteError.value = "You must be logged in to vote";
@@ -231,6 +209,7 @@ const handleSubmitVote = async () => {
     voteLoading.value = false;
   }
 };
+
 
 // Close modal on escape key
 onMounted(() => {
