@@ -41,14 +41,16 @@
           {{ error }}
         </div>
 
-        <button
+        <BaseButton
           type="submit"
           :disabled="loading"
-          class="w-full hover:cursor-pointer flex justify-center py-2 px-4 rounded-md shadow-sm text-sm font-medium text-white bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-700 hover:to-blue-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 disabled:opacity-50 disabled:cursor-not-allowed"
+          variant="primary"
+          full-width
+          class="flex justify-center"
         >
           <span v-if="loading">Signing in...</span>
           <span v-else>Sign in</span>
-        </button>
+        </BaseButton>
       </form>
 
       <div class="mt-6">

@@ -260,21 +260,23 @@
         </div>
 
         <div class="flex space-x-3">
-          <button
+          <BaseButton
             type="button"
             @click="closeChangePasswordModal"
-            class="flex-1 px-4 py-2 border border-slate-600 rounded-md text-slate-300 hover:text-white hover:bg-slate-700 transition-colors"
+            variant="outline"
+            class="flex-1"
           >
             Cancel
-          </button>
-          <button
+          </BaseButton>
+          <BaseButton
             type="submit"
             :disabled="passwordLoading"
-            class="flex-1 px-4 py-2 bg-slate-600 hover:bg-slate-700 text-white rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            variant="secondary"
+            class="flex-1"
           >
             <span v-if="passwordLoading">Changing...</span>
-            <span v-else>Change Password</span>
-          </button>
+            <span v-else">Change Password</span>
+          </BaseButton>
         </div>
       </form>
     </div>

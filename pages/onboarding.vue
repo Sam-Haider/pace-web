@@ -57,12 +57,15 @@
               </div>
             </div>
 
-            <button
+            <BaseButton
               @click="nextStep"
-              class="w-full bg-slate-600 hover:cursor-pointer hover:bg-slate-700 text-white font-semibold py-4 px-6 rounded-xl transition-all duration-200 transform hover:scale-[1.02] shadow-lg animate-fade-in-delayed-3"
+              variant="secondary"
+              size="lg"
+              full-width
+              class="shadow-lg animate-fade-in-delayed-3"
             >
               Let's Get Started
-            </button>
+            </BaseButton>
           </div>
 
           <!-- Step 2: Name Collection -->
@@ -114,22 +117,24 @@
               </div>
 
               <div class="flex space-x-3">
-                <button
+                <BaseButton
                   type="button"
                   @click="previousStep"
-                  class="flex-1 px-4 py-3 border border-slate-600 rounded-xl text-slate-300 hover:text-white hover:bg-slate-700 transition-all duration-200 hover:cursor-pointer"
+                  variant="outline"
+                  class="flex-1"
                 >
                   Back
-                </button>
-                <button
+                </BaseButton>
+                <BaseButton
                   type="submit"
                   :disabled="
                     !onboardingData.firstName || !onboardingData.lastName
                   "
-                  class="flex-1 bg-slate-600 hover:bg-slate-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none hover:cursor-pointer"
+                  variant="secondary"
+                  class="flex-1"
                 >
                   Continue
-                </button>
+                </BaseButton>
               </div>
             </form>
           </div>
@@ -255,21 +260,23 @@
             </div>
 
             <div class="flex space-x-3">
-              <button
+              <BaseButton
                 type="button"
                 @click="previousStep"
-                class="flex-1 px-4 py-3 border border-slate-600 rounded-xl text-slate-300 hover:text-white hover:bg-slate-700 transition-all duration-200 hover:cursor-pointer"
+                variant="outline"
+                class="flex-1"
               >
                 Back
-              </button>
-              <button
+              </BaseButton>
+              <BaseButton
                 @click="completeOnboarding"
                 :disabled="!onboardingData.identityId || loading"
-                class="flex-1 bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-700 hover:to-blue-900 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none hover:cursor-pointer"
+                variant="primary"
+                class="flex-1"
               >
                 <span v-if="loading">Finishing up...</span>
                 <span v-else>Complete Setup</span>
-              </button>
+              </BaseButton>
             </div>
           </div>
         </Transition>
@@ -442,12 +449,12 @@
 
           <!-- Back Button -->
           <div class="flex justify-center pt-4">
-            <button
+            <BaseButton
               @click="showResearch = false"
-              class="px-6 py-3 bg-slate-600 hover:bg-slate-700 text-white font-semibold rounded-xl transition-all duration-200 transform hover:scale-[1.02] hover:cursor-pointer"
+              variant="secondary"
             >
               Back to Identity Selection
-            </button>
+            </BaseButton>
           </div>
         </div>
       </div>
