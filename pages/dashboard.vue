@@ -215,6 +215,11 @@
           </div>
         </div>
 
+        <!-- Vote Activity Heatmap -->
+        <div v-if="recentVotes && recentVotes.length > 0" class="mb-8">
+          <VotingHeatmap :votes="recentVotes" />
+        </div>
+
         <!-- Recent Votes -->
         <div
           v-if="recentVotes && recentVotes.length > 0"
