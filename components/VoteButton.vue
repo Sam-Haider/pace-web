@@ -198,10 +198,15 @@ const emit = defineEmits(["vote-cast"]);
 
 const openVoteModal = () => {
   voteModalOpen.value = true;
-  // Reset form with today's date
-  const today = new Date().toISOString().split("T")[0];
+  // Reset form with today's date (local timezone)
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, '0');
+  const day = String(today.getDate()).padStart(2, '0');
+  const todayString = `${year}-${month}-${day}`;
+  
   voteForm.value = {
-    date: today,
+    date: todayString,
     notes: "",
   };
   voteError.value = "";
