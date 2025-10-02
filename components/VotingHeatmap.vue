@@ -13,7 +13,7 @@
             v-for="month in months"
             :key="month.name"
             class="text-xs text-slate-400 text-center"
-            :style="{ width: `${month.weeks * 13}px` }"
+            :style="{ width: `${month.weeks * 13 + 4}px` }"
           >
             {{ month.name }}
           </div>
@@ -22,7 +22,7 @@
         <!-- Days Grid -->
         <div class="flex">
           <!-- Day Labels -->
-          <div class="flex flex-col mr-2">
+          <div class="flex flex-col mr-2" style="gap: 6px;">
             <div class="h-3 text-xs text-slate-400 flex items-center">Mon</div>
             <div class="h-3"></div>
             <div class="h-3 text-xs text-slate-400 flex items-center">Wed</div>
@@ -73,14 +73,13 @@ const props = defineProps({
   },
 });
 
-// Generate year grid (53 weeks × 7 days)
+// Generate year grid (53 weeks × 7 days) - arranged by columns like GitHub
 const yearGrid = computed(() => {
   const today = new Date();
   const oneYearAgo = new Date(today);
   oneYearAgo.setFullYear(today.getFullYear() - 1);
   oneYearAgo.setDate(oneYearAgo.getDate() + 1); // Start from day after one year ago
 
-  const grid = [];
   const voteCounts = {};
 
   // Count votes per day
@@ -89,7 +88,8 @@ const yearGrid = computed(() => {
     voteCounts[dateKey] = (voteCounts[dateKey] || 0) + 1;
   });
 
-  // Generate 371 days (53 weeks × 7 days + 1 extra day)
+  // Generate days in chronological order
+  const chronologicalDays = [];
   for (let i = 0; i < 371; i++) {
     const date = new Date(oneYearAgo);
     date.setDate(date.getDate() + i);
@@ -97,11 +97,42 @@ const yearGrid = computed(() => {
     const dateKey = date.toISOString().split("T")[0];
     const voteCount = voteCounts[dateKey] || 0;
 
-    grid.push({
+    chronologicalDays.push({
       date: new Date(date),
       votes: voteCount,
       dateKey,
     });
+  }
+
+  // Create grid aligned to actual days of the week
+  const grid = [];
+  const weeks = 53;
+  const daysPerWeek = 7;
+
+  // Create a 2D array: [week][dayOfWeek] where dayOfWeek: 0=Sunday, 1=Monday, etc.
+  const weekGrid = Array(weeks).fill(null).map(() => Array(daysPerWeek).fill(null));
+  
+  // Fill the 2D array, placing each day in the correct day-of-week slot
+  chronologicalDays.forEach((dayData) => {
+    // Calculate which week this day belongs to (from start date)
+    const daysSinceStart = Math.floor((dayData.date - oneYearAgo) / (24 * 60 * 60 * 1000));
+    const week = Math.floor(daysSinceStart / 7);
+    
+    // Get the actual day of the week for this date (0=Sunday, 1=Monday, etc.)
+    const dayOfWeek = dayData.date.getDay();
+    
+    if (week >= 0 && week < weeks) {
+      weekGrid[week][dayOfWeek] = dayData;
+    }
+  });
+
+  // Flatten in row-major order for CSS grid (Monday=0, Tuesday=1, etc. in our display)
+  // But adjust to start with Monday as row 0
+  const dayOrder = [1, 2, 3, 4, 5, 6, 0]; // Mon, Tue, Wed, Thu, Fri, Sat, Sun
+  for (const dayOfWeek of dayOrder) {
+    for (let week = 0; week < weeks; week++) {
+      grid.push(weekGrid[week][dayOfWeek]);
+    }
   }
 
   return grid;
