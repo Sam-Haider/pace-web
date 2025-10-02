@@ -47,12 +47,16 @@
       <line
         x1="100"
         y1="100"
-        :x2="pointerX"
-        :y2="pointerY"
+        x2="170"
+        y2="100"
         :stroke="colors.pointer"
         stroke-width="3"
         stroke-linecap="round"
         class="transition-all duration-1000 ease-out"
+        :style="{
+          transform: `rotate(${pointerAngle}deg)`,
+          transformOrigin: '100px 100px'
+        }"
       />
     </svg>
 
