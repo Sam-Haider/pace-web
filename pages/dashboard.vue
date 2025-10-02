@@ -515,16 +515,22 @@ const calculateStats = (votes) => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    // Get unique dates and sort by date desc
+    // Get unique dates, filter out future dates, and sort by date desc
     const uniqueDates = [
       ...new Set(
-        votes.map((vote) => {
-          const date = new Date(vote.date);
-          date.setHours(0, 0, 0, 0);
-          return date.getTime();
-        })
+        votes
+          .map((vote) => {
+            // Parse date safely to avoid timezone issues
+            const dateOnly = vote.date.split('T')[0]; // Get just YYYY-MM-DD part
+            const [year, month, day] = dateOnly.split('-');
+            const date = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+            date.setHours(0, 0, 0, 0);
+            return date.getTime();
+          })
+          .filter((dateTime) => dateTime <= today.getTime()) // Only include today or past dates
       ),
     ].sort((a, b) => b - a);
+
 
     if (uniqueDates.length > 0) {
       const latestVoteDate = new Date(uniqueDates[0]);
@@ -664,20 +670,13 @@ const handleVoteCast = (response) => {
   }, 5500);
 
   // Delay stats update to create rolling effect - longer delay for better visibility
-  setTimeout(() => {
+  setTimeout(async () => {
     const oldStats = { ...voteStats.value };
 
-    // Update stats (either from response or recalculate)
-    if (response.stats) {
-      voteStats.value = response.stats;
-    } else {
-      // Fallback: recalculate stats
-      const allVotes = [response.vote, ...recentVotes.value.slice(1)];
-      voteStats.value = calculateStats(allVotes);
-    }
+    // Always refetch votes to ensure correct calculation
+    await fetchVotes();
 
-    // Show celebration indicators
-
+    // Show celebration indicators only after stats are properly updated
     if (voteStats.value.currentStreak > oldStats.currentStreak) {
       showStreakText.value = true;
       setTimeout(() => {
@@ -689,7 +688,20 @@ const handleVoteCast = (response) => {
 
 // Date formatting functions
 const formatDate = (dateString) => {
-  const date = new Date(dateString);
+  if (!dateString) return "Invalid Date";
+  
+  // Handle full ISO date strings (e.g., "2025-10-02T00:00:00.000Z")
+  const dateOnly = dateString.split('T')[0];
+  
+  // Parse as local date to avoid timezone issues
+  const [year, month, day] = dateOnly.split('-');
+  
+  if (!year || !month || !day) return "Invalid Date";
+  
+  const date = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+  
+  if (isNaN(date.getTime())) return "Invalid Date";
+  
   return date.toLocaleDateString("en-US", {
     weekday: "long",
     year: "numeric",
