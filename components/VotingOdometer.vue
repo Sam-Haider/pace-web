@@ -37,10 +37,10 @@
       <circle
         cx="100"
         cy="100"
-        r="12"
+        r="6"
         :fill="colors.center"
         :stroke="colors.centerBorder"
-        stroke-width="2"
+        stroke-width="1"
       />
 
       <!-- Pointer -->
