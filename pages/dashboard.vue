@@ -175,7 +175,7 @@
         <!-- Top Row: 7-Day Pace + Heatmap -->
         <div
           v-if="voteStats"
-          class="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-6"
+          class="grid grid-cols-1 lg:grid-cols-5 gap-6 mb-6"
         >
           <!-- 7-Day Activity with Odometer (Narrower) -->
           <div class="lg:col-span-1 bg-slate-800 rounded-xl p-6">
@@ -200,7 +200,7 @@
           <!-- Vote Activity Heatmap (Takes remaining space) -->
           <div
             v-if="recentVotes && recentVotes.length > 0"
-            class="lg:col-span-3 flex items-end"
+            class="lg:col-span-4 flex items-end"
           >
             <VotingHeatmap :votes="recentVotes" />
           </div>
