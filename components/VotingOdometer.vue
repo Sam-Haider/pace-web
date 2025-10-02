@@ -22,17 +22,15 @@
         :stroke="colors.green"
         stroke-width="8"
         stroke-linecap="round"
-        opacity="0.4"
       />
 
       <!-- Red Zone (5-7 days = 2/7 of total) -->
       <path
         :d="redZoneArc"
         fill="none"
-        :stroke="colors.red"
+        :stroke="currentRedZoneColor"
         stroke-width="8"
         stroke-linecap="round"
-        opacity="0.4"
       />
 
       <!-- Center Circle -->
@@ -87,12 +85,12 @@ const props = defineProps({
 const colorSchemes = {
   amber: {
     background: "#374151", // slate-700
-    green: "#10b981", // emerald-500
+    green: "#34d399", // emerald-400 (matches text-emerald-400)
     amber: "#f59e0b", // amber-500
-    red: "#ef4444", // red-500
+    red: "#f87171", // red-400 exact match
     center: "#1f2937", // gray-800
     centerBorder: "#6b7280", // gray-500
-    pointer: "#f59e0b", // amber-500
+    pointer: "#ffffff", // white pointer
   },
   blue: {
     background: "#374151",
@@ -174,6 +172,10 @@ const currentZoneColor = computed(() => {
 const textColorClass = computed(() => {
   if (props.activeDays <= 5) return "text-emerald-400";
   return "text-red-400";
+});
+
+const currentRedZoneColor = computed(() => {
+  return colors.value.red; // red-400 (matches text-red-400)
 });
 
 const warningTextClass = computed(() => {
