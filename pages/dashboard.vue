@@ -562,7 +562,10 @@ const calculateStats = (votes) => {
   const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
 
   const votesThisMonth = votes.filter((vote) => {
-    const voteDate = new Date(vote.date);
+    // Parse date safely to avoid timezone issues
+    const dateOnly = vote.date.split('T')[0];
+    const [year, month, day] = dateOnly.split('-');
+    const voteDate = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
     return voteDate >= startOfMonth && voteDate <= endOfMonth;
   }).length;
 
