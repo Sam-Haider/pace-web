@@ -6,16 +6,21 @@
     <div class="overflow-x-auto">
       <div class="min-w-max">
         <!-- Month Labels -->
-        <div class="flex mb-2">
+        <div class="flex mb-5 relative">
           <div class="w-8"></div>
           <!-- Spacer for day labels -->
-          <div
-            v-for="month in months"
-            :key="month.name"
-            class="text-xs text-slate-400 text-center"
-            :style="{ width: `${month.weeks * 13 + 4}px` }"
-          >
-            {{ month.name }}
+          <div class="relative" style="width: calc(53 * 12px + 52 * 4px);">
+            <div
+              v-for="month in months"
+              :key="month.name"
+              class="absolute text-xs text-slate-400 text-center"
+              :style="{ 
+                left: `${month.offset * (12 + 4)}px`,
+                width: `${month.weeks * 12 + (month.weeks - 1) * 4}px`
+              }"
+            >
+              {{ month.name }}
+            </div>
           </div>
         </div>
 
@@ -142,29 +147,47 @@ const yearGrid = computed(() => {
 const months = computed(() => {
   const monthData = [];
   let currentMonth = -1;
-  let weekCount = 0;
+  let currentMonthWeeks = 0;
+  let weekOffset = 0; // Track position offset for each month
+
+  // Get the starting date for month calculation
+  const today = new Date();
+  const oneYearAgo = new Date(today);
+  oneYearAgo.setFullYear(today.getFullYear() - 1);
+  oneYearAgo.setDate(oneYearAgo.getDate() + 1);
 
   for (let week = 0; week < 53; week++) {
-    const weekDate = new Date(yearGrid.value[week * 7]?.date || new Date());
-    const month = weekDate.getMonth();
+    // Calculate the date for the start of this week
+    const weekStart = new Date(oneYearAgo);
+    weekStart.setDate(weekStart.getDate() + (week * 7));
+    const month = weekStart.getMonth();
 
     if (month !== currentMonth) {
-      if (weekCount > 0) {
-        monthData[monthData.length - 1].weeks = weekCount;
+      // Finish the previous month
+      if (currentMonthWeeks > 0) {
+        monthData[monthData.length - 1].weeks = currentMonthWeeks;
+        monthData[monthData.length - 1].offset = weekOffset;
       }
+      
+      // Start new month
       monthData.push({
-        name: weekDate.toLocaleDateString("en-US", { month: "short" }),
+        name: weekStart.toLocaleDateString("en-US", { month: "short" }),
         weeks: 0,
+        offset: week, // This month starts at this week position
       });
       currentMonth = month;
-      weekCount = 0;
+      currentMonthWeeks = 0;
+      weekOffset = week;
     }
-    weekCount++;
+    currentMonthWeeks++;
   }
 
   // Set weeks for last month
   if (monthData.length > 0) {
-    monthData[monthData.length - 1].weeks = weekCount;
+    monthData[monthData.length - 1].weeks = currentMonthWeeks;
+    if (!monthData[monthData.length - 1].offset) {
+      monthData[monthData.length - 1].offset = weekOffset;
+    }
   }
 
   return monthData;
