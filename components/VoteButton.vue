@@ -78,13 +78,14 @@
               for="voteDate"
               class="block text-sm font-medium text-slate-300 mb-2"
             >
-              Date (optional)
+              Date
             </label>
             <input
-              id="voteDate"
               v-model="voteForm.date"
               type="date"
-              class="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-md text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-slate-500"
+              required
+              class="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-md text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 hover:cursor-pointer [color-scheme:dark]"
+              style="color-scheme: dark"
             />
           </div>
 
@@ -93,7 +94,7 @@
               for="voteNotes"
               class="block text-sm font-medium text-slate-300 mb-2"
             >
-              Notes (optional)
+              Notes
             </label>
             <textarea
               id="voteNotes"
@@ -197,9 +198,10 @@ const emit = defineEmits(["vote-cast"]);
 
 const openVoteModal = () => {
   voteModalOpen.value = true;
-  // Reset form
+  // Reset form with today's date
+  const today = new Date().toISOString().split("T")[0];
   voteForm.value = {
-    date: "",
+    date: today,
     notes: "",
   };
   voteError.value = "";
