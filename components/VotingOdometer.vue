@@ -15,48 +15,24 @@
         stroke-linecap="round"
       />
 
-      <!-- Green Zone (0-4 days) -->
+      <!-- Green Zone (0-5 days = 5/7 of total) -->
       <path
         :d="greenZoneArc"
         fill="none"
         :stroke="colors.green"
         stroke-width="8"
         stroke-linecap="round"
-        opacity="0.3"
-      />
-
-      <!-- Orange/Amber Zone (4-5 days) -->
-      <path
-        :d="amberZoneArc"
-        fill="none"
-        :stroke="colors.amber"
-        stroke-width="8"
-        stroke-linecap="round"
         opacity="0.4"
       />
 
-      <!-- Red Zone (5-7 days) -->
+      <!-- Red Zone (5-7 days = 2/7 of total) -->
       <path
         :d="redZoneArc"
         fill="none"
         :stroke="colors.red"
         stroke-width="8"
         stroke-linecap="round"
-        opacity="0.3"
-      />
-
-      <!-- Active Progress Arc -->
-      <path
-        :d="progressArc"
-        fill="none"
-        :stroke="currentZoneColor"
-        stroke-width="10"
-        stroke-linecap="round"
-        class="transition-all duration-1000 ease-out"
-        :style="{
-          strokeDasharray: `${progressLength} 1000`,
-          strokeDashoffset: 0,
-        }"
+        opacity="0.4"
       />
 
       <!-- Center Circle -->
@@ -79,32 +55,14 @@
         stroke-width="3"
         stroke-linecap="round"
         class="transition-all duration-1000 ease-out"
-        :style="{
-          transform: `rotate(${pointerAngle}deg)`,
-          transformOrigin: '100px 100px',
-        }"
-      />
-
-      <!-- Pointer Tip -->
-      <circle
-        :cx="pointerX"
-        :cy="pointerY"
-        r="4"
-        :fill="colors.pointer"
-        class="transition-all duration-1000 ease-out"
-        :style="{
-          transform: `rotate(${pointerAngle}deg)`,
-          transformOrigin: '100px 100px',
-        }"
       />
     </svg>
 
-
     <!-- Zone Warning Text -->
-    <div class="absolute -bottom-6 left-0 right-0 text-center">
+    <div class="absolute -bottom-0 left-0 right-0 text-center">
       <div
         v-if="activeDays >= 6"
-        :class="['text-xs font-medium', warningTextClass]"
+        :class="['text-sm font-bold', warningTextClass]"
       >
         {{ warningMessage }}
       </div>
@@ -164,9 +122,9 @@ const colors = computed(
 const radius = 70;
 const centerX = 100;
 const centerY = 100;
-const startAngle = 135; // Start at bottom left (8 o'clock position)
-const endAngle = 135 + 270; // End at bottom right (4 o'clock position)
-const totalAngle = 270;
+const startAngle = -210; // Start between 7-8 o'clock position
+const endAngle = -210 + 240; // Adjust to match actual red zone end
+const totalAngle = 240;
 
 // Helper function to create arc path
 const createArc = (startDeg, endDeg) => {
@@ -185,64 +143,44 @@ const createArc = (startDeg, endDeg) => {
 
 // Arc paths for different zones
 const backgroundArc = computed(() => createArc(startAngle, endAngle));
+const greenZoneEndAngle = computed(() => startAngle + (5 / 7) * totalAngle);
 const greenZoneArc = computed(() =>
-  createArc(startAngle, startAngle + (4 / 7) * totalAngle)
+  createArc(startAngle, greenZoneEndAngle.value)
 );
-const amberZoneArc = computed(() =>
-  createArc(
-    startAngle + (4 / 7) * totalAngle,
-    startAngle + (5 / 7) * totalAngle
-  )
-);
-const redZoneArc = computed(() =>
-  createArc(startAngle + (5 / 7) * totalAngle, endAngle)
-);
+const redZoneArc = computed(() => createArc(greenZoneEndAngle.value, endAngle));
 
-// Progress arc based on active days
-const progressArc = computed(() => {
-  const progressAngle = (props.activeDays / 7) * totalAngle;
-  return createArc(startAngle, startAngle + progressAngle);
-});
-
-const progressLength = computed(() => {
-  const progressAngle = (props.activeDays / 7) * totalAngle;
-  return (progressAngle / 360) * (2 * Math.PI * radius);
-});
-
-// Pointer calculations
+// Simple pointer calculation - just position based on activeDays
 const pointerAngle = computed(() => {
-  return startAngle + (props.activeDays / 7) * totalAngle;
+  const ratio = props.activeDays / 7;
+  return startAngle + ratio * totalAngle;
 });
 
 const pointerX = computed(() => {
   const angle = (pointerAngle.value * Math.PI) / 180;
-  return centerX + (radius - 15) * Math.cos(angle);
+  return centerX + radius * Math.cos(angle);
 });
 
 const pointerY = computed(() => {
   const angle = (pointerAngle.value * Math.PI) / 180;
-  return centerY + (radius - 15) * Math.sin(angle);
+  return centerY + radius * Math.sin(angle);
 });
 
 // Dynamic colors based on current value
 const currentZoneColor = computed(() => {
-  if (props.activeDays <= 4) return colors.value.green;
-  if (props.activeDays <= 5) return colors.value.amber;
+  if (props.activeDays <= 5) return colors.value.green;
   return colors.value.red;
 });
 
 const textColorClass = computed(() => {
-  if (props.activeDays <= 4) return "text-emerald-400";
-  if (props.activeDays <= 5) return "text-amber-400";
+  if (props.activeDays <= 5) return "text-emerald-400";
   return "text-red-400";
 });
 
 const warningTextClass = computed(() => {
-  if (props.activeDays <= 5) return "text-amber-400";
   return "text-red-400";
 });
 
 const warningMessage = computed(() => {
-  return "Pace yourself";
+  return "Pace Yourself";
 });
 </script>

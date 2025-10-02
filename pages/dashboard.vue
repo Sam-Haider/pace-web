@@ -212,7 +212,7 @@
 
           <div class="bg-slate-800 rounded-xl p-6">
             <h3 class="text-lg font-semibold text-white mb-2">7-Day Activity</h3>
-            <p :class="['text-3xl font-bold', voteStats.activeDaysLast7 <= 4 ? 'text-emerald-400' : voteStats.activeDaysLast7 <= 5 ? 'text-amber-400' : 'text-red-400']">
+            <p :class="['text-3xl font-bold', voteStats.activeDaysLast7 <= 5 ? 'text-emerald-400' : 'text-red-400']">
               <AnimatedNumber :value="voteStats.activeDaysLast7" />
             </p>
             <p class="text-sm text-slate-400 mb-4">days</p>
@@ -821,10 +821,8 @@ const handleUpdateVote = async () => {
       recentVotes.value[voteIndex] = response.vote;
     }
 
-    // Update stats
-    if (response.stats) {
-      voteStats.value = response.stats;
-    }
+    // Refresh stats by refetching votes
+    await fetchVotes();
 
     // Close modal after 1.5 seconds
     setTimeout(() => {
@@ -875,10 +873,8 @@ const handleDeleteVote = async () => {
       (v) => v.id !== currentEditingVote.value.id
     );
 
-    // Update stats
-    if (response.stats) {
-      voteStats.value = response.stats;
-    }
+    // Refresh stats by refetching votes
+    await fetchVotes();
 
     // Close modal after 1.5 seconds
     setTimeout(() => {
