@@ -175,16 +175,10 @@
         <!-- Vote Statistics -->
         <div
           v-if="voteStats"
-          class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"
+          class="grid grid-cols-1 lg:grid-cols-6 gap-6 mb-8"
         >
-          <div class="bg-slate-800 rounded-xl p-6 relative overflow-hidden">
-            <h3 class="text-lg font-semibold text-white mb-2">Total Votes</h3>
-            <p class="text-3xl font-bold text-blue-400">
-              <AnimatedNumber :value="voteStats.totalVotes" />
-            </p>
-          </div>
-
-          <div class="bg-slate-800 rounded-xl p-6">
+          <!-- 7-Day Activity with Odometer -->
+          <div class="lg:col-span-1 bg-slate-800 rounded-xl p-6">
             <h3 class="text-lg font-semibold text-white mb-2">7-Day Activity</h3>
             <p :class="['text-3xl font-bold', voteStats.activeDaysLast7 <= 5 ? 'text-emerald-400' : 'text-red-400']">
               <AnimatedNumber :value="voteStats.activeDaysLast7" />
@@ -196,15 +190,24 @@
             />
           </div>
 
-          <div class="bg-slate-800 rounded-xl p-6 relative overflow-hidden">
-            <h3 class="text-lg font-semibold text-white mb-2">
-              Current Streak
-            </h3>
+          <!-- Vote Activity Heatmap -->
+          <div v-if="recentVotes && recentVotes.length > 0" class="lg:col-span-4 flex items-center justify-center">
+            <VotingHeatmap :votes="recentVotes" />
+          </div>
+
+          <!-- Key Metrics -->
+          <div class="lg:col-span-1 bg-slate-800 rounded-xl p-6 relative overflow-hidden">
+            <h3 class="text-lg font-semibold text-white mb-2">Lifetime Votes</h3>
+            <p class="text-3xl font-bold text-blue-400 mb-4">
+              <AnimatedNumber :value="voteStats.totalVotes" />
+            </p>
+            
+            <h3 class="text-lg font-semibold text-white mb-2">Week Streak</h3>
             <p class="text-3xl font-bold text-green-400 flex items-center">
-              <span v-if="voteStats.currentStreak > 7" class="mr-2">🔥</span>
+              <span v-if="voteStats.currentStreak > 4" class="mr-2">🔥</span>
               <AnimatedNumber :value="voteStats.currentStreak" />
             </p>
-            <p class="text-sm text-slate-400">days</p>
+            <p class="text-sm text-slate-400">weeks</p>
             <!-- Streak celebration -->
             <div
               v-if="showStreakText"
@@ -213,11 +216,6 @@
               Streak!
             </div>
           </div>
-        </div>
-
-        <!-- Vote Activity Heatmap -->
-        <div v-if="recentVotes && recentVotes.length > 0" class="mb-8">
-          <VotingHeatmap :votes="recentVotes" />
         </div>
 
         <!-- Recent Votes -->
@@ -518,48 +516,60 @@ const deleteMode = ref(false);
 const calculateStats = (votes) => {
   const totalVotes = votes.length;
 
-  // Calculate current streak
+  // Calculate current week streak (weeks in a row with at least one vote)
   let currentStreak = 0;
   if (votes.length > 0) {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    // Get unique dates, filter out future dates, and sort by date desc
-    const uniqueDates = [
-      ...new Set(
-        votes
-          .map((vote) => {
-            // Parse date safely to avoid timezone issues
-            const dateOnly = vote.date.split('T')[0]; // Get just YYYY-MM-DD part
-            const [year, month, day] = dateOnly.split('-');
-            const date = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
-            date.setHours(0, 0, 0, 0);
-            return date.getTime();
-          })
-          .filter((dateTime) => dateTime <= today.getTime()) // Only include today or past dates
-      ),
-    ].sort((a, b) => b - a);
+    // Get week start for each vote date
+    const weekStarts = new Set();
+    votes.forEach((vote) => {
+      // Parse date safely to avoid timezone issues
+      const dateOnly = vote.date.split('T')[0]; // Get just YYYY-MM-DD part
+      const [year, month, day] = dateOnly.split('-');
+      const voteDate = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+      voteDate.setHours(0, 0, 0, 0);
+      
+      // Skip future dates
+      if (voteDate.getTime() > today.getTime()) return;
+      
+      // Get Monday of the week (week start)
+      const weekStart = new Date(voteDate);
+      const dayOfWeek = weekStart.getDay();
+      const daysToMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1; // Sunday = 0, Monday = 1
+      weekStart.setDate(weekStart.getDate() - daysToMonday);
+      weekStart.setHours(0, 0, 0, 0);
+      
+      weekStarts.add(weekStart.getTime());
+    });
 
-
-    if (uniqueDates.length > 0) {
-      const latestVoteDate = new Date(uniqueDates[0]);
-      const yesterday = new Date(today);
-      yesterday.setDate(yesterday.getDate() - 1);
-
-      // Check if latest vote is today or yesterday
-      if (
-        latestVoteDate.getTime() === today.getTime() ||
-        latestVoteDate.getTime() === yesterday.getTime()
-      ) {
-        let expectedDate = latestVoteDate.getTime();
-
-        for (const dateTime of uniqueDates) {
-          if (dateTime === expectedDate) {
-            currentStreak++;
-            expectedDate -= 24 * 60 * 60 * 1000; // subtract one day
-          } else {
-            break;
-          }
+    if (weekStarts.size > 0) {
+      // Sort weeks in descending order (most recent first)
+      const sortedWeeks = Array.from(weekStarts).sort((a, b) => b - a);
+      
+      // Get current week start
+      const currentWeekStart = new Date(today);
+      const dayOfWeek = currentWeekStart.getDay();
+      const daysToMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+      currentWeekStart.setDate(currentWeekStart.getDate() - daysToMonday);
+      currentWeekStart.setHours(0, 0, 0, 0);
+      
+      // Check for consecutive weeks starting from current or last week
+      let expectedWeekStart = currentWeekStart.getTime();
+      
+      // If current week has no votes, start from last week
+      if (!weekStarts.has(expectedWeekStart)) {
+        expectedWeekStart -= 7 * 24 * 60 * 60 * 1000; // Go back one week
+      }
+      
+      // Count consecutive weeks
+      for (const weekTime of sortedWeeks) {
+        if (weekTime === expectedWeekStart) {
+          currentStreak++;
+          expectedWeekStart -= 7 * 24 * 60 * 60 * 1000; // Go back one week
+        } else {
+          break;
         }
       }
     }

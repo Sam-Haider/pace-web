@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-slate-800 rounded-xl p-6">
+  <div class="w-full bg-slate-800 rounded-xl p-6">
     <h3 class="text-lg font-semibold text-white mb-4">Vote Activity</h3>
     
     <!-- Heatmap Container -->
@@ -39,7 +39,7 @@
         </div>
         
         <!-- Legend -->
-        <div class="flex items-center justify-end mt-4 text-xs text-slate-400">
+        <div class="flex items-center justify-start mt-4 text-xs text-slate-400">
           <span class="mr-2">Less</span>
           <div class="flex gap-1">
             <div class="w-2.5 h-2.5 bg-slate-700 rounded-sm"></div>
