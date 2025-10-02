@@ -172,36 +172,50 @@
           </div>
         </div>
 
-        <!-- Vote Statistics -->
+        <!-- Top Row: 7-Day Pace + Heatmap -->
         <div
           v-if="voteStats"
-          class="grid grid-cols-1 lg:grid-cols-6 gap-6 mb-8"
+          class="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-6"
         >
-          <!-- 7-Day Activity with Odometer -->
+          <!-- 7-Day Activity with Odometer (Narrower) -->
           <div class="lg:col-span-1 bg-slate-800 rounded-xl p-6">
-            <h3 class="text-lg font-semibold text-white mb-2">7-Day Activity</h3>
-            <p :class="['text-3xl font-bold', voteStats.activeDaysLast7 <= 5 ? 'text-emerald-400' : 'text-red-400']">
+            <h3 class="text-lg font-semibold text-white mb-2">7-Day Pace</h3>
+            <p
+              :class="[
+                'text-3xl font-bold',
+                voteStats.activeDaysLast7 <= 5
+                  ? 'text-emerald-400'
+                  : 'text-red-400',
+              ]"
+            >
               <AnimatedNumber :value="voteStats.activeDaysLast7" />
             </p>
-            <p class="text-sm text-slate-400 mb-4">days</p>
-            <VotingOdometer 
-              :active-days="voteStats.activeDaysLast7" 
+            <p class="text-sm text-slate-400">days</p>
+            <VotingOdometer
+              :active-days="voteStats.activeDaysLast7"
               color-scheme="amber"
             />
           </div>
 
-          <!-- Vote Activity Heatmap -->
-          <div v-if="recentVotes && recentVotes.length > 0" class="lg:col-span-4 flex items-center justify-center">
+          <!-- Vote Activity Heatmap (Takes remaining space) -->
+          <div
+            v-if="recentVotes && recentVotes.length > 0"
+            class="lg:col-span-3 flex items-end"
+          >
             <VotingHeatmap :votes="recentVotes" />
           </div>
+        </div>
 
-          <!-- Key Metrics -->
-          <div class="lg:col-span-1 bg-slate-800 rounded-xl p-6 relative overflow-hidden">
-            <h3 class="text-lg font-semibold text-white mb-2">Lifetime Votes</h3>
+        <!-- Bottom Row: Lifetime Votes -->
+        <div v-if="voteStats" class="mb-8">
+          <div class="bg-slate-800 rounded-xl p-6 relative overflow-hidden">
+            <h3 class="text-lg font-semibold text-white mb-2">
+              Lifetime Votes
+            </h3>
             <p class="text-3xl font-bold text-blue-400 mb-4">
               <AnimatedNumber :value="voteStats.totalVotes" />
             </p>
-            
+
             <h3 class="text-lg font-semibold text-white mb-2">Week Streak</h3>
             <p class="text-3xl font-bold text-green-400 flex items-center">
               <span v-if="voteStats.currentStreak > 4" class="mr-2">🔥</span>
@@ -526,43 +540,47 @@ const calculateStats = (votes) => {
     const weekStarts = new Set();
     votes.forEach((vote) => {
       // Parse date safely to avoid timezone issues
-      const dateOnly = vote.date.split('T')[0]; // Get just YYYY-MM-DD part
-      const [year, month, day] = dateOnly.split('-');
-      const voteDate = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+      const dateOnly = vote.date.split("T")[0]; // Get just YYYY-MM-DD part
+      const [year, month, day] = dateOnly.split("-");
+      const voteDate = new Date(
+        parseInt(year),
+        parseInt(month) - 1,
+        parseInt(day)
+      );
       voteDate.setHours(0, 0, 0, 0);
-      
+
       // Skip future dates
       if (voteDate.getTime() > today.getTime()) return;
-      
+
       // Get Monday of the week (week start)
       const weekStart = new Date(voteDate);
       const dayOfWeek = weekStart.getDay();
       const daysToMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1; // Sunday = 0, Monday = 1
       weekStart.setDate(weekStart.getDate() - daysToMonday);
       weekStart.setHours(0, 0, 0, 0);
-      
+
       weekStarts.add(weekStart.getTime());
     });
 
     if (weekStarts.size > 0) {
       // Sort weeks in descending order (most recent first)
       const sortedWeeks = Array.from(weekStarts).sort((a, b) => b - a);
-      
+
       // Get current week start
       const currentWeekStart = new Date(today);
       const dayOfWeek = currentWeekStart.getDay();
       const daysToMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
       currentWeekStart.setDate(currentWeekStart.getDate() - daysToMonday);
       currentWeekStart.setHours(0, 0, 0, 0);
-      
+
       // Check for consecutive weeks starting from current or last week
       let expectedWeekStart = currentWeekStart.getTime();
-      
+
       // If current week has no votes, start from last week
       if (!weekStarts.has(expectedWeekStart)) {
         expectedWeekStart -= 7 * 24 * 60 * 60 * 1000; // Go back one week
       }
-      
+
       // Count consecutive weeks
       for (const weekTime of sortedWeeks) {
         if (weekTime === expectedWeekStart) {
@@ -582,9 +600,13 @@ const calculateStats = (votes) => {
 
   const votesThisMonth = votes.filter((vote) => {
     // Parse date safely to avoid timezone issues
-    const dateOnly = vote.date.split('T')[0];
-    const [year, month, day] = dateOnly.split('-');
-    const voteDate = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+    const dateOnly = vote.date.split("T")[0];
+    const [year, month, day] = dateOnly.split("-");
+    const voteDate = new Date(
+      parseInt(year),
+      parseInt(month) - 1,
+      parseInt(day)
+    );
     return voteDate >= startOfMonth && voteDate <= endOfMonth;
   }).length;
 
@@ -598,11 +620,15 @@ const calculateStats = (votes) => {
     last7Days.push(date.getTime());
   }
 
-  const activeDaysLast7 = last7Days.filter(dayTime => {
-    return votes.some(vote => {
-      const dateOnly = vote.date.split('T')[0];
-      const [year, month, day] = dateOnly.split('-');
-      const voteDate = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+  const activeDaysLast7 = last7Days.filter((dayTime) => {
+    return votes.some((vote) => {
+      const dateOnly = vote.date.split("T")[0];
+      const [year, month, day] = dateOnly.split("-");
+      const voteDate = new Date(
+        parseInt(year),
+        parseInt(month) - 1,
+        parseInt(day)
+      );
       voteDate.setHours(0, 0, 0, 0);
       return voteDate.getTime() === dayTime;
     });
@@ -732,19 +758,19 @@ const handleVoteCast = (response) => {
 // Date formatting functions
 const formatDate = (dateString) => {
   if (!dateString) return "Invalid Date";
-  
+
   // Handle full ISO date strings (e.g., "2025-10-02T00:00:00.000Z")
-  const dateOnly = dateString.split('T')[0];
-  
+  const dateOnly = dateString.split("T")[0];
+
   // Parse as local date to avoid timezone issues
-  const [year, month, day] = dateOnly.split('-');
-  
+  const [year, month, day] = dateOnly.split("-");
+
   if (!year || !month || !day) return "Invalid Date";
-  
+
   const date = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
-  
+
   if (isNaN(date.getTime())) return "Invalid Date";
-  
+
   return date.toLocaleDateString("en-US", {
     weekday: "long",
     year: "numeric",

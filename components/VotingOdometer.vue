@@ -1,5 +1,5 @@
 <template>
-  <div class="relative w-48 h-48 mx-auto">
+  <div class="relative w-34 h-34 mx-auto">
     <!-- SVG Gauge -->
     <svg
       class="w-full h-full"
@@ -55,7 +55,7 @@
         class="transition-all duration-1000 ease-out"
         :style="{
           transform: `rotate(${pointerAngle}deg)`,
-          transformOrigin: '100px 100px'
+          transformOrigin: '100px 100px',
         }"
       />
     </svg>
