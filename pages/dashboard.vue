@@ -209,19 +209,32 @@
         <!-- Bottom Row: Lifetime Votes -->
         <div v-if="voteStats" class="mb-8">
           <div class="bg-slate-800 rounded-xl p-6 relative overflow-hidden">
-            <h3 class="text-lg font-semibold text-white mb-2">
-              Lifetime Votes
-            </h3>
-            <p class="text-3xl font-bold text-blue-400 mb-4">
-              <AnimatedNumber :value="voteStats.totalVotes" />
-            </p>
+            <div class="flex flex-col md:flex-row md:gap-8">
+              <!-- Week Streak -->
+              <div class="flex-shrink-0 flex-grow-0">
+                <h3 class="text-lg font-semibold text-white mb-2">
+                  Week Streak
+                </h3>
+                <p class="text-3xl font-bold text-green-400 flex items-center">
+                  <span v-if="voteStats.currentStreak > 4" class="mr-2"
+                    >🔥</span
+                  >
+                  <AnimatedNumber :value="voteStats.currentStreak" />
+                </p>
+                <p class="text-sm text-slate-400">weeks</p>
+              </div>
 
-            <h3 class="text-lg font-semibold text-white mb-2">Week Streak</h3>
-            <p class="text-3xl font-bold text-green-400 flex items-center">
-              <span v-if="voteStats.currentStreak > 4" class="mr-2">🔥</span>
-              <AnimatedNumber :value="voteStats.currentStreak" />
-            </p>
-            <p class="text-sm text-slate-400">weeks</p>
+              <!-- Lifetime Votes -->
+              <div class="flex-shrink-0 flex-grow-0">
+                <h3 class="text-lg font-semibold text-white mb-2">
+                  Lifetime Votes
+                </h3>
+                <p class="text-3xl font-bold text-blue-400">
+                  <AnimatedNumber :value="voteStats.totalVotes" />
+                </p>
+              </div>
+            </div>
+
             <!-- Streak celebration -->
             <div
               v-if="showStreakText"
