@@ -175,7 +175,7 @@
         <!-- Vote Statistics -->
         <div
           v-if="voteStats"
-          class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"
+          class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8"
         >
           <div class="bg-slate-800 rounded-xl p-6 relative overflow-hidden">
             <h3 class="text-lg font-semibold text-white mb-2">Total Votes</h3>
@@ -208,6 +208,18 @@
               <AnimatedNumber :value="voteStats.votesThisMonth" />
             </p>
             <p class="text-sm text-slate-400">votes</p>
+          </div>
+
+          <div class="bg-slate-800 rounded-xl p-6">
+            <h3 class="text-lg font-semibold text-white mb-2">7-Day Activity</h3>
+            <p :class="['text-3xl font-bold', voteStats.activeDaysLast7 <= 4 ? 'text-emerald-400' : voteStats.activeDaysLast7 <= 5 ? 'text-amber-400' : 'text-red-400']">
+              <AnimatedNumber :value="voteStats.activeDaysLast7" />
+            </p>
+            <p class="text-sm text-slate-400 mb-4">days</p>
+            <VotingOdometer 
+              :active-days="voteStats.activeDaysLast7" 
+              color-scheme="amber"
+            />
           </div>
         </div>
 
@@ -569,10 +581,31 @@ const calculateStats = (votes) => {
     return voteDate >= startOfMonth && voteDate <= endOfMonth;
   }).length;
 
+  // Calculate active days in last 7 days
+  const last7Days = [];
+  const today = new Date();
+  for (let i = 0; i < 7; i++) {
+    const date = new Date(today);
+    date.setDate(date.getDate() - i);
+    date.setHours(0, 0, 0, 0);
+    last7Days.push(date.getTime());
+  }
+
+  const activeDaysLast7 = last7Days.filter(dayTime => {
+    return votes.some(vote => {
+      const dateOnly = vote.date.split('T')[0];
+      const [year, month, day] = dateOnly.split('-');
+      const voteDate = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+      voteDate.setHours(0, 0, 0, 0);
+      return voteDate.getTime() === dayTime;
+    });
+  }).length;
+
   return {
     totalVotes,
     currentStreak,
     votesThisMonth,
+    activeDaysLast7,
   };
 };
 
