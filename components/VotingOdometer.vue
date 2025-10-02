@@ -1,5 +1,5 @@
 <template>
-  <div class="relative w-40 h-40 mx-auto">
+  <div class="relative w-48 h-48 mx-auto">
     <!-- SVG Gauge -->
     <svg
       class="w-full h-full"
