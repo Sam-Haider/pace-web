@@ -2,68 +2,62 @@
   <div class="w-full">
 
     <!-- Heatmap Container -->
-    <div class="overflow-x-auto">
-      <div class="min-w-max">
-        <!-- Month Labels -->
-        <div class="flex mb-5 relative">
-          <div class="w-8"></div>
-          <!-- Spacer for day labels -->
-          <div class="relative" style="width: calc(53 * 12px + 52 * 4px);">
-            <div
-              v-for="month in months"
-              :key="month.name"
-              class="absolute text-xs text-slate-400 text-center"
-              :style="{ 
-                left: `${month.offset * (12 + 4)}px`,
-                width: `${month.weeks * 12 + (month.weeks - 1) * 4}px`
-              }"
-            >
-              {{ month.name }}
-            </div>
+    <div class="w-full">
+      <!-- Month Labels -->
+      <div class="flex mb-4 relative">
+        <div class="w-12"></div>
+        <!-- Spacer for day labels -->
+        <div class="flex-1 flex justify-between px-2">
+          <div
+            v-for="month in months"
+            :key="month.name"
+            class="text-xs text-slate-400 text-center flex-1"
+          >
+            {{ month.name }}
           </div>
         </div>
+      </div>
 
-        <!-- Days Grid -->
-        <div class="flex">
-          <!-- Day Labels -->
-          <div class="flex flex-col mr-2" style="gap: 6px;">
-            <div class="h-3 text-xs text-slate-400 flex items-center">Mon</div>
-            <div class="h-3"></div>
-            <div class="h-3 text-xs text-slate-400 flex items-center">Wed</div>
-            <div class="h-3"></div>
-            <div class="h-3 text-xs text-slate-400 flex items-center">Fri</div>
-            <div class="h-3"></div>
-            <div class="h-3"></div>
-          </div>
+      <!-- Days Grid -->
+      <div class="flex">
+        <!-- Day Labels -->
+        <div class="flex flex-col mr-3 justify-between" style="height: 112px;">
+          <div class="h-4 text-xs text-slate-400 flex items-center">Mon</div>
+          <div class="h-4"></div>
+          <div class="h-4 text-xs text-slate-400 flex items-center">Wed</div>
+          <div class="h-4"></div>
+          <div class="h-4 text-xs text-slate-400 flex items-center">Fri</div>
+          <div class="h-4"></div>
+          <div class="h-4"></div>
+        </div>
 
-          <!-- Heatmap Grid -->
+        <!-- Heatmap Grid -->
+        <div class="flex-1">
           <div
-            class="grid grid-cols-53 gap-1"
-            style="grid-template-rows: repeat(7, 14px)"
+            class="grid gap-1 w-full"
+            style="grid-template-columns: repeat(53, 1fr); grid-template-rows: repeat(7, 1fr);"
           >
             <div
               v-for="(day, index) in yearGrid"
               :key="index"
               :class="getDayClass(day)"
-              class="w-3 h-3 rounded-full transition-colors duration-200 hover:ring-1 hover:ring-slate-400"
+              class="w-full aspect-square min-w-0 rounded-full transition-colors duration-200 hover:ring-1 hover:ring-slate-400"
               :title="getDayTooltip(day)"
             ></div>
           </div>
         </div>
+      </div>
 
-        <!-- Legend -->
-        <div
-          class="flex items-center justify-start mt-4 text-xs text-slate-400"
-        >
-          <span class="mr-2">Less</span>
-          <div class="flex gap-1">
-            <div class="w-3 h-3 bg-slate-700 rounded-full"></div>
-            <div class="w-3 h-3 bg-emerald-500/30 rounded-full"></div>
-            <div class="w-3 h-3 bg-emerald-500/60 rounded-full"></div>
-            <div class="w-3 h-3 bg-emerald-500 rounded-full"></div>
-          </div>
-          <span class="ml-2">More</span>
+      <!-- Legend -->
+      <div class="flex items-center justify-start mt-4 text-xs text-slate-400">
+        <span class="mr-2">Less</span>
+        <div class="flex gap-1">
+          <div class="w-3 h-3 bg-slate-700 rounded-sm"></div>
+          <div class="w-3 h-3 bg-emerald-500/30 rounded-sm"></div>
+          <div class="w-3 h-3 bg-emerald-500/60 rounded-sm"></div>
+          <div class="w-3 h-3 bg-emerald-500 rounded-sm"></div>
         </div>
+        <span class="ml-2">More</span>
       </div>
     </div>
   </div>
