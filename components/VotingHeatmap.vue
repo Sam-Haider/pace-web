@@ -1,66 +1,103 @@
 <template>
   <div class="w-full">
-
-    <!-- Heatmap Container -->
-    <div class="w-full overflow-x-auto" ref="heatmapContainer">
-      <div class="min-w-full" style="min-width: calc(53 * 16px + 52 * 4px + 48px);">
-        <!-- Month Labels -->
-        <div class="flex mb-4 relative">
-          <div class="w-12"></div>
-          <!-- Month labels responsive -->
-          <div class="flex-1 flex justify-between px-2">
-            <div
-              v-for="month in months"
-              :key="month.name"
-              class="text-xs text-slate-400 text-center flex-1"
-            >
-              {{ month.name }}
-            </div>
-          </div>
+    <!-- Fixed Day Labels -->
+    <div class="flex">
+      <!-- Day Labels - Fixed on left -->
+      <div
+        class="flex flex-col mr-3 gap-1 sticky left-0 bg-slate-800 z-10"
+        style="margin-top: 32px"
+      >
+        <div
+          class="text-xs text-slate-400 flex items-center justify-center"
+          style="height: minmax(16px, 1fr)"
+        >
+          M
         </div>
+        <div
+          class="text-xs text-slate-400 flex items-center justify-center"
+          style="height: minmax(16px, 1fr)"
+        >
+          T
+        </div>
+        <div
+          class="text-xs text-slate-400 flex items-center justify-center"
+          style="height: minmax(16px, 1fr)"
+        >
+          W
+        </div>
+        <div
+          class="text-xs text-slate-400 flex items-center justify-center"
+          style="height: minmax(16px, 1fr)"
+        >
+          T
+        </div>
+        <div
+          class="text-xs text-slate-400 flex items-center justify-center"
+          style="height: minmax(16px, 1fr)"
+        >
+          F
+        </div>
+        <div
+          class="text-xs text-slate-400 flex items-center justify-center"
+          style="height: minmax(16px, 1fr)"
+        >
+          S
+        </div>
+        <div
+          class="text-xs text-slate-400 flex items-center justify-center"
+          style="height: minmax(16px, 1fr)"
+        >
+          S
+        </div>
+      </div>
 
-        <!-- Days Grid -->
-        <div class="flex">
-          <!-- Day Labels -->
-          <div class="flex flex-col mr-3 justify-between" style="height: 112px;">
-            <div class="h-4 text-xs text-slate-400 flex items-center">Mon</div>
-            <div class="h-4"></div>
-            <div class="h-4 text-xs text-slate-400 flex items-center">Wed</div>
-            <div class="h-4"></div>
-            <div class="h-4 text-xs text-slate-400 flex items-center">Fri</div>
-            <div class="h-4"></div>
-            <div class="h-4"></div>
+      <!-- Scrollable Heatmap Container -->
+      <div class="flex-1 overflow-x-auto" ref="heatmapContainer">
+        <div class="min-w-full" style="min-width: calc(53 * 16px + 52 * 4px)">
+          <!-- Month Labels -->
+          <div class="flex mb-4 relative">
+            <!-- Month labels responsive -->
+            <div class="flex justify-between px-2 w-full">
+              <div
+                v-for="month in months"
+                :key="month.name"
+                class="text-xs text-slate-400 text-center flex-1"
+              >
+                {{ month.name }}
+              </div>
+            </div>
           </div>
 
           <!-- Heatmap Grid -->
-          <div class="flex-1">
+          <div
+            class="grid gap-1 w-full"
+            style="
+              grid-template-columns: repeat(53, minmax(16px, 1fr));
+              grid-template-rows: repeat(7, minmax(16px, 1fr));
+            "
+          >
             <div
-              class="grid gap-1 w-full"
-              style="grid-template-columns: repeat(53, minmax(16px, 1fr)); grid-template-rows: repeat(7, minmax(16px, 1fr));"
-            >
-              <div
-                v-for="(day, index) in yearGrid"
-                :key="index"
-                :class="getDayClass(day)"
-                class="w-full aspect-square min-w-0 rounded-full transition-colors duration-200 hover:ring-1 hover:ring-slate-400"
-                :title="getDayTooltip(day)"
-              ></div>
-            </div>
+              v-for="(day, index) in yearGrid"
+              :key="index"
+              :class="getDayClass(day)"
+              class="w-full aspect-square min-w-0 rounded-full transition-colors duration-200 hover:ring-1 hover:ring-slate-400"
+              :title="getDayTooltip(day)"
+            ></div>
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- Legend -->
-      <div class="flex items-center justify-start mt-4 text-xs text-slate-400">
-        <span class="mr-2">Less</span>
-        <div class="flex gap-1">
-          <div class="w-3 h-3 bg-slate-700 rounded-sm"></div>
-          <div class="w-3 h-3 bg-emerald-500/30 rounded-sm"></div>
-          <div class="w-3 h-3 bg-emerald-500/60 rounded-sm"></div>
-          <div class="w-3 h-3 bg-emerald-500 rounded-sm"></div>
-        </div>
-        <span class="ml-2">More</span>
+    <!-- Legend -->
+    <div class="flex items-center justify-start mt-4 text-xs text-slate-400">
+      <span class="mr-2">Less</span>
+      <div class="flex gap-1">
+        <div class="w-3 h-3 bg-slate-700 rounded-sm"></div>
+        <div class="w-3 h-3 bg-emerald-500/30 rounded-sm"></div>
+        <div class="w-3 h-3 bg-emerald-500/60 rounded-sm"></div>
+        <div class="w-3 h-3 bg-emerald-500 rounded-sm"></div>
       </div>
+      <span class="ml-2">More</span>
     </div>
   </div>
 </template>
@@ -110,17 +147,21 @@ const yearGrid = computed(() => {
   const daysPerWeek = 7;
 
   // Create a 2D array: [week][dayOfWeek] where dayOfWeek: 0=Sunday, 1=Monday, etc.
-  const weekGrid = Array(weeks).fill(null).map(() => Array(daysPerWeek).fill(null));
-  
+  const weekGrid = Array(weeks)
+    .fill(null)
+    .map(() => Array(daysPerWeek).fill(null));
+
   // Fill the 2D array, placing each day in the correct day-of-week slot
   chronologicalDays.forEach((dayData) => {
     // Calculate which week this day belongs to (from start date)
-    const daysSinceStart = Math.floor((dayData.date - oneYearAgo) / (24 * 60 * 60 * 1000));
+    const daysSinceStart = Math.floor(
+      (dayData.date - oneYearAgo) / (24 * 60 * 60 * 1000)
+    );
     const week = Math.floor(daysSinceStart / 7);
-    
+
     // Get the actual day of the week for this date (0=Sunday, 1=Monday, etc.)
     const dayOfWeek = dayData.date.getDay();
-    
+
     if (week >= 0 && week < weeks) {
       weekGrid[week][dayOfWeek] = dayData;
     }
@@ -154,7 +195,7 @@ const months = computed(() => {
   for (let week = 0; week < 53; week++) {
     // Calculate the date for the start of this week
     const weekStart = new Date(oneYearAgo);
-    weekStart.setDate(weekStart.getDate() + (week * 7));
+    weekStart.setDate(weekStart.getDate() + week * 7);
     const month = weekStart.getMonth();
 
     if (month !== currentMonth) {
@@ -163,7 +204,7 @@ const months = computed(() => {
         monthData[monthData.length - 1].weeks = currentMonthWeeks;
         monthData[monthData.length - 1].offset = weekOffset;
       }
-      
+
       // Start new month
       monthData.push({
         name: weekStart.toLocaleDateString("en-US", { month: "short" }),
@@ -220,8 +261,11 @@ onMounted(() => {
     const cellWidth = 16 + 4; // 16px cell + 4px gap
     const todayWeekPosition = 52 * cellWidth; // Last few weeks
     const containerWidth = heatmapContainer.value.clientWidth;
-    const scrollPosition = Math.max(0, todayWeekPosition - containerWidth + 200); // Show some context
-    
+    const scrollPosition = Math.max(
+      0,
+      todayWeekPosition - containerWidth + 200
+    ); // Show some context
+
     heatmapContainer.value.scrollLeft = scrollPosition;
   }
 });
