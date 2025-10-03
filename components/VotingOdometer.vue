@@ -113,9 +113,9 @@ const props = defineProps({
 const colorSchemes = {
   amber: {
     background: "#374151", // slate-700
-    green: "#10b981", // emerald-500 - much brighter/vibrant
+    green: "var(--primary-color)", // CSS variable for consistency
     amber: "#f59e0b", // amber-500 - keeping this bright amber
-    red: "#ef4444", // red-500 - brighter red
+    red: "#ef4411", // red-500 - brighter red
     center: "#1f2937", // gray-800
     centerBorder: "#6b7280", // gray-500
     pointer: "#ffffff", // white pointer

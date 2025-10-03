@@ -1,0 +1,18 @@
+/* Global CSS Variables */
+:root {
+  /* Primary brand color - update this to change the theme across the entire app */
+  --primary-color: #10b981; /* emerald-500 */
+}
+
+/* Utility classes for consistency */
+.text-primary {
+  color: var(--primary-color);
+}
+
+.fill-primary {
+  fill: var(--primary-color);
+}
+
+.stroke-primary {
+  stroke: var(--primary-color);
+}

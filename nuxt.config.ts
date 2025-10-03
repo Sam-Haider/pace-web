@@ -6,6 +6,8 @@ export default defineNuxtConfig({
     port: 3001
   },
 
+  css: ['~/assets/css/main.css'],
+
   modules: [
     '@nuxt/image',
     '@nuxt/test-utils',
