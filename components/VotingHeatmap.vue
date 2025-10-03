@@ -113,24 +113,30 @@ const yearGrid = computed(() => {
     .fill(null)
     .map(() => Array(daysPerWeek).fill(null));
 
+  // Find the first Monday on or after oneYearAgo to align weeks properly
+  const firstMonday = new Date(oneYearAgo);
+  while (firstMonday.getDay() !== 1) { // 1 = Monday
+    firstMonday.setDate(firstMonday.getDate() + 1);
+  }
+
   // Fill the 2D array, placing each day in the correct day-of-week slot
   chronologicalDays.forEach((dayData) => {
-    // Calculate which week this day belongs to (from start date)
-    const daysSinceStart = Math.floor(
-      (dayData.date - oneYearAgo) / (24 * 60 * 60 * 1000)
+    // Calculate which week this day belongs to (from first Monday)
+    const daysSinceFirstMonday = Math.floor(
+      (dayData.date - firstMonday) / (24 * 60 * 60 * 1000)
     );
-    const week = Math.floor(daysSinceStart / 7);
+    const week = Math.floor(daysSinceFirstMonday / 7);
 
     // Get the actual day of the week for this date (0=Sunday, 1=Monday, etc.)
     const dayOfWeek = dayData.date.getDay();
 
-    if (week >= 0 && week < weeks) {
+    if (week >= 0 && week < weeks && daysSinceFirstMonday >= 0) {
       weekGrid[week][dayOfWeek] = dayData;
     }
   });
 
-  // Flatten in row-major order for CSS grid (Monday=0, Tuesday=1, etc. in our display)
-  // But adjust to start with Monday as row 0
+  // Flatten in row-major order for CSS grid (row by row, left to right)
+  // Adjust to start with Monday as row 0
   const dayOrder = [1, 2, 3, 4, 5, 6, 0]; // Mon, Tue, Wed, Thu, Fri, Sat, Sun
   for (const dayOfWeek of dayOrder) {
     for (let week = 0; week < weeks; week++) {
