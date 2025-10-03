@@ -184,10 +184,10 @@
                   <div class="flex items-baseline justify-center gap-2">
                     <span
                       :class="[
-                        'text-8xl font-bold',
+                        'text-9xl font-bold',
                         voteStats.currentStreak > 4
-                          ? 'text-emerald-400'
-                          : 'text-green-400',
+                          ? 'text-amber-400'
+                          : 'text-amber-400',
                       ]"
                     >
                       <AnimatedNumber :value="voteStats.currentStreak" />
@@ -217,7 +217,7 @@
                 class="absolute bottom-7 left-1/2 transform -translate-x-1/2 z-10 text-center"
               >
                 <div
-                  class="flex items-center justify-center text-2xl font-bold text-amber-400 font-mono tabular-nums"
+                  class="flex items-center justify-center text-2xl font-bold text-emerald-400 font-mono tabular-nums"
                 >
                   <AnimatedNumber :value="voteStats.activeDaysLast7" /><span
                     >/7</span
@@ -240,7 +240,7 @@
               <h3 class="text-lg font-semibold text-white">Total Votes</h3>
               <div class="flex items-center justify-center h-full">
                 <div class="text-center -mt-8">
-                  <p class="text-8xl font-bold text-blue-400">
+                  <p class="text-9xl font-bold text-blue-400">
                     <AnimatedNumber :value="voteStats.totalVotes" />
                   </p>
                   <p class="text-sm text-slate-400 mt-3">all time</p>
