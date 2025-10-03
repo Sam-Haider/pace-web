@@ -758,11 +758,15 @@ const triggerHapticFeedback = () => {
 
 // Handle vote cast - refresh data and update stats with animation
 const handleVoteCast = (response) => {
-  // Add new vote to recent votes immediately
+  // Add new vote to recent votes immediately (optimistic update)
   if (response.vote) {
     recentVotes.value.unshift(response.vote);
-    // Keep only last 10 votes
-    recentVotes.value = recentVotes.value.slice(0, 10);
+    
+    // Update stats optimistically
+    if (voteStats.value) {
+      voteStats.value.totalVotes += 1;
+      // Note: We'll let the server recalculate other stats for accuracy
+    }
   }
 
   // Select a random inspiring message
@@ -784,11 +788,11 @@ const handleVoteCast = (response) => {
     showSuccessMessage.value = false;
   }, 5500);
 
-  // Delay stats update to create rolling effect - longer delay for better visibility
+  // Delay stats update to get accurate server data without visual flash
   setTimeout(async () => {
     const oldStats = { ...voteStats.value };
 
-    // Always refetch votes to ensure correct calculation
+    // Silently refetch votes to sync with server
     await fetchVotes();
 
     // Show celebration indicators only after stats are properly updated
