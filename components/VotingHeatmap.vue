@@ -1,89 +1,51 @@
 <template>
   <div class="w-full">
-    <!-- Fixed Day Labels -->
-    <div class="flex">
+    <!-- Scrollable Container -->
+    <div class="flex overflow-x-auto" ref="heatmapContainer">
       <!-- Day Labels - Fixed on left -->
-      <div
-        class="flex flex-col mr-3 gap-1 sticky left-0 bg-slate-800 z-10"
-        style="margin-top: 32px"
-      >
-        <div
-          class="text-xs text-slate-400 flex items-center justify-center"
-          style="height: minmax(16px, 1fr)"
-        >
-          M
-        </div>
-        <div
-          class="text-xs text-slate-400 flex items-center justify-center"
-          style="height: minmax(16px, 1fr)"
-        >
-          T
-        </div>
-        <div
-          class="text-xs text-slate-400 flex items-center justify-center"
-          style="height: minmax(16px, 1fr)"
-        >
-          W
-        </div>
-        <div
-          class="text-xs text-slate-400 flex items-center justify-center"
-          style="height: minmax(16px, 1fr)"
-        >
-          T
-        </div>
-        <div
-          class="text-xs text-slate-400 flex items-center justify-center"
-          style="height: minmax(16px, 1fr)"
-        >
-          F
-        </div>
-        <div
-          class="text-xs text-slate-400 flex items-center justify-center"
-          style="height: minmax(16px, 1fr)"
-        >
-          S
-        </div>
-        <div
-          class="text-xs text-slate-400 flex items-center justify-center"
-          style="height: minmax(16px, 1fr)"
-        >
-          S
+      <div class="sticky left-0 bg-slate-800 z-10 mr-3 flex flex-col" style="margin-top: 32px;">
+        <div class="grid gap-1" style="grid-template-rows: repeat(7, minmax(16px, 1fr));">
+          <div class="text-xs text-slate-400 flex items-center justify-center">M</div>
+          <div class="text-xs text-slate-400 flex items-center justify-center">T</div>
+          <div class="text-xs text-slate-400 flex items-center justify-center">W</div>
+          <div class="text-xs text-slate-400 flex items-center justify-center">T</div>
+          <div class="text-xs text-slate-400 flex items-center justify-center">F</div>
+          <div class="text-xs text-slate-400 flex items-center justify-center">S</div>
+          <div class="text-xs text-slate-400 flex items-center justify-center">S</div>
         </div>
       </div>
 
-      <!-- Scrollable Heatmap Container -->
-      <div class="flex-1 overflow-x-auto" ref="heatmapContainer">
-        <div class="min-w-full" style="min-width: calc(53 * 16px + 52 * 4px)">
-          <!-- Month Labels -->
-          <div class="flex mb-4 relative">
-            <!-- Month labels responsive -->
-            <div class="flex justify-between px-2 w-full">
-              <div
-                v-for="month in months"
-                :key="month.name"
-                class="text-xs text-slate-400 text-center flex-1"
-              >
-                {{ month.name }}
-              </div>
+      <!-- Heatmap Content -->
+      <div class="min-w-full" style="min-width: calc(53 * 16px + 52 * 4px)">
+        <!-- Month Labels -->
+        <div class="flex mb-4 relative">
+          <!-- Month labels responsive -->
+          <div class="flex justify-between px-2 w-full">
+            <div
+              v-for="month in months"
+              :key="month.name"
+              class="text-xs text-slate-400 text-center flex-1"
+            >
+              {{ month.name }}
             </div>
           </div>
+        </div>
 
-          <!-- Heatmap Grid -->
+        <!-- Heatmap Grid -->
+        <div
+          class="grid gap-1 w-full"
+          style="
+            grid-template-columns: repeat(53, minmax(16px, 1fr));
+            grid-template-rows: repeat(7, minmax(16px, 1fr));
+          "
+        >
           <div
-            class="grid gap-1 w-full"
-            style="
-              grid-template-columns: repeat(53, minmax(16px, 1fr));
-              grid-template-rows: repeat(7, minmax(16px, 1fr));
-            "
-          >
-            <div
-              v-for="(day, index) in yearGrid"
-              :key="index"
-              :class="getDayClass(day)"
-              class="w-full aspect-square min-w-0 rounded-full transition-colors duration-200 hover:ring-1 hover:ring-slate-400"
-              :title="getDayTooltip(day)"
-            ></div>
-          </div>
+            v-for="(day, index) in yearGrid"
+            :key="index"
+            :class="getDayClass(day)"
+            class="w-full aspect-square min-w-0 rounded-full transition-colors duration-200 hover:ring-1 hover:ring-slate-400"
+            :title="getDayTooltip(day)"
+          ></div>
         </div>
       </div>
     </div>
