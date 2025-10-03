@@ -1,5 +1,5 @@
 <template>
-  <div class="relative w-50 h-50 sm:w-30 sm:h-30 mx-auto">
+  <div class="relative w-50 h-50 sm:w-60 sm:h-60 mx-auto">
     <!-- SVG Gauge -->
     <svg
       class="w-full h-full"
@@ -14,6 +14,18 @@
         stroke-width="8"
         stroke-linecap="round"
       />
+
+      <!-- Odometer 0 label at the start of the arc -->
+      <text
+        :x="labelX"
+        :y="labelY"
+        fill="#c6c6c6"
+        font-size="16"
+        text-anchor="end"
+        dominant-baseline="middle"
+      >
+        0
+      </text>
 
       <!-- Green Zone (0-5 days = 5/7 of total) -->
       <path
@@ -58,6 +70,18 @@
           transformOrigin: '100px 100px',
         }"
       />
+
+      <!-- Odometer 7 label at the end of the arc -->
+      <text
+        :x="labelXEnd"
+        :y="labelYEnd"
+        fill="#c6c6c6"
+        font-size="16"
+        text-anchor="start"
+        dominant-baseline="middle"
+      >
+        7
+      </text>
     </svg>
 
     <!-- Zone Warning Text -->
@@ -165,6 +189,31 @@ const pointerX = computed(() => {
 const pointerY = computed(() => {
   const angle = (pointerAngle.value * Math.PI) / 180;
   return centerY + radius * Math.sin(angle);
+});
+
+// Label coordinates for the odometer "0" placed slightly outside the arc start
+const labelOffset = 18; // pixels outside the arc
+const labelAngle = startAngle + 8; // place at the arc's starting angle
+const labelX = computed(() => {
+  const angle = (labelAngle * Math.PI) / 180;
+  return centerX + (radius + labelOffset) * Math.cos(angle);
+});
+
+const labelY = computed(() => {
+  const angle = (labelAngle * Math.PI) / 180;
+  return centerY + (radius + labelOffset) * Math.sin(angle);
+});
+
+// End-label coordinates for the odometer "7" placed slightly outside the arc end
+const labelAngleEnd = endAngle - 8; // place at the arc's ending angle
+const labelXEnd = computed(() => {
+  const angle = (labelAngleEnd * Math.PI) / 180;
+  return centerX + (radius + labelOffset) * Math.cos(angle);
+});
+
+const labelYEnd = computed(() => {
+  const angle = (labelAngleEnd * Math.PI) / 180;
+  return centerY + (radius + labelOffset) * Math.sin(angle);
 });
 
 // Dynamic colors based on current value

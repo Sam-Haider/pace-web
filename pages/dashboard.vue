@@ -2,7 +2,7 @@
   <div class="min-h-screen bg-gray-900">
     <Navbar />
     <div class="py-4 px-6">
-      <div class="mx-auto">
+      <div class="mx-auto max-w-7xl">
         <!-- Header Section -->
         <div class="mb-8">
           <!-- Desktop Layout -->
@@ -174,15 +174,49 @@
 
         <!-- Main Dashboard Grid -->
         <div v-if="voteStats" class="space-y-6 mb-8">
-          <!-- Top Row: 7-Day Pace + Heatmap -->
-          <div class="grid grid-cols-1 lg:grid-cols-6 gap-6">
-            <!-- 7-Day Activity with Odometer -->
-            <div class="lg:col-span-1 bg-slate-800 rounded-xl p-5">
-              <div class="text-center">
-                <h3 class="text-base font-medium text-slate-300 mb-1">7-Day Pace</h3>
+          <!-- Top Row: Week Streak + 7-Day Pace + Total Votes -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Week Streak (Left) -->
+            <div class="bg-slate-800 rounded-xl p-6 h-72 relative">
+              <h3 class="text-lg font-semibold text-white">Week Streak</h3>
+              <div class="flex items-center justify-center h-full">
+                <div class="text-center -mt-8">
+                  <div class="flex items-baseline justify-center gap-2">
+                    <span
+                      :class="[
+                        'text-8xl font-bold',
+                        voteStats.currentStreak > 4
+                          ? 'text-emerald-400'
+                          : 'text-green-400',
+                      ]"
+                    >
+                      <AnimatedNumber :value="voteStats.currentStreak" />
+                    </span>
+                    <span v-if="voteStats.currentStreak > 4" class="text-2xl"
+                      >🔥</span
+                    >
+                  </div>
+                  <p class="text-sm text-slate-400 mt-3">consecutive weeks</p>
+                </div>
+              </div>
+              <!-- Streak celebration -->
+              <div
+                v-if="showStreakText"
+                class="absolute top-3 right-3 bg-emerald-500 text-white text-xs font-medium px-3 py-1.5 rounded-full animate-pulse shadow-lg"
+              >
+                Streak! 🔥
+              </div>
+            </div>
+
+            <!-- 7-Day Pace (Center - Larger) -->
+            <div class="bg-slate-800 rounded-xl p-6 relative h-72">
+              <h3 class="text-lg font-semibold text-white">7-Day Pace</h3>
+
+              <!-- Number in top-right -->
+              <div class="absolute top-4 right-4 z-10 text-right">
                 <p
                   :class="[
-                    'text-2xl font-bold mb-1',
+                    'text-2xl font-bold',
                     voteStats.activeDaysLast7 <= 5
                       ? 'text-emerald-400'
                       : 'text-red-400',
@@ -190,7 +224,11 @@
                 >
                   <AnimatedNumber :value="voteStats.activeDaysLast7" />
                 </p>
-                <p class="text-xs text-slate-400 mb-3">days active</p>
+                <p class="text-xs text-slate-400">days active</p>
+              </div>
+
+              <!-- Odometer takes up most of the space -->
+              <div class="flex items-center justify-center h-full pt-8">
                 <VotingOdometer
                   :active-days="voteStats.activeDaysLast7"
                   color-scheme="amber"
@@ -198,56 +236,27 @@
               </div>
             </div>
 
-            <!-- Vote Activity Heatmap -->
-            <div
-              v-if="recentVotes && recentVotes.length > 0"
-              class="lg:col-span-5 flex items-center"
-            >
-              <VotingHeatmap :votes="recentVotes" />
+            <!-- Total Votes (Right) -->
+            <div class="bg-slate-800 rounded-xl p-6 h-72 relative">
+              <h3 class="text-lg font-semibold text-white">Total Votes</h3>
+              <div class="flex items-center justify-center h-full">
+                <div class="text-center -mt-8">
+                  <p class="text-8xl font-bold text-blue-400">
+                    <AnimatedNumber :value="voteStats.totalVotes" />
+                  </p>
+                  <p class="text-sm text-slate-400 mt-3">all time</p>
+                </div>
+              </div>
             </div>
           </div>
 
-          <!-- Bottom Row: Key Metrics -->
-          <div class="bg-slate-800 rounded-xl p-6">
-            <div class="flex flex-col sm:flex-row sm:items-end sm:gap-12">
-              <!-- Week Streak -->
-              <div class="mb-4 sm:mb-0">
-                <h3 class="text-base font-medium text-slate-300 mb-1">
-                  Week Streak
-                </h3>
-                <div class="flex items-baseline gap-2">
-                  <span
-                    :class="[
-                      'text-4xl font-bold',
-                      voteStats.currentStreak > 4 ? 'text-emerald-400' : 'text-green-400'
-                    ]"
-                  >
-                    <AnimatedNumber :value="voteStats.currentStreak" />
-                  </span>
-                  <span v-if="voteStats.currentStreak > 4" class="text-xl">🔥</span>
-                </div>
-                <p class="text-xs text-slate-400 mt-1">consecutive weeks</p>
-              </div>
-
-              <!-- Lifetime Votes -->
-              <div>
-                <h3 class="text-base font-medium text-slate-300 mb-1">
-                  Total Votes
-                </h3>
-                <p class="text-4xl font-bold text-blue-400">
-                  <AnimatedNumber :value="voteStats.totalVotes" />
-                </p>
-                <p class="text-xs text-slate-400 mt-1">all time</p>
-              </div>
-            </div>
-
-            <!-- Streak celebration -->
-            <div
-              v-if="showStreakText"
-              class="absolute top-3 right-3 bg-emerald-500 text-white text-xs font-medium px-3 py-1.5 rounded-full animate-pulse shadow-lg"
-            >
-              Streak! 🔥
-            </div>
+          <!-- Vote Activity Heatmap Row -->
+          <div
+            v-if="recentVotes && recentVotes.length > 0"
+            class="bg-slate-800 rounded-xl p-6"
+          >
+            <h3 class="text-lg font-semibold text-white mb-4">Vote Activity</h3>
+            <VotingHeatmap :votes="recentVotes" />
           </div>
         </div>
 
