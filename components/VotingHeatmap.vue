@@ -2,46 +2,50 @@
   <div class="w-full">
 
     <!-- Heatmap Container -->
-    <div class="w-full">
-      <!-- Month Labels -->
-      <div class="flex mb-4 relative">
-        <div class="w-12"></div>
-        <!-- Spacer for day labels -->
-        <div class="flex-1 flex justify-between px-2">
-          <div
-            v-for="month in months"
-            :key="month.name"
-            class="text-xs text-slate-400 text-center flex-1"
-          >
-            {{ month.name }}
+    <div class="w-full overflow-x-auto" ref="heatmapContainer">
+      <div class="min-w-max">
+        <!-- Month Labels -->
+        <div class="flex mb-4 relative">
+          <div class="w-12"></div>
+          <!-- Month labels with fixed positioning -->
+          <div class="relative" style="width: calc(53 * 16px + 52 * 4px);">
+            <div
+              v-for="month in months"
+              :key="month.name"
+              class="absolute text-xs text-slate-400 text-center"
+              :style="{ 
+                left: `${month.offset * (16 + 4)}px`,
+                width: `${month.weeks * 16 + (month.weeks - 1) * 4}px`
+              }"
+            >
+              {{ month.name }}
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- Days Grid -->
-      <div class="flex">
-        <!-- Day Labels -->
-        <div class="flex flex-col mr-3 justify-between" style="height: 112px;">
-          <div class="h-4 text-xs text-slate-400 flex items-center">Mon</div>
-          <div class="h-4"></div>
-          <div class="h-4 text-xs text-slate-400 flex items-center">Wed</div>
-          <div class="h-4"></div>
-          <div class="h-4 text-xs text-slate-400 flex items-center">Fri</div>
-          <div class="h-4"></div>
-          <div class="h-4"></div>
-        </div>
+        <!-- Days Grid -->
+        <div class="flex">
+          <!-- Day Labels -->
+          <div class="flex flex-col mr-3 justify-between" style="height: 112px;">
+            <div class="h-4 text-xs text-slate-400 flex items-center">Mon</div>
+            <div class="h-4"></div>
+            <div class="h-4 text-xs text-slate-400 flex items-center">Wed</div>
+            <div class="h-4"></div>
+            <div class="h-4 text-xs text-slate-400 flex items-center">Fri</div>
+            <div class="h-4"></div>
+            <div class="h-4"></div>
+          </div>
 
-        <!-- Heatmap Grid -->
-        <div class="flex-1">
+          <!-- Heatmap Grid -->
           <div
-            class="grid gap-1 w-full"
-            style="grid-template-columns: repeat(53, 1fr); grid-template-rows: repeat(7, 1fr);"
+            class="grid gap-1"
+            style="grid-template-columns: repeat(53, 16px); grid-template-rows: repeat(7, 16px);"
           >
             <div
               v-for="(day, index) in yearGrid"
               :key="index"
               :class="getDayClass(day)"
-              class="w-full aspect-square min-w-0 rounded-full transition-colors duration-200 hover:ring-1 hover:ring-slate-400"
+              class="w-4 h-4 rounded-full transition-colors duration-200 hover:ring-1 hover:ring-slate-400"
               :title="getDayTooltip(day)"
             ></div>
           </div>
@@ -208,4 +212,19 @@ const getDayTooltip = (day) => {
   const voteText = day.votes === 1 ? "vote" : "votes";
   return `${day.votes} ${voteText} on ${dateStr}`;
 };
+
+// Auto-scroll to show today's column
+const heatmapContainer = ref(null);
+
+onMounted(() => {
+  if (heatmapContainer.value) {
+    // Calculate today's week position (week 52 is the most recent)
+    const cellWidth = 16 + 4; // 16px cell + 4px gap
+    const todayWeekPosition = 52 * cellWidth; // Last few weeks
+    const containerWidth = heatmapContainer.value.clientWidth;
+    const scrollPosition = Math.max(0, todayWeekPosition - containerWidth + 200); // Show some context
+    
+    heatmapContainer.value.scrollLeft = scrollPosition;
+  }
+});
 </script>
