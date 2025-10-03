@@ -63,7 +63,7 @@
         <!-- Floating Success Message with Confetti -->
         <div
           v-if="showSuccessMessage"
-          class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 pointer-events-none px-4 w-4/5 md:w-auto"
+          class="fixed top-1/2 sm:top-13/20 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 pointer-events-none px-4 w-4/5 md:w-auto"
         >
           <!-- Confetti Container -->
           <div
