@@ -11,7 +11,7 @@
         :d="backgroundArc"
         fill="none"
         :stroke="colors.background"
-        stroke-width="8"
+        stroke-width="12"
         stroke-linecap="round"
       />
 
@@ -32,7 +32,7 @@
         :d="greenZoneArc"
         fill="none"
         :stroke="colors.green"
-        stroke-width="8"
+        stroke-width="12"
         stroke-linecap="round"
       />
 
@@ -41,7 +41,7 @@
         :d="redZoneArc"
         fill="none"
         :stroke="currentRedZoneColor"
-        stroke-width="8"
+        stroke-width="12"
         stroke-linecap="round"
       />
 
