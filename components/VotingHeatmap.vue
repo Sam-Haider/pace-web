@@ -1,6 +1,5 @@
 <template>
-  <div class="w-full bg-slate-800 rounded-xl p-6">
-    <h3 class="text-lg font-semibold text-white mb-4">365-Day Vote Activity</h3>
+  <div class="w-full">
 
     <!-- Heatmap Container -->
     <div class="overflow-x-auto">

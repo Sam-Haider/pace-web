@@ -254,7 +254,7 @@
             v-if="recentVotes && recentVotes.length > 0"
             class="bg-slate-800 rounded-xl p-6"
           >
-            <h3 class="text-lg font-semibold text-white mb-4">Vote Activity</h3>
+            <h3 class="text-lg font-semibold text-white mb-4">365-Day Vote Activity</h3>
             <VotingHeatmap :votes="recentVotes" />
           </div>
         </div>
