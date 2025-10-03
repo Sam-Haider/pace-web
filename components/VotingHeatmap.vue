@@ -3,7 +3,7 @@
     <!-- Scrollable Container -->
     <div class="flex overflow-x-auto" ref="heatmapContainer">
       <!-- Day Labels - Fixed on left -->
-      <div class="sticky left-0 bg-slate-800 z-10 mr-3 flex" style="margin-top: 32px;">
+      <div class="sticky left-0 bg-slate-800 z-10 mr-1 pr-2 flex" style="margin-top: 32px;">
         <div class="grid gap-1 flex-1" style="grid-template-rows: repeat(7, minmax(16px, 1fr));">
           <div class="text-xs text-slate-400 flex items-center justify-center">M</div>
           <div class="text-xs text-slate-400 flex items-center justify-center">T</div>

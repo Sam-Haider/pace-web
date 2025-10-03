@@ -178,7 +178,9 @@
           <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <!-- Week Streak (Left) -->
             <div class="bg-slate-800 rounded-xl p-6 h-72 relative">
-              <h3 class="text-lg font-semibold text-white">Week Streak</h3>
+              <h3 class="text-lg font-semibold text-white">
+                Consecutive Weeks Streak
+              </h3>
               <div class="flex items-center justify-center h-full">
                 <div class="text-center -mt-8">
                   <div class="flex items-baseline justify-center gap-2">
@@ -196,7 +198,7 @@
                       >🔥</span
                     >
                   </div>
-                  <p class="text-sm text-slate-400 mt-3">consecutive weeks</p>
+                  <p class="text-sm text-slate-400 mt-3">successful weeks</p>
                 </div>
               </div>
               <!-- Streak celebration -->
@@ -214,7 +216,7 @@
 
               <!-- Text positioned at bottom center of odometer -->
               <div
-                class="absolute bottom-7 left-1/2 transform -translate-x-1/2 z-10 text-center"
+                class="absolute bottom-11 left-1/2 transform -translate-x-1/2 z-10 text-center"
               >
                 <div
                   class="flex items-center justify-center text-2xl font-bold text-emerald-400 font-mono tabular-nums"
@@ -223,7 +225,7 @@
                     >/7</span
                   >
                 </div>
-                <p class="text-xs text-slate-400">days active</p>
+                <p class="text-sm text-slate-400">days won</p>
               </div>
 
               <!-- Odometer takes up most of the space -->
@@ -237,13 +239,15 @@
 
             <!-- Total Votes (Right) -->
             <div class="bg-slate-800 rounded-xl p-6 h-72 relative">
-              <h3 class="text-lg font-semibold text-white">Total Votes</h3>
+              <h3 class="text-lg font-semibold text-white">All Time</h3>
               <div class="flex items-center justify-center h-full">
                 <div class="text-center -mt-8">
                   <p class="text-9xl font-bold text-blue-400">
                     <AnimatedNumber :value="voteStats.totalVotes" />
                   </p>
-                  <p class="text-sm text-slate-400 mt-3">all time</p>
+                  <p class="text-sm text-slate-400 mt-3">
+                    votes for the person you're becoming
+                  </p>
                 </div>
               </div>
             </div>
@@ -254,7 +258,9 @@
             v-if="recentVotes && recentVotes.length > 0"
             class="bg-slate-800 rounded-xl p-6"
           >
-            <h3 class="text-lg font-semibold text-white mb-4">365-Day Vote Activity</h3>
+            <h3 class="text-lg font-semibold text-white mb-4">
+              365-Day Vote Activity
+            </h3>
             <VotingHeatmap :votes="recentVotes" />
           </div>
         </div>
