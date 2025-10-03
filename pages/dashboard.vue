@@ -174,9 +174,36 @@
 
         <!-- Main Dashboard Grid -->
         <div v-if="voteStats" class="space-y-6 mb-8">
-          <!-- Top Row: Week Streak + 7-Day Pace + Total Votes -->
+          <!-- Top Row: 7-Day Pace + Week Streak + Total Votes -->
           <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <!-- Week Streak (Left) -->
+            <!-- 7-Day Pace (Left) -->
+            <div class="bg-slate-800 rounded-xl p-6 relative h-72">
+              <h3 class="text-lg font-semibold text-white">7-Day Pace</h3>
+
+              <!-- Text positioned at bottom center of odometer -->
+              <div
+                class="absolute bottom-11 left-1/2 transform -translate-x-1/2 z-10 text-center"
+              >
+                <div
+                  class="flex items-center justify-center text-2xl font-bold text-emerald-400 font-mono tabular-nums"
+                >
+                  <AnimatedNumber :value="voteStats.activeDaysLast7" /><span
+                    >/7</span
+                  >
+                </div>
+                <p class="text-sm text-slate-400">days won</p>
+              </div>
+
+              <!-- Odometer takes up most of the space -->
+              <div class="flex items-center justify-center h-full pt-0">
+                <VotingOdometer
+                  :active-days="voteStats.activeDaysLast7"
+                  color-scheme="amber"
+                />
+              </div>
+            </div>
+
+            <!-- Week Streak (Center) -->
             <div class="bg-slate-800 rounded-xl p-6 h-72 relative">
               <h3 class="text-lg font-semibold text-white">
                 Consecutive Weeks Streak
@@ -207,33 +234,6 @@
                 class="absolute top-3 right-3 bg-emerald-500 text-white text-xs font-medium px-3 py-1.5 rounded-full animate-pulse shadow-lg"
               >
                 Streak! 🔥
-              </div>
-            </div>
-
-            <!-- 7-Day Pace (Center - Larger) -->
-            <div class="bg-slate-800 rounded-xl p-6 relative h-72">
-              <h3 class="text-lg font-semibold text-white">7-Day Pace</h3>
-
-              <!-- Text positioned at bottom center of odometer -->
-              <div
-                class="absolute bottom-11 left-1/2 transform -translate-x-1/2 z-10 text-center"
-              >
-                <div
-                  class="flex items-center justify-center text-2xl font-bold text-emerald-400 font-mono tabular-nums"
-                >
-                  <AnimatedNumber :value="voteStats.activeDaysLast7" /><span
-                    >/7</span
-                  >
-                </div>
-                <p class="text-sm text-slate-400">days won</p>
-              </div>
-
-              <!-- Odometer takes up most of the space -->
-              <div class="flex items-center justify-center h-full pt-0">
-                <VotingOdometer
-                  :active-days="voteStats.activeDaysLast7"
-                  color-scheme="amber"
-                />
               </div>
             </div>
 
