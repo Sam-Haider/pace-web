@@ -280,7 +280,7 @@
           <h3 class="text-lg font-semibold text-white mb-4">Recent Votes</h3>
           <div class="space-y-3">
             <div
-              v-for="vote in recentVotes"
+              v-for="vote in sortedRecentVotes"
               :key="vote.id"
               @click="openEditVoteModal(vote)"
               class="flex justify-between items-start p-3 bg-slate-700 rounded-lg hover:bg-slate-600 transition-colors cursor-pointer group"
@@ -531,6 +531,12 @@ const dropdownOptions = computed(() => {
   }));
 });
 
+// Computed property for votes sorted by most recent first
+const sortedRecentVotes = computed(() => {
+  if (!recentVotes.value || recentVotes.value.length === 0) return [];
+  return [...recentVotes.value].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+});
+
 // Celebration states
 const showStreakText = ref(false);
 const showSuccessMessage = ref(false);
@@ -729,7 +735,7 @@ const fetchVotes = async () => {
       }
     );
 
-    recentVotes.value = votes.slice(0, 10); // Show last 10 votes
+    recentVotes.value = votes; // All votes for heatmap
     voteStats.value = calculateStats(votes); // Calculate and set stats
   } catch (error) {
     console.error("Failed to fetch votes:", error);
