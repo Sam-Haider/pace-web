@@ -1,5 +1,5 @@
 <template>
-  <div class="relative w-50 h-50 sm:w-60 sm:h-60 mx-auto">
+  <div class="relative w-50 h-50 sm:w-70 sm:h-70 mx-auto">
     <!-- SVG Gauge -->
     <svg
       class="w-full h-full"
@@ -20,7 +20,7 @@
         :x="labelX"
         :y="labelY"
         fill="#c6c6c6"
-        font-size="16"
+        font-size="10"
         text-anchor="end"
         dominant-baseline="middle"
       >
@@ -76,7 +76,7 @@
         :x="labelXEnd"
         :y="labelYEnd"
         fill="#c6c6c6"
-        font-size="16"
+        font-size="10"
         text-anchor="start"
         dominant-baseline="middle"
       >
@@ -192,7 +192,7 @@ const pointerY = computed(() => {
 });
 
 // Label coordinates for the odometer "0" placed slightly outside the arc start
-const labelOffset = 18; // pixels outside the arc
+const labelOffset = 10; // pixels outside the arc
 const labelAngle = startAngle + 8; // place at the arc's starting angle
 const labelX = computed(() => {
   const angle = (labelAngle * Math.PI) / 180;

@@ -212,23 +212,22 @@
             <div class="bg-slate-800 rounded-xl p-6 relative h-72">
               <h3 class="text-lg font-semibold text-white">7-Day Pace</h3>
 
-              <!-- Number in top-right -->
-              <div class="absolute top-4 right-4 z-10 text-right">
-                <p
-                  :class="[
-                    'text-2xl font-bold',
-                    voteStats.activeDaysLast7 <= 5
-                      ? 'text-emerald-400'
-                      : 'text-red-400',
-                  ]"
+              <!-- Text positioned at bottom center of odometer -->
+              <div
+                class="absolute bottom-7 left-1/2 transform -translate-x-1/2 z-10 text-center"
+              >
+                <div
+                  class="flex items-center justify-center text-2xl font-bold text-amber-400 font-mono tabular-nums"
                 >
-                  <AnimatedNumber :value="voteStats.activeDaysLast7" />
-                </p>
+                  <AnimatedNumber :value="voteStats.activeDaysLast7" /><span
+                    >/7</span
+                  >
+                </div>
                 <p class="text-xs text-slate-400">days active</p>
               </div>
 
               <!-- Odometer takes up most of the space -->
-              <div class="flex items-center justify-center h-full pt-8">
+              <div class="flex items-center justify-center h-full pt-0">
                 <VotingOdometer
                   :active-days="voteStats.activeDaysLast7"
                   color-scheme="amber"
