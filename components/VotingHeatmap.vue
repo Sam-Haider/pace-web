@@ -3,20 +3,16 @@
 
     <!-- Heatmap Container -->
     <div class="w-full overflow-x-auto" ref="heatmapContainer">
-      <div class="min-w-max">
+      <div class="min-w-full" style="min-width: calc(53 * 16px + 52 * 4px + 48px);">
         <!-- Month Labels -->
         <div class="flex mb-4 relative">
           <div class="w-12"></div>
-          <!-- Month labels with fixed positioning -->
-          <div class="relative" style="width: calc(53 * 16px + 52 * 4px);">
+          <!-- Month labels responsive -->
+          <div class="flex-1 flex justify-between px-2">
             <div
               v-for="month in months"
               :key="month.name"
-              class="absolute text-xs text-slate-400 text-center"
-              :style="{ 
-                left: `${month.offset * (16 + 4)}px`,
-                width: `${month.weeks * 16 + (month.weeks - 1) * 4}px`
-              }"
+              class="text-xs text-slate-400 text-center flex-1"
             >
               {{ month.name }}
             </div>
@@ -37,17 +33,19 @@
           </div>
 
           <!-- Heatmap Grid -->
-          <div
-            class="grid gap-1"
-            style="grid-template-columns: repeat(53, 16px); grid-template-rows: repeat(7, 16px);"
-          >
+          <div class="flex-1">
             <div
-              v-for="(day, index) in yearGrid"
-              :key="index"
-              :class="getDayClass(day)"
-              class="w-4 h-4 rounded-full transition-colors duration-200 hover:ring-1 hover:ring-slate-400"
-              :title="getDayTooltip(day)"
-            ></div>
+              class="grid gap-1 w-full"
+              style="grid-template-columns: repeat(53, minmax(16px, 1fr)); grid-template-rows: repeat(7, minmax(16px, 1fr));"
+            >
+              <div
+                v-for="(day, index) in yearGrid"
+                :key="index"
+                :class="getDayClass(day)"
+                class="w-full aspect-square min-w-0 rounded-full transition-colors duration-200 hover:ring-1 hover:ring-slate-400"
+                :title="getDayTooltip(day)"
+              ></div>
+            </div>
           </div>
         </div>
       </div>
