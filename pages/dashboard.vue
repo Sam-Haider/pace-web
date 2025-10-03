@@ -209,7 +209,7 @@
             <!-- Week Streak (Center) -->
             <div class="bg-slate-800 rounded-xl p-6 h-72 relative">
               <h3 class="text-lg font-semibold text-white flex items-center gap-2">
-                <UIcon name="i-heroicons-fire-20-solid" class="w-5 h-5 text-amber-400" />
+                <UIcon name="i-heroicons-fire-20-solid" class="w-5 h-5 text-emerald-400" />
                 Consecutive Weeks Streak
               </h3>
               <div class="flex items-center justify-center h-full">
@@ -219,8 +219,8 @@
                       :class="[
                         'text-9xl font-bold',
                         voteStats.currentStreak > 4
-                          ? 'text-amber-400'
-                          : 'text-amber-400',
+                          ? 'text-emerald-400'
+                          : 'text-emerald-400',
                       ]"
                     >
                       <AnimatedNumber :value="voteStats.currentStreak" />
@@ -244,12 +244,12 @@
             <!-- Total Votes (Right) -->
             <div class="bg-slate-800 rounded-xl p-6 h-72 relative">
               <h3 class="text-lg font-semibold text-white flex items-center gap-2">
-                <UIcon name="i-heroicons-trophy-20-solid" class="w-5 h-5 text-blue-400" />
+                <UIcon name="i-heroicons-trophy-20-solid" class="w-5 h-5 text-emerald-400" />
                 All Time
               </h3>
               <div class="flex items-center justify-center h-full">
                 <div class="text-center -mt-8">
-                  <p class="text-9xl font-bold text-blue-400">
+                  <p class="text-9xl font-bold text-emerald-400">
                     <AnimatedNumber :value="voteStats.totalVotes" />
                   </p>
                   <p class="text-sm text-slate-400 mt-3">
