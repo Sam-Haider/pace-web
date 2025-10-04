@@ -147,10 +147,10 @@
           >
             <div class="text-center space-y-4">
               <h2 class="text-3xl font-bold text-white">
-                Choose Your Identity
+                Choose Your Identities
               </h2>
               <p class="text-slate-300">
-                Which identities resonate most with you?
+                Select all identities that resonate with you
               </p>
             </div>
 
@@ -165,14 +165,14 @@
                 @click="selectIdentity(identity.id)"
                 class="identity-button w-full p-6 rounded-xl border-2 transition-all duration-200 text-left group relative"
                 :class="[
-                  onboardingData.identityId === identity.id
+                  onboardingData.identityIds.includes(identity.id)
                     ? 'border-slate-500 bg-slate-700 ring-2 ring-slate-500/30'
                     : 'border-slate-600 bg-slate-700/50 hover:bg-slate-700 hover:border-slate-500',
                 ]"
               >
                 <!-- Selected Checkmark - Absolute positioned at top right -->
                 <div
-                  v-if="onboardingData.identityId === identity.id"
+                  v-if="onboardingData.identityIds.includes(identity.id)"
                   class="absolute top-3 right-3 w-5 h-5 rounded-full flex items-center justify-center shadow-lg border-2 z-10"
                   style="
                     background-color: var(--primary-color);
@@ -198,7 +198,7 @@
                   <div
                     :class="[
                       'w-12 h-12 rounded-full flex items-center justify-center transition-all duration-200',
-                      onboardingData.identityId === identity.id
+                      onboardingData.identityIds.includes(identity.id)
                         ? 'bg-slate-600'
                         : 'bg-slate-500 group-hover:bg-slate-400',
                     ]"
@@ -275,7 +275,7 @@
               </BaseButton>
               <BaseButton
                 @click="completeOnboarding"
-                :disabled="!onboardingData.identityId || loading"
+                :disabled="onboardingData.identityIds.length === 0 || loading"
                 variant="primary"
                 class="flex-1"
               >
@@ -482,7 +482,7 @@ const identitiesLoading = ref(false);
 const onboardingData = ref({
   firstName: "",
   lastName: "",
-  identityId: null,
+  identityIds: [], // Changed to array for multiple selection
 });
 
 const getStepTitle = () => {
@@ -532,10 +532,15 @@ const fetchIdentities = async () => {
 
 const selectIdentity = (identityId) => {
   // Toggle selection - if already selected, unselect it
-  if (onboardingData.value.identityId === identityId) {
-    onboardingData.value.identityId = null;
+  const currentIds = onboardingData.value.identityIds;
+  const isSelected = currentIds.includes(identityId);
+  
+  if (isSelected) {
+    // Remove from selection
+    onboardingData.value.identityIds = currentIds.filter(id => id !== identityId);
   } else {
-    onboardingData.value.identityId = identityId;
+    // Add to selection
+    onboardingData.value.identityIds = [...currentIds, identityId];
   }
 };
 
@@ -546,6 +551,7 @@ const completeOnboarding = async () => {
   try {
     const token = useCookie("auth-token");
 
+    // Complete basic onboarding (name only)
     await $fetch("http://localhost:3000/auth/complete-onboarding", {
       method: "POST",
       headers: {
@@ -554,7 +560,17 @@ const completeOnboarding = async () => {
       body: {
         firstName: onboardingData.value.firstName,
         lastName: onboardingData.value.lastName,
-        identityId: onboardingData.value.identityId,
+      },
+    });
+
+    // Create user identities
+    await $fetch("http://localhost:3000/identities/user", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token.value}`,
+      },
+      body: {
+        identityIds: onboardingData.value.identityIds,
       },
     });
 
