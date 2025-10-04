@@ -179,7 +179,7 @@
             <!-- 7-Day Pace (Left) -->
             <div class="bg-slate-800 rounded-xl p-6 relative h-72">
               <h3 class="text-lg font-semibold text-white flex items-center gap-2">
-                <UIcon name="i-heroicons-bolt-20-solid" class="w-5 h-5 text-primary" />
+                <UIcon name="i-heroicons-bolt-20-solid" class="w-5 h-5 text-metrics" />
                 7-Day Pace
               </h3>
 
@@ -188,7 +188,7 @@
                 class="absolute bottom-11 left-1/2 transform -translate-x-1/2 z-10 text-center"
               >
                 <div
-                  class="flex items-center justify-center text-2xl font-bold text-primary font-mono tabular-nums"
+                  class="flex items-center justify-center text-2xl font-bold text-metrics font-mono tabular-nums"
                 >
                   <AnimatedNumber :value="voteStats.activeDaysLast7" /><span
                     >/7</span
@@ -209,7 +209,7 @@
             <!-- Week Streak (Center) -->
             <div class="bg-slate-800 rounded-xl p-6 h-72 relative">
               <h3 class="text-lg font-semibold text-white flex items-center gap-2">
-                <UIcon name="i-heroicons-fire-20-solid" class="w-5 h-5 text-primary" />
+                <UIcon name="i-heroicons-fire-20-solid" class="w-5 h-5 text-metrics" />
                 Consecutive Weeks Streak
               </h3>
               <div class="flex items-center justify-center h-full">
@@ -219,8 +219,8 @@
                       :class="[
                         'text-9xl font-bold',
                         voteStats.currentStreak > 4
-                          ? 'text-primary'
-                          : 'text-primary',
+                          ? 'text-metrics'
+                          : 'text-metrics',
                       ]"
                     >
                       <AnimatedNumber :value="voteStats.currentStreak" />
@@ -244,12 +244,12 @@
             <!-- Total Votes (Right) -->
             <div class="bg-slate-800 rounded-xl p-6 h-72 relative">
               <h3 class="text-lg font-semibold text-white flex items-center gap-2">
-                <UIcon name="i-heroicons-trophy-20-solid" class="w-5 h-5 text-primary" />
+                <UIcon name="i-heroicons-trophy-20-solid" class="w-5 h-5 text-metrics" />
                 All Time
               </h3>
               <div class="flex items-center justify-center h-full">
                 <div class="text-center -mt-8">
-                  <p class="text-9xl font-bold text-primary">
+                  <p class="text-9xl font-bold text-metrics">
                     <AnimatedNumber :value="voteStats.totalVotes" />
                   </p>
                   <p class="text-sm text-slate-400 mt-3">

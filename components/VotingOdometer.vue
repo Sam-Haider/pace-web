@@ -40,7 +40,7 @@
       <path
         :d="redZoneArc"
         fill="none"
-        :stroke="currentRedZoneColor"
+        :stroke="colors.red"
         stroke-width="12"
         stroke-linecap="round"
       />
@@ -85,11 +85,8 @@
     </svg>
 
     <!-- Zone Warning Text -->
-    <div class="absolute -bottom-0 left-0 right-0 text-center">
-      <div
-        v-if="activeDays >= 6"
-        :class="['text-sm font-bold', warningTextClass]"
-      >
+    <div class="absolute bottom-10 left-0 right-0 text-center">
+      <div v-if="activeDays >= 6" class="text-sm font-bold text-red-400">
         {{ warningMessage }}
       </div>
     </div>
@@ -109,40 +106,15 @@ const props = defineProps({
   },
 });
 
-// Color schemes - easy to swap
-const colorSchemes = {
-  amber: {
-    background: "#374151", // slate-700
-    green: "var(--primary-color)", // CSS variable for consistency
-    amber: "#f59e0b", // amber-500 - keeping this bright amber
-    red: "#ef4411", // red-500 - brighter red
-    center: "#1f2937", // gray-800
-    centerBorder: "#6b7280", // gray-500
-    pointer: "#ffffff", // white pointer
-  },
-  blue: {
-    background: "#374151",
-    green: "#10b981",
-    amber: "#3b82f6", // blue-500
-    red: "#dc2626",
-    center: "#1f2937",
-    centerBorder: "#6b7280",
-    pointer: "#3b82f6",
-  },
-  green: {
-    background: "#374151",
-    green: "#10b981",
-    amber: "#84cc16", // lime-500
-    red: "#dc2626",
-    center: "#1f2937",
-    centerBorder: "#6b7280",
-    pointer: "#10b981",
-  },
+// Simple color definitions using CSS variables and Tailwind colors
+const colors = {
+  background: "#374151", // slate-700
+  green: "var(--primary-color)",
+  red: "var(--secondary-color)",
+  center: "#1f2937", // gray-800
+  centerBorder: "#6b7280", // gray-500
+  pointer: "#ffffff", // white
 };
-
-const colors = computed(
-  () => colorSchemes[props.colorScheme] || colorSchemes.amber
-);
 
 // 270-degree arc calculations
 const radius = 70;
@@ -181,16 +153,6 @@ const pointerAngle = computed(() => {
   return startAngle + ratio * totalAngle;
 });
 
-const pointerX = computed(() => {
-  const angle = (pointerAngle.value * Math.PI) / 180;
-  return centerX + radius * Math.cos(angle);
-});
-
-const pointerY = computed(() => {
-  const angle = (pointerAngle.value * Math.PI) / 180;
-  return centerY + radius * Math.sin(angle);
-});
-
 // Label coordinates for the odometer "0" placed slightly outside the arc start
 const labelOffset = 10; // pixels outside the arc
 const labelAngle = startAngle + 8; // place at the arc's starting angle
@@ -214,25 +176,6 @@ const labelXEnd = computed(() => {
 const labelYEnd = computed(() => {
   const angle = (labelAngleEnd * Math.PI) / 180;
   return centerY + (radius + labelOffset) * Math.sin(angle);
-});
-
-// Dynamic colors based on current value
-const currentZoneColor = computed(() => {
-  if (props.activeDays <= 5) return colors.value.green;
-  return colors.value.red;
-});
-
-const textColorClass = computed(() => {
-  if (props.activeDays <= 5) return "text-emerald-400";
-  return "text-red-400";
-});
-
-const currentRedZoneColor = computed(() => {
-  return colors.value.red; // red-400 (matches text-red-400)
-});
-
-const warningTextClass = computed(() => {
-  return "text-red-400";
 });
 
 const warningMessage = computed(() => {

@@ -4,7 +4,7 @@
     <button
       @click="openVoteModal"
       :disabled="disabled"
-      class="relative overflow-hidden px-6 py-3 text-base font-bold bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-700 hover:from-purple-700 hover:via-blue-700 hover:to-indigo-800 hover:cursor-pointer text-white rounded-2xl transform transition-all duration-300 ease-out hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/30 active:scale-95 focus:outline-none focus:ring-4 focus:ring-purple-400/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none group w-full"
+      class="relative overflow-hidden px-6 py-3 text-base font-bold bg-gradient-to-r from-emerald-400 to-emerald-800 hover:from-gray-700 hover:to-gray-800 hover:cursor-pointer text-white rounded-2xl transform transition-all duration-300 ease-out hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/30 active:scale-95 focus:outline-none focus:ring-4 focus:ring-purple-400/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none group w-full"
     >
       <!-- One-time shimmer effect -->
       <div
@@ -201,10 +201,10 @@ const openVoteModal = () => {
   // Reset form with today's date (local timezone)
   const today = new Date();
   const year = today.getFullYear();
-  const month = String(today.getMonth() + 1).padStart(2, '0');
-  const day = String(today.getDate()).padStart(2, '0');
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const day = String(today.getDate()).padStart(2, "0");
   const todayString = `${year}-${month}-${day}`;
-  
+
   voteForm.value = {
     date: todayString,
     notes: "",
