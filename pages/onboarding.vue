@@ -154,12 +154,18 @@
               </p>
             </div>
 
-            <div class="space-y-4">
+            <div v-if="identitiesLoading" class="text-center py-8">
+              <div class="text-slate-400">Loading identities...</div>
+            </div>
+            
+            <div v-else class="space-y-4">
               <button
-                @click="selectIdentity(1)"
+                v-for="identity in identities"
+                :key="identity.id"
+                @click="selectIdentity(identity.id)"
                 class="identity-button w-full p-6 rounded-xl border-2 transition-all duration-200 text-left group relative"
                 :class="[
-                  onboardingData.identityId === 1
+                  onboardingData.identityId === identity.id
                     ? 'border-slate-500 bg-slate-700 ring-2 ring-slate-500/30'
                     : 'border-slate-600 bg-slate-700/50 hover:bg-slate-700 hover:border-slate-500',
                 ]"
@@ -170,7 +176,7 @@
                     class="w-6 h-6 flex items-center justify-center flex-shrink-0"
                   >
                     <div
-                      v-if="onboardingData.identityId === 1"
+                      v-if="onboardingData.identityId === identity.id"
                       class="w-6 h-6 rounded-full flex items-center justify-center shadow-lg border-2"
                       style="
                         background-color: var(--primary-color);
@@ -195,7 +201,7 @@
                   <div
                     :class="[
                       'w-12 h-12 rounded-full flex items-center justify-center transition-all duration-200',
-                      onboardingData.identityId === 1
+                      onboardingData.identityId === identity.id
                         ? 'bg-slate-600'
                         : 'bg-slate-500 group-hover:bg-slate-400',
                     ]"
@@ -218,13 +224,12 @@
                     <h3
                       class="text-lg font-semibold text-white group-hover:text-slate-100 transition-colors"
                     >
-                      Consistent Mover
+                      {{ identity.name }}
                     </h3>
                     <p
                       class="text-slate-400 text-sm group-hover:text-slate-300 transition-colors"
                     >
-                      I prioritize regular movement and building sustainable
-                      habits
+                      {{ identity.description }}
                     </p>
                   </div>
                 </div>
@@ -473,6 +478,8 @@ const loading = ref(false);
 const error = ref("");
 const transitionName = ref("slide-right");
 const showResearch = ref(false);
+const identities = ref([]);
+const identitiesLoading = ref(false);
 
 // Onboarding form data
 const onboardingData = ref({
@@ -498,6 +505,11 @@ const nextStep = () => {
   if (currentStep.value < 3) {
     transitionName.value = "slide-left";
     currentStep.value++;
+    
+    // Load identities when reaching step 3
+    if (currentStep.value === 3) {
+      fetchIdentities();
+    }
   }
 };
 
@@ -505,6 +517,19 @@ const previousStep = () => {
   if (currentStep.value > 1) {
     transitionName.value = "slide-right";
     currentStep.value--;
+  }
+};
+
+const fetchIdentities = async () => {
+  identitiesLoading.value = true;
+  try {
+    const data = await $fetch('http://localhost:3000/identities');
+    identities.value = data;
+  } catch (err) {
+    console.error('Failed to fetch identities:', err);
+    error.value = 'Failed to load identity options. Please try again.';
+  } finally {
+    identitiesLoading.value = false;
   }
 };
 

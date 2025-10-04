@@ -693,7 +693,7 @@ const fetchUserIdentities = async () => {
   try {
     const token = useCookie("auth-token");
 
-    const identities = await $fetch("http://localhost:3000/auth/identities", {
+    const identities = await $fetch("http://localhost:3000/identities/user", {
       headers: {
         Authorization: `Bearer ${token.value}`,
       },
