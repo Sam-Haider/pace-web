@@ -4,7 +4,7 @@
     <button
       @click="openVoteModal"
       :disabled="disabled"
-      class="relative overflow-hidden px-6 py-3 text-base font-bold bg-gradient-to-r from-emerald-400 to-emerald-800 hover:from-gray-700 hover:to-gray-800 hover:cursor-pointer text-white rounded-2xl transform transition-all duration-300 ease-out hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/30 active:scale-95 focus:outline-none focus:ring-4 focus:ring-purple-400/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none group w-full"
+      class="relative overflow-hidden px-6 py-3 text-base font-bold bg-gradient-to-r from-emerald-400 to-emerald-800 hover:from-gray-700 hover:to-gray-800 hover:cursor-pointer text-white rounded-2xl transform transition-all duration-300 ease-out hover:scale-105 hover:shadow-xl hover:shadow-emerald-500/30 active:scale-95 focus:outline-none focus:ring-4 focus:ring-emerald-400/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none group w-full"
     >
       <!-- One-time shimmer effect -->
       <div
@@ -18,7 +18,7 @@
 
       <!-- Glow effect -->
       <div
-        class="absolute inset-0 rounded-2xl bg-gradient-to-r from-purple-400 to-blue-400 opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-300"
+        class="absolute inset-0 rounded-2xl bg-gradient-to-r from-emerald-400 to-emerald-600 opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-300"
       ></div>
 
       <!-- Button content -->
@@ -138,7 +138,7 @@
             <button
               type="submit"
               :disabled="voteLoading"
-              class="relative overflow-hidden px-4 py-3 text-sm font-bold bg-gradient-to-r from-purple-700 via-blue-700 to-indigo-800 hover:from-purple-800 hover:via-blue-800 hover:to-indigo-900 hover:cursor-pointer text-white rounded-xl transform transition-all duration-300 ease-out hover:scale-105 hover:shadow-xl hover:shadow-purple-500/30 active:scale-95 focus:outline-none focus:ring-4 focus:ring-purple-400/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none group flex-1"
+              class="relative overflow-hidden px-4 py-3 text-sm font-bold bg-gradient-to-r from-emerald-400 to-emerald-800 hover:from-gray-700 hover:to-gray-800 hover:cursor-pointer text-white rounded-xl transform transition-all duration-300 ease-out hover:scale-105 hover:shadow-xl hover:shadow-emerald-500/30 active:scale-95 focus:outline-none focus:ring-4 focus:ring-emerald-400/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none group flex-1"
             >
               <!-- One-time shimmer effect -->
               <div
@@ -152,7 +152,7 @@
 
               <!-- Glow effect -->
               <div
-                class="absolute inset-0 rounded-xl bg-gradient-to-r from-purple-400 to-blue-400 opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-300"
+                class="absolute inset-0 rounded-xl bg-gradient-to-r from-emerald-400 to-emerald-600 opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-300"
               ></div>
 
               <!-- Button content -->
