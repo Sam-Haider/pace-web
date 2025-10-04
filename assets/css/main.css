@@ -2,7 +2,7 @@
 :root {
   /* Primary brand color - update this to change the theme across the entire app */
   --primary-color: #10b981; /* emerald-500 - for visual elements like odometer arc and heatmap */
-  --secondary-color: #fb2c36; /* red for warning zones */
+  --secondary-color: #f43f5e; /* red for warning zones */
   --metrics-color: #10b981; /* amber-500 - for metrics text and icons */
 }
 

@@ -170,34 +170,31 @@
                     : 'border-slate-600 bg-slate-700/50 hover:bg-slate-700 hover:border-slate-500',
                 ]"
               >
-                <div class="flex items-center space-x-4">
-                  <!-- Selected Indicator - Always present to prevent layout shift -->
-                  <div
-                    class="w-6 h-6 flex items-center justify-center flex-shrink-0"
+                <!-- Selected Checkmark - Absolute positioned at top right -->
+                <div
+                  v-if="onboardingData.identityId === identity.id"
+                  class="absolute top-3 right-3 w-5 h-5 rounded-full flex items-center justify-center shadow-lg border-2 z-10"
+                  style="
+                    background-color: var(--primary-color);
+                    border-color: var(--primary-color);
+                  "
+                >
+                  <svg
+                    class="w-3 h-3 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
                   >
-                    <div
-                      v-if="onboardingData.identityId === identity.id"
-                      class="w-6 h-6 rounded-full flex items-center justify-center shadow-lg border-2"
-                      style="
-                        background-color: var(--primary-color);
-                        border-color: var(--primary-color);
-                      "
-                    >
-                      <svg
-                        class="w-4 h-4 text-white"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M5 13l4 4L19 7"
-                        />
-                      </svg>
-                    </div>
-                  </div>
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
+                </div>
+                
+                <div class="flex items-center space-x-4">
                   <div
                     :class="[
                       'w-12 h-12 rounded-full flex items-center justify-center transition-all duration-200',
