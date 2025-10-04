@@ -531,10 +531,10 @@ const dropdownOptions = computed(() => {
   }));
 });
 
-// Computed property for votes sorted by most recent first
+// Computed property for votes sorted by most recent vote date first
 const sortedRecentVotes = computed(() => {
   if (!recentVotes.value || recentVotes.value.length === 0) return [];
-  return [...recentVotes.value].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  return [...recentVotes.value].sort((a, b) => new Date(b.date) - new Date(a.date));
 });
 
 // Celebration states

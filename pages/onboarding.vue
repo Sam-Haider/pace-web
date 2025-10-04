@@ -31,14 +31,14 @@
               >
                 <svg
                   class="w-8 h-8 text-white"
-                  fill="none"
-                  stroke="currentColor"
+                  fill="var(--primary-color)"
+                  stroke="var(--primary-color)"
                   viewBox="0 0 24 24"
                 >
                   <path
                     stroke-linecap="round"
                     stroke-linejoin="round"
-                    stroke-width="2"
+                    stroke-width="1"
                     d="M13 10V3L4 14h7v7l9-11h-7z"
                   />
                 </svg>
@@ -171,8 +171,11 @@
                   >
                     <div
                       v-if="onboardingData.identityId === 1"
-                      class="w-6 h-6 rounded-full flex items-center justify-center shadow-lg border-2 border-green-400"
-                      style="background-color: #10b981"
+                      class="w-6 h-6 rounded-full flex items-center justify-center shadow-lg border-2"
+                      style="
+                        background-color: var(--primary-color);
+                        border-color: var(--primary-color);
+                      "
                     >
                       <svg
                         class="w-4 h-4 text-white"
@@ -449,10 +452,7 @@
 
           <!-- Back Button -->
           <div class="flex justify-center pt-4">
-            <BaseButton
-              @click="showResearch = false"
-              variant="secondary"
-            >
+            <BaseButton @click="showResearch = false" variant="secondary">
               Back to Identity Selection
             </BaseButton>
           </div>
