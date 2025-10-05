@@ -4,7 +4,7 @@
     <button
       @click="openVoteModal"
       :disabled="disabled"
-      class="relative overflow-hidden px-6 py-3 text-base font-bold bg-gradient-to-r from-emerald-400 to-emerald-800 hover:from-gray-700 hover:to-gray-800 hover:cursor-pointer text-white rounded-2xl transform transition-all duration-300 ease-out hover:scale-105 hover:shadow-xl hover:shadow-emerald-500/30 active:scale-95 focus:outline-none focus:ring-4 focus:ring-emerald-400/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none group w-full"
+      class="relative overflow-hidden px-7 py-3 text-lg font-bold bg-gradient-to-r from-emerald-400 to-emerald-800 hover:from-emerald-800 hover:to-emerald-1000 hover:cursor-pointer text-white rounded-2xl transform transition-all duration-300 ease-out hover:scale-105 hover:shadow-xl hover:shadow-emerald-500/30 active:scale-95 focus:outline-none focus:ring-4 focus:ring-emerald-400/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none group w-full"
     >
       <!-- One-time shimmer effect -->
       <div
