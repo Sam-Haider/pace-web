@@ -4,58 +4,26 @@
     <div class="py-4 px-6">
       <div class="mx-auto max-w-7xl">
         <!-- Header Section -->
-        <div class="mb-8">
+        <div class="mb-6">
           <!-- Desktop Layout -->
           <div class="hidden md:flex justify-between items-end">
             <h1 class="text-3xl font-bold text-white">Dashboard</h1>
-            <div class="flex items-center space-x-4">
-              <!-- Identity Dropdown -->
-              <div
-                v-if="userIdentities && userIdentities.length > 0"
-                class="min-w-48 max-w-xs"
-              >
-                <BaseDropdown
-                  v-model="selectedIdentityId"
-                  :options="dropdownOptions"
-                  value-key="value"
-                  display-key="label"
-                  @change="handleIdentityChange"
-                  placeholder="Select an identity"
-                />
-              </div>
-              <div>
-                <VoteButton
-                  :user-identity-id="selectedIdentityId"
-                  @vote-cast="handleVoteCast"
-                />
-              </div>
+            <div>
+              <VoteButton
+                :user-identity-id="selectedIdentityId"
+                @vote-cast="handleVoteCast"
+              />
             </div>
           </div>
 
           <!-- Mobile Layout -->
           <div class="md:hidden space-y-4 mb-7">
             <h1 class="text-2xl font-bold text-white">Dashboard</h1>
-            <div class="flex flex-col gap-4">
-              <!-- Identity Dropdown -->
-              <div
-                v-if="userIdentities && userIdentities.length > 0"
-                class="w-full mb-4"
-              >
-                <BaseDropdown
-                  v-model="selectedIdentityId"
-                  :options="dropdownOptions"
-                  value-key="value"
-                  display-key="label"
-                  @change="handleIdentityChange"
-                  placeholder="Select an identity"
-                />
-              </div>
-              <div class="w-full">
-                <VoteButton
-                  :user-identity-id="selectedIdentityId"
-                  @vote-cast="handleVoteCast"
-                />
-              </div>
+            <div class="w-full">
+              <VoteButton
+                :user-identity-id="selectedIdentityId"
+                @vote-cast="handleVoteCast"
+              />
             </div>
           </div>
         </div>
@@ -172,14 +140,42 @@
           </div>
         </div>
 
+        <!-- Identity Selector Pills -->
+        <div v-if="userIdentities && userIdentities.length > 1" class="mb-6">
+          <div
+            class="flex items-center space-x-3 overflow-x-auto pb-2 scrollbar-hide"
+          >
+            <div class="flex space-x-2 min-w-max">
+              <button
+                v-for="identity in userIdentities"
+                :key="identity.userIdentityId"
+                @click="selectedIdentityId = identity.userIdentityId"
+                :class="[
+                  'px-4 py-2 rounded-full border-2 text-sm font-medium transition-all duration-200 whitespace-nowrap hover:cursor-pointer',
+                  selectedIdentityId === identity.userIdentityId
+                    ? 'border-primary text-primary bg-primary/10'
+                    : 'border-slate-600 text-slate-400 hover:border-slate-500 hover:text-slate-300',
+                ]"
+              >
+                {{ identity.identity.name }}
+              </button>
+            </div>
+          </div>
+        </div>
+
         <!-- Main Dashboard Grid -->
         <div v-if="voteStats" class="space-y-6 mb-8">
           <!-- Top Row: 7-Day Pace + Week Streak + Total Votes -->
           <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <!-- 7-Day Pace (Left) -->
             <div class="bg-slate-800 rounded-xl p-6 relative h-72">
-              <h3 class="text-lg font-semibold text-white flex items-center gap-2">
-                <UIcon name="i-heroicons-bolt-20-solid" class="w-5 h-5 text-metrics" />
+              <h3
+                class="text-lg font-semibold text-white flex items-center gap-2"
+              >
+                <UIcon
+                  name="i-heroicons-bolt-20-solid"
+                  class="w-5 h-5 text-metrics"
+                />
                 7-Day Pace
               </h3>
 
@@ -208,8 +204,13 @@
 
             <!-- Week Streak (Center) -->
             <div class="bg-slate-800 rounded-xl p-6 h-72 relative">
-              <h3 class="text-lg font-semibold text-white flex items-center gap-2">
-                <UIcon name="i-heroicons-fire-20-solid" class="w-5 h-5 text-metrics" />
+              <h3
+                class="text-lg font-semibold text-white flex items-center gap-2"
+              >
+                <UIcon
+                  name="i-heroicons-fire-20-solid"
+                  class="w-5 h-5 text-metrics"
+                />
                 Consecutive Weeks Streak
               </h3>
               <div class="flex items-center justify-center h-full">
@@ -243,8 +244,13 @@
 
             <!-- Total Votes (Right) -->
             <div class="bg-slate-800 rounded-xl p-6 h-72 relative">
-              <h3 class="text-lg font-semibold text-white flex items-center gap-2">
-                <UIcon name="i-heroicons-trophy-20-solid" class="w-5 h-5 text-metrics" />
+              <h3
+                class="text-lg font-semibold text-white flex items-center gap-2"
+              >
+                <UIcon
+                  name="i-heroicons-trophy-20-solid"
+                  class="w-5 h-5 text-metrics"
+                />
                 All Time
               </h3>
               <div class="flex items-center justify-center h-full">
@@ -523,18 +529,17 @@ const votesLoading = ref(true);
 const userIdentities = ref([]);
 const selectedIdentityId = ref(null);
 
-// Computed property to format identities for dropdown
-const dropdownOptions = computed(() => {
-  return userIdentities.value.map((userIdentity) => ({
-    value: userIdentity.userIdentityId,
-    label: `${userIdentity.identity.name}`,
-  }));
-});
+// Identity selection handler
+const handleIdentityChange = () => {
+  fetchVotes();
+};
 
 // Computed property for votes sorted by most recent vote date first
 const sortedRecentVotes = computed(() => {
   if (!recentVotes.value || recentVotes.value.length === 0) return [];
-  return [...recentVotes.value].sort((a, b) => new Date(b.date) - new Date(a.date));
+  return [...recentVotes.value].sort(
+    (a, b) => new Date(b.date) - new Date(a.date)
+  );
 });
 
 // Celebration states
@@ -761,7 +766,7 @@ const handleVoteCast = (response) => {
   // Add new vote to recent votes immediately (optimistic update)
   if (response.vote) {
     recentVotes.value.unshift(response.vote);
-    
+
     // Update stats optimistically
     if (voteStats.value) {
       voteStats.value.totalVotes += 1;
@@ -977,10 +982,12 @@ const handleDeleteVote = async () => {
   }
 };
 
-// Handle identity change
-const handleIdentityChange = () => {
-  fetchVotes();
-};
+// Watch for identity selection changes
+watch(selectedIdentityId, () => {
+  if (selectedIdentityId.value) {
+    fetchVotes();
+  }
+});
 
 // Initialize data
 const initializeDashboard = async () => {
