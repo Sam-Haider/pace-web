@@ -6,11 +6,81 @@
         <!-- Header Section -->
         <div class="mb-6">
           <!-- Desktop Layout -->
-          <div class="hidden md:flex justify-between items-end">
+          <div class="hidden md:flex justify-between items-center">
             <h1 class="text-3xl font-bold text-white">Dashboard</h1>
-            <div>
+
+            <div class="flex items-center gap-4">
+              <!-- Right-aligned Identity Selector -->
+              <div
+                v-if="userIdentities && userIdentities.length > 0"
+                class="relative"
+              >
+                <button
+                  @click="dropdownOpen = !dropdownOpen"
+                  class="bg-gradient-to-r from-slate-800 to-slate-700 rounded-2xl px-7 py-3 text-left text-white font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-emerald-400/50 min-w-70"
+                >
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                      <div class="w-3 h-3 bg-emerald-400 rounded-full"></div>
+                      <span class="text-lg"
+                        >{{
+                          selectedIdentity?.identity.name || "Select Identity"
+                        }}
+                      </span>
+                    </div>
+                    <svg
+                      class="w-4 h-4 text-slate-400 transition-transform duration-200"
+                      :class="{ 'rotate-180': dropdownOpen }"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </div>
+                </button>
+
+                <!-- Dropdown Menu -->
+                <div
+                  v-if="dropdownOpen"
+                  class="absolute top-full left-0 right-0 mt-2 bg-slate-800 border-2 border-slate-600 rounded-2xl shadow-2xl shadow-emerald-500/10 z-50 overflow-hidden"
+                >
+                  <button
+                    v-for="identity in userIdentities"
+                    :key="identity.userIdentityId"
+                    @click="selectIdentity(identity.userIdentityId)"
+                    class="w-full px-6 py-3 text-left text-white hover:bg-slate-700 transition-colors duration-150 flex items-center space-x-3 border-b border-slate-600 last:border-b-0"
+                    :class="{
+                      'bg-emerald-600/20 border-emerald-500/30':
+                        selectedIdentityId === identity.userIdentityId,
+                    }"
+                  >
+                    <div
+                      class="w-3 h-3 rounded-full"
+                      :class="
+                        selectedIdentityId === identity.userIdentityId
+                          ? 'bg-emerald-400'
+                          : 'bg-slate-500'
+                      "
+                    ></div>
+                    <div>
+                      <div class="font-semibold text-lg">
+                        {{ identity.identity.name }}
+                      </div>
+                    </div>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Vote Button -->
               <VoteButton
                 :user-identity-id="selectedIdentityId"
+                :selected-identity="selectedIdentity"
                 @vote-cast="handleVoteCast"
               />
             </div>
@@ -19,9 +89,78 @@
           <!-- Mobile Layout -->
           <div class="md:hidden space-y-4 mb-7">
             <h1 class="text-2xl font-bold text-white">Dashboard</h1>
+
+            <!-- Mobile Identity Selector -->
+            <div
+              v-if="userIdentities && userIdentities.length > 0"
+              class="w-full"
+            >
+              <div class="relative">
+                <button
+                  @click="dropdownOpen = !dropdownOpen"
+                  class="w-full bg-gradient-to-r from-slate-800 to-slate-700 border-2 border-slate-600 rounded-2xl px-6 py-4 text-left text-white font-semibold text-lg shadow-lg hover:border-slate-500 hover:shadow-xl transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-emerald-400/50 focus:border-emerald-400"
+                >
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                      <div class="w-3 h-3 bg-emerald-400 rounded-full"></div>
+                      <span>{{
+                        selectedIdentity?.identity.name || "Select Identity"
+                      }}</span>
+                    </div>
+                    <svg
+                      class="w-5 h-5 text-slate-400 transition-transform duration-200"
+                      :class="{ 'rotate-180': dropdownOpen }"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </div>
+                </button>
+
+                <!-- Mobile Dropdown Menu -->
+                <div
+                  v-if="dropdownOpen"
+                  class="absolute top-full left-0 right-0 mt-2 bg-slate-800 border-2 border-slate-600 rounded-2xl shadow-2xl shadow-emerald-500/10 z-50 overflow-hidden"
+                >
+                  <button
+                    v-for="identity in userIdentities"
+                    :key="identity.userIdentityId"
+                    @click="selectIdentity(identity.userIdentityId)"
+                    class="w-full px-6 py-4 text-left text-white hover:bg-slate-700 transition-colors duration-150 flex items-center space-x-3 border-b border-slate-600 last:border-b-0"
+                    :class="{
+                      'bg-emerald-600/20 border-emerald-500/30':
+                        selectedIdentityId === identity.userIdentityId,
+                    }"
+                  >
+                    <div
+                      class="w-3 h-3 rounded-full"
+                      :class="
+                        selectedIdentityId === identity.userIdentityId
+                          ? 'bg-emerald-400'
+                          : 'bg-slate-500'
+                      "
+                    ></div>
+                    <div>
+                      <div class="font-semibold text-lg">
+                        {{ identity.identity.name }}
+                      </div>
+                    </div>
+                  </button>
+                </div>
+              </div>
+            </div>
+
             <div class="w-full">
               <VoteButton
                 :user-identity-id="selectedIdentityId"
+                :selected-identity="selectedIdentity"
                 @vote-cast="handleVoteCast"
               />
             </div>
@@ -140,29 +279,6 @@
           </div>
         </div>
 
-        <!-- Identity Selector Pills -->
-        <div v-if="userIdentities && userIdentities.length > 1" class="mb-6">
-          <div
-            class="flex items-center space-x-3 overflow-x-auto pb-2 scrollbar-hide"
-          >
-            <div class="flex space-x-2 min-w-max">
-              <button
-                v-for="identity in userIdentities"
-                :key="identity.userIdentityId"
-                @click="selectedIdentityId = identity.userIdentityId"
-                :class="[
-                  'px-4 py-2 rounded-full border-2 text-sm font-medium transition-all duration-200 whitespace-nowrap hover:cursor-pointer',
-                  selectedIdentityId === identity.userIdentityId
-                    ? 'border-primary text-primary bg-primary/10'
-                    : 'border-slate-600 text-slate-400 hover:border-slate-500 hover:text-slate-300',
-                ]"
-              >
-                {{ identity.identity.name }}
-              </button>
-            </div>
-          </div>
-        </div>
-
         <!-- Main Dashboard Grid -->
         <div v-if="voteStats" class="space-y-6 mb-8">
           <!-- Top Row: 7-Day Pace + Week Streak + Total Votes -->
@@ -190,7 +306,7 @@
                     >/7</span
                   >
                 </div>
-                <p class="text-sm text-slate-400">days won</p>
+                <p class="text-sm text-slate-400">Wins</p>
               </div>
 
               <!-- Odometer takes up most of the space -->
@@ -230,7 +346,7 @@
                       >🔥</span
                     >
                   </div>
-                  <p class="text-sm text-slate-400 mt-3">successful weeks</p>
+                  <p class="text-sm text-slate-400 mt-3">Successful Weeks</p>
                 </div>
               </div>
               <!-- Streak celebration -->
@@ -259,7 +375,7 @@
                     <AnimatedNumber :value="voteStats.totalVotes" />
                   </p>
                   <p class="text-sm text-slate-400 mt-3">
-                    votes for the person you're becoming
+                    Votes for the Person You're Becoming
                   </p>
                 </div>
               </div>
@@ -528,10 +644,25 @@ const voteStats = ref(null);
 const votesLoading = ref(true);
 const userIdentities = ref([]);
 const selectedIdentityId = ref(null);
+const dropdownOpen = ref(false);
 
 // Identity selection handler
 const handleIdentityChange = () => {
   fetchVotes();
+};
+
+// Selected identity object
+const selectedIdentity = computed(() => {
+  if (!userIdentities.value || !selectedIdentityId.value) return null;
+  return userIdentities.value.find(
+    (ui) => ui.userIdentityId === selectedIdentityId.value
+  );
+});
+
+// Identity selection function
+const selectIdentity = (identityId) => {
+  selectedIdentityId.value = identityId;
+  dropdownOpen.value = false;
 };
 
 // Computed property for votes sorted by most recent vote date first
@@ -997,9 +1128,21 @@ const initializeDashboard = async () => {
   }
 };
 
+// Close dropdown when clicking outside
+const handleClickOutside = (event) => {
+  if (!event.target.closest(".relative")) {
+    dropdownOpen.value = false;
+  }
+};
+
 // Fetch data on component mount
 onMounted(() => {
   initializeDashboard();
+  document.addEventListener("click", handleClickOutside);
+});
+
+onUnmounted(() => {
+  document.removeEventListener("click", handleClickOutside);
 });
 </script>
 

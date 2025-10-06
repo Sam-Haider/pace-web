@@ -51,7 +51,7 @@
         class="bg-slate-800 rounded-xl shadow-2xl w-full max-w-md p-6 space-y-6"
       >
         <div class="flex justify-between items-center">
-          <h3 class="text-lg font-semibold text-white">Cast Your Vote</h3>
+          <h3 class="text-lg font-semibold text-white">{{ modalTitle }}</h3>
           <button
             @click="closeVoteModal"
             class="text-slate-400 hover:text-white transition-colors"
@@ -138,7 +138,7 @@
             <button
               type="submit"
               :disabled="voteLoading"
-              class="relative overflow-hidden px-4 py-3 text-sm font-bold bg-gradient-to-r from-emerald-400 to-emerald-800 hover:from-gray-700 hover:to-gray-800 hover:cursor-pointer text-white rounded-xl transform transition-all duration-300 ease-out hover:scale-105 hover:shadow-xl hover:shadow-emerald-500/30 active:scale-95 focus:outline-none focus:ring-4 focus:ring-emerald-400/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none group flex-1"
+              class="relative overflow-hidden px-4 py-3 text-sm font-bold bg-gradient-to-r from-emerald-400 to-emerald-800 hover:from-emerald-800 hover:to-emerald-1000 hover:cursor-pointer text-white rounded-xl transform transition-all duration-300 ease-out hover:scale-105 hover:shadow-xl hover:shadow-emerald-500/30 active:scale-95 focus:outline-none focus:ring-4 focus:ring-emerald-400/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none group flex-1"
             >
               <!-- One-time shimmer effect -->
               <div
@@ -191,6 +191,18 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  selectedIdentity: {
+    type: Object,
+    required: false,
+  },
+});
+
+// Computed modal title
+const modalTitle = computed(() => {
+  if (props.selectedIdentity) {
+    return `Cast Your Vote: ${props.selectedIdentity.identity.name}`;
+  }
+  return "Cast Your Vote";
 });
 
 // Emits for when vote is successfully cast
