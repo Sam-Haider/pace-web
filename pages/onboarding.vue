@@ -4,13 +4,13 @@
       <!-- Progress Bar -->
       <div class="mb-8">
         <div class="flex justify-between items-center mb-2">
-          <span class="text-sm text-slate-300">{{ currentStep }}/3</span>
+          <span class="text-sm text-slate-300">{{ currentStep }}/4</span>
           <span class="text-sm text-slate-400">{{ getStepTitle() }}</span>
         </div>
         <div class="w-full bg-slate-700 rounded-full h-2">
           <div
             class="bg-slate-400 h-2 rounded-full transition-all duration-500 ease-out"
-            :style="{ width: `${(currentStep / 3) * 100}%` }"
+            :style="{ width: `${(currentStep / 4) * 100}%` }"
           ></div>
         </div>
       </div>
@@ -18,7 +18,7 @@
       <!-- Step Content -->
       <div class="relative overflow-hidden">
         <Transition :name="transitionName" mode="out-in">
-          <!-- Step 1: Welcome -->
+          <!-- Step 1: App Introduction -->
           <div
             v-if="currentStep === 1"
             key="step1"
@@ -49,11 +49,13 @@
                   Welcome to Pace!
                 </h1>
                 <p class="text-xl text-slate-300 animate-fade-in-delayed">
-                  Let's set up your profile to personalize your experience
+                  Vote daily for the person you're becoming
                 </p>
-                <p class="text-slate-400 animate-fade-in-delayed-2">
-                  This will only take a minute ⚡
-                </p>
+                <div class="text-slate-400 animate-fade-in-delayed-2 space-y-2 text-left pl-8">
+                  <p>• Choose identities that matter to you</p>
+                  <p>• Track your progress with daily votes</p>
+                  <p>• Build momentum toward who you want to be</p>
+                </div>
               </div>
             </div>
 
@@ -64,14 +66,73 @@
               full-width
               class="shadow-lg animate-fade-in-delayed-3"
             >
-              Let's Get Started
+              Get Started
             </BaseButton>
           </div>
 
-          <!-- Step 2: Name Collection -->
+          <!-- Step 2: Welcome -->
           <div
             v-else-if="currentStep === 2"
             key="step2"
+            class="bg-slate-800 border border-slate-700 rounded-2xl shadow-2xl p-8 text-center space-y-8"
+          >
+            <div class="space-y-6">
+              <!-- Animated Logo/Icon -->
+              <div
+                class="mx-auto w-16 h-16 bg-slate-600 rounded-2xl flex items-center justify-center shadow-lg animate-pulse"
+              >
+                <svg
+                  class="w-8 h-8 text-white"
+                  fill="var(--primary-color)"
+                  stroke="var(--primary-color)"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1"
+                    d="M13 10V3L4 14h7v7l9-11h-7z"
+                  />
+                </svg>
+              </div>
+
+              <div class="space-y-4">
+                <h1 class="text-4xl font-bold text-white animate-fade-in">
+                  Let's personalize your experience
+                </h1>
+                <p class="text-xl text-slate-300 animate-fade-in-delayed">
+                  We'll help you set up your identities and preferences
+                </p>
+                <p class="text-slate-400 animate-fade-in-delayed-2">
+                  This will only take a minute ⚡
+                </p>
+              </div>
+            </div>
+
+            <div class="flex space-x-3">
+              <BaseButton
+                type="button"
+                @click="previousStep"
+                variant="outline"
+                class="flex-1"
+              >
+                Back
+              </BaseButton>
+              <BaseButton
+                @click="nextStep"
+                variant="secondary"
+                size="lg"
+                class="flex-1"
+              >
+                Continue
+              </BaseButton>
+            </div>
+          </div>
+
+          <!-- Step 3: Name Collection -->
+          <div
+            v-else-if="currentStep === 3"
+            key="step3"
             class="bg-slate-800 border border-slate-700 rounded-2xl shadow-2xl p-8 space-y-8"
           >
             <div class="text-center space-y-4">
@@ -141,8 +202,8 @@
 
           <!-- Step 3: Identity Selection -->
           <div
-            v-else-if="currentStep === 3"
-            key="step3"
+            v-else-if="currentStep === 4"
+            key="step4"
             class="bg-slate-800 border border-slate-700 rounded-2xl shadow-2xl p-8 space-y-8"
           >
             <div class="text-center space-y-4">
@@ -488,10 +549,12 @@ const onboardingData = ref({
 const getStepTitle = () => {
   switch (currentStep.value) {
     case 1:
-      return "Welcome";
+      return "Introduction";
     case 2:
-      return "Basic Info";
+      return "Welcome";
     case 3:
+      return "Basic Info";
+    case 4:
       return "Identity";
     default:
       return "";
@@ -499,12 +562,12 @@ const getStepTitle = () => {
 };
 
 const nextStep = () => {
-  if (currentStep.value < 3) {
+  if (currentStep.value < 4) {
     transitionName.value = "slide-left";
     currentStep.value++;
     
-    // Load identities when reaching step 3
-    if (currentStep.value === 3) {
+    // Load identities when reaching step 4
+    if (currentStep.value === 4) {
       fetchIdentities();
     }
   }
