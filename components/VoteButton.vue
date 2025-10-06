@@ -94,7 +94,7 @@
               for="voteNotes"
               class="block text-sm font-medium text-slate-300 mb-2"
             >
-              Notes
+              Notes (optional)
             </label>
             <textarea
               id="voteNotes"
