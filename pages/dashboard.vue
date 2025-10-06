@@ -306,7 +306,7 @@
                     >/7</span
                   >
                 </div>
-                <p class="text-sm text-slate-400">Wins</p>
+                <p class="text-sm text-slate-400">Days Won</p>
               </div>
 
               <!-- Odometer takes up most of the space -->
