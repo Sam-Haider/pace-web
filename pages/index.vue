@@ -1,3 +1,8 @@
 <template>
-  <div class="text-lg">Home</div>
+  <div></div>
 </template>
+
+<script setup>
+// Redirect to signup page
+await navigateTo('/auth/signup')
+</script>
