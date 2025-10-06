@@ -210,7 +210,7 @@
           <div
             v-else-if="currentStep === 4"
             key="step4"
-            class="bg-slate-800 border border-slate-700 rounded-2xl shadow-2xl p-8 space-y-8"
+            class="bg-slate-800 border border-slate-700 rounded-2xl shadow-2xl p-4 md:p-8 space-y-6 md:space-y-8"
           >
             <div class="text-center space-y-4">
               <h2 class="text-3xl font-bold text-white">
@@ -343,7 +343,7 @@
               <button
                 @click="completeOnboarding"
                 :disabled="onboardingData.identityIds.length === 0 || loading"
-                class="relative overflow-hidden px-7 py-3 text-lg font-bold bg-gradient-to-r from-emerald-400 to-emerald-800 hover:from-emerald-800 hover:to-emerald-1000 hover:cursor-pointer text-white rounded-2xl transform transition-all duration-300 ease-out hover:scale-105 hover:shadow-xl hover:shadow-emerald-500/30 active:scale-95 focus:outline-none focus:ring-4 focus:ring-emerald-400/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none group flex-1"
+                class="relative overflow-hidden px-7 py-3 text-sm md:text-lg font-bold bg-gradient-to-r from-emerald-400 to-emerald-800 hover:from-emerald-800 hover:to-emerald-1000 hover:cursor-pointer text-white rounded-2xl transform transition-all duration-300 ease-out hover:scale-105 hover:shadow-xl hover:shadow-emerald-500/30 active:scale-95 focus:outline-none focus:ring-4 focus:ring-emerald-400/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none group flex-1"
               >
                 <!-- One-time shimmer effect -->
                 <div

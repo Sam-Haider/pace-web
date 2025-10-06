@@ -156,38 +156,53 @@
           </div>
 
           <!-- Sign Up Button -->
-          <BaseButton
+          <button
             type="submit"
             :disabled="loading"
-            variant="primary"
-            size="lg"
-            full-width
-            class="relative overflow-hidden"
+            class="relative overflow-hidden px-7 py-3 text-lg font-bold bg-gradient-to-r from-emerald-400 to-emerald-800 hover:from-emerald-800 hover:to-emerald-1000 hover:cursor-pointer text-white rounded-2xl transform transition-all duration-300 ease-out hover:scale-105 hover:shadow-xl hover:shadow-emerald-500/30 active:scale-95 focus:outline-none focus:ring-4 focus:ring-emerald-400/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none group w-full"
           >
-            <span v-if="loading" class="flex items-center justify-center">
-              <svg
-                class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <circle
-                  class="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  stroke-width="4"
-                ></circle>
-                <path
-                  class="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                ></path>
-              </svg>
-              Creating account...
+            <!-- One-time shimmer effect -->
+            <div
+              class="absolute inset-0 bg-gradient-to-r from-transparent via-white/15 to-transparent animate-shimmer-once"
+            ></div>
+
+            <!-- Hover shimmer effect -->
+            <div
+              class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out"
+            ></div>
+
+            <!-- Glow effect -->
+            <div
+              class="absolute inset-0 rounded-2xl bg-gradient-to-r from-emerald-400 to-emerald-600 opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-300"
+            ></div>
+
+            <!-- Button content -->
+            <span class="relative z-10">
+              <span v-if="loading" class="flex items-center justify-center">
+                <svg
+                  class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    class="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    stroke-width="4"
+                  ></circle>
+                  <path
+                    class="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
+                </svg>
+                Creating account...
+              </span>
+              <span v-else>Create Account</span>
             </span>
-            <span v-else>Create Account</span>
-          </BaseButton>
+          </button>
         </form>
 
         <!-- Divider -->
@@ -298,3 +313,18 @@ const handleSignup = async () => {
   }
 };
 </script>
+
+<style scoped>
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%) skewX(-15deg);
+  }
+  100% {
+    transform: translateX(100%) skewX(-15deg);
+  }
+}
+
+.animate-shimmer-once {
+  animation: shimmer 2.5s ease-in-out 1.5s 1;
+}
+</style>
