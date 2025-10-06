@@ -101,7 +101,7 @@
               v-model="voteForm.notes"
               rows="3"
               class="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-md text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-slate-500"
-              placeholder="Add any notes about your vote..."
+              placeholder="Describe what you did, no matter how small, to earn this vote"
             />
           </div>
 

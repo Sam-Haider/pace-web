@@ -48,13 +48,19 @@
                 <h1 class="text-4xl font-bold text-white animate-fade-in">
                   Welcome to Pace!
                 </h1>
-                <p class="text-xl text-slate-300 animate-fade-in-delayed">
-                  Vote daily for the person you're becoming
-                </p>
-                <div class="text-slate-400 animate-fade-in-delayed-2 space-y-2 text-left pl-8">
-                  <p>• Choose identities that matter to you</p>
-                  <p>• Track your progress with daily votes</p>
-                  <p>• Build momentum toward who you want to be</p>
+                <div
+                  class="text-slate-400 animate-fade-in-delayed-2 space-y-4 mt-6 max-w-md mx-auto text-center"
+                >
+                  <p class="text-lg leading-relaxed">
+                    Choose identities that matter to you
+                  </p>
+                  <p class="text-lg leading-relaxed">
+                    Cast a vote for every step you take towards the person
+                    you're becoming
+                  </p>
+                  <p class="text-lg leading-relaxed">
+                    Watch these small wins reshape who you are
+                  </p>
                 </div>
               </div>
             </div>
@@ -218,7 +224,7 @@
             <div v-if="identitiesLoading" class="text-center py-8">
               <div class="text-slate-400">Loading identities...</div>
             </div>
-            
+
             <div v-else class="space-y-4">
               <button
                 v-for="identity in identities"
@@ -254,7 +260,7 @@
                     />
                   </svg>
                 </div>
-                
+
                 <div class="flex items-center space-x-4">
                   <div
                     :class="[
@@ -334,15 +340,32 @@
               >
                 Back
               </BaseButton>
-              <BaseButton
+              <button
                 @click="completeOnboarding"
                 :disabled="onboardingData.identityIds.length === 0 || loading"
-                variant="primary"
-                class="flex-1"
+                class="relative overflow-hidden px-7 py-3 text-lg font-bold bg-gradient-to-r from-emerald-400 to-emerald-800 hover:from-emerald-800 hover:to-emerald-1000 hover:cursor-pointer text-white rounded-2xl transform transition-all duration-300 ease-out hover:scale-105 hover:shadow-xl hover:shadow-emerald-500/30 active:scale-95 focus:outline-none focus:ring-4 focus:ring-emerald-400/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none group flex-1"
               >
-                <span v-if="loading">Finishing up...</span>
-                <span v-else>Complete Setup</span>
-              </BaseButton>
+                <!-- One-time shimmer effect -->
+                <div
+                  class="absolute inset-0 bg-gradient-to-r from-transparent via-white/15 to-transparent animate-shimmer-once"
+                ></div>
+
+                <!-- Hover shimmer effect -->
+                <div
+                  class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out"
+                ></div>
+
+                <!-- Glow effect -->
+                <div
+                  class="absolute inset-0 rounded-2xl bg-gradient-to-r from-emerald-400 to-emerald-600 opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-300"
+                ></div>
+
+                <!-- Button content -->
+                <span class="relative z-10">
+                  <span v-if="loading">Finishing up...</span>
+                  <span v-else>Complete Setup</span>
+                </span>
+              </button>
             </div>
           </div>
         </Transition>
@@ -565,7 +588,7 @@ const nextStep = () => {
   if (currentStep.value < 4) {
     transitionName.value = "slide-left";
     currentStep.value++;
-    
+
     // Load identities when reaching step 4
     if (currentStep.value === 4) {
       fetchIdentities();
@@ -583,11 +606,11 @@ const previousStep = () => {
 const fetchIdentities = async () => {
   identitiesLoading.value = true;
   try {
-    const data = await $fetch('http://localhost:3000/identities');
+    const data = await $fetch("http://localhost:3000/identities");
     identities.value = data;
   } catch (err) {
-    console.error('Failed to fetch identities:', err);
-    error.value = 'Failed to load identity options. Please try again.';
+    console.error("Failed to fetch identities:", err);
+    error.value = "Failed to load identity options. Please try again.";
   } finally {
     identitiesLoading.value = false;
   }
@@ -597,10 +620,12 @@ const selectIdentity = (identityId) => {
   // Toggle selection - if already selected, unselect it
   const currentIds = onboardingData.value.identityIds;
   const isSelected = currentIds.includes(identityId);
-  
+
   if (isSelected) {
     // Remove from selection
-    onboardingData.value.identityIds = currentIds.filter(id => id !== identityId);
+    onboardingData.value.identityIds = currentIds.filter(
+      (id) => id !== identityId
+    );
   } else {
     // Add to selection
     onboardingData.value.identityIds = [...currentIds, identityId];
